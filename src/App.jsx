@@ -1,10 +1,12 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
+import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
 
 function App() {
     return (
         <>
             {/* 네비게이션 바를 둘 것인가 */}
+            <NavgationBar />
             <Routes>
                 {/* 메인페이지를 따로 만들것인가 아니면 물품리스트로 바로 넘어갈 것인가 */}
                 <Route path="/" element={<div></div>} />
@@ -44,3 +46,49 @@ function App() {
 }
 
 export default App;
+
+function NavgationBar() {
+    const expand = "md";
+
+    return (
+        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+            <Container fluid>
+                <Navbar.Brand href="#">로고</Navbar.Brand>
+                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                <Navbar.Offcanvas
+                    id={`offcanvasNavbar-expand-${expand}`}
+                    aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                    placement="end">
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>Offcanvas</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+                        <Nav className="justify-content-start flex-grow-1 pe-3">
+                            <Nav.Link href="#action1">중고거래</Nav.Link>
+                            <Nav.Link href="#action2">경매</Nav.Link>
+                            <Nav.Link href="#action2">고객센터</Nav.Link>
+                        </Nav>
+                        <Form className="d-flex" style={{ margin: "0 1rem" }}>
+                            <Form.Select
+                                aria-label="Default select example"
+                                className="ms-3 w-auto"
+                                style={{ margin: "0 1rem" }}>
+                                <option>통합검색</option>
+                                <option value="1">통합검색</option>
+                                <option value="2">중고검색</option>
+                                <option value="3">경매검색</option>
+                            </Form.Select>
+                            <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
+                            <Button variant="outline-success">Search</Button>
+                        </Form>
+                        <Nav className="justify-content-start flex-grow-1 pe-3">
+                            <Nav.Link href="#action2" style={{ wordBreak: "keep-all" }}>
+                                로그인
+                            </Nav.Link>
+                        </Nav>
+                    </Offcanvas.Body>
+                </Navbar.Offcanvas>
+            </Container>
+        </Navbar>
+    );
+}
