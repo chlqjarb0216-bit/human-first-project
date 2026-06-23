@@ -14,13 +14,25 @@ function App() {
                 {/* 로그인 및 회원가입 페이지 */}
                 <Route path="/login" element={<div></div>} />
 
+                {/* 로그인 했다면 마이 페이지 */}
+                <Route path="/mypage" element={<div></div>} />
+
+                {/* 고객센터 페이지 */}
+                <Route path="/customer-service" element={<div></div>} />
+
+                {/* 통합/중고/경매 검색 페이지 */}
+                <Route path="/search" element={<div></div>} />
+
                 {/* 중고거래 페이지 */}
                 <Route path="/trade" element={<div></div>} />
 
-                {/* 물품등록 페이지 */}
+                {/* 중고물품등록 페이지 */}
                 <Route path="/trade-insert" element={<div></div>} />
 
-                {/* 물품상세 페이지 */}
+                {/* 중고거래 카테고리 페이지 */}
+                <Route path="/trade-category" element={<div></div>} />
+
+                {/* 중고물품상세 페이지 */}
                 <Route path="/trade-detail/:id" element={<div></div>} />
 
                 {/* 채팅 - 페이지를 따로 만들지 팝업이나 모달로 만들지 */}
@@ -33,11 +45,17 @@ function App() {
                 {/* 경매물품등록 페이지 */}
                 <Route path="/auction-insert" element={<div></div>} />
 
+                {/* 경매 카테고리 페이지 */}
+                <Route path="/auction-category" element={<div></div>} />
+
                 {/* 경매상세 페이지 */}
                 <Route path="/auction-detail/:id" element={<div></div>} />
 
                 {/* 거래 및 결제 및 택배등록 등등 */}
                 <Route path="/final" element={<div></div>} />
+
+                {/* 잘못된 url */}
+                <Route path="/*" element={<div></div>} />
             </Routes>
 
             {/* footer 필요하다면 */}
