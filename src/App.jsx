@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import MainPage from "./pages/MainPage";
 
 function App() {
     return (
@@ -9,7 +10,7 @@ function App() {
             <NavgationBar />
             <Routes>
                 {/* 메인페이지를 따로 만들것인가 아니면 물품리스트로 바로 넘어갈 것인가 */}
-                <Route path="/" element={<div></div>} />
+                <Route path="/" element={<MainPage/>} />
 
                 {/* 로그인 및 회원가입 페이지 */}
                 <Route path="/login" element={<div></div>} />
