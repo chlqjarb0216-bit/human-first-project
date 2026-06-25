@@ -47,6 +47,15 @@ function RegisterPage() {
                 <p style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
                     ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
                 </p>
+
+                <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
+                    <Form.Label>비밀번호 확인</Form.Label>
+                    <Form.Control
+                        type="password-confirm"
+                        placeholder="비밀번호를 다시 입력해주세요"
+                        className="placeholder-lightgray"
+                    />
+                </Form.Group>
                 <Button variant="primary" type="submit" size="lg" style={{ margin: "1rem" }}>
                     회원가입
                 </Button>
