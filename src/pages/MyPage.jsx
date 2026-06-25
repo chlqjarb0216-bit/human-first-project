@@ -1,7 +1,262 @@
 import "../csss/MyPage.css";
+import { Container, Nav, Form, InputGroup, Button, Accordion, Badge } from "react-bootstrap";
+import { useState } from "react";
+import defualtProfile from "../assets/vite.svg";
+import testId from "../datas/testId.json";
 
 function MyPage() {
-    return <div></div>;
+    const [activeTab, setActiveTab] = useState("home");
+
+    return (
+        <div style={{ display: "flex", height: "300vh" }}>
+            <Nav
+                activeKey={activeTab}
+                onSelect={(selectedkey) => {
+                    setActiveTab(selectedkey);
+                }}
+                className="flex-column"
+                style={{ width: "12rem", height: "fit-content", margin: "3rem 1rem", position: "sticky", top: "3rem" }}>
+                <Nav.Link
+                    eventKey="home"
+                    className="nav-link-mypage"
+                    style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+                    마이페이지
+                </Nav.Link>
+                <hr />
+                <Nav.Link eventKey="modify" className="mb-4 nav-link-mypage">
+                    회원정보 수정
+                </Nav.Link>
+                <Nav.Link eventKey="post-list" className="mb-4 nav-link-mypage">
+                    작성한 글목록
+                </Nav.Link>
+                <Nav.Link eventKey="trade-history" className="mb-2 nav-link-mypage">
+                    거래내역
+                </Nav.Link>
+                <hr />
+                <Nav.Link href="/logout" className="nav-link-mypage-logout">
+                    로그아웃
+                </Nav.Link>
+            </Nav>
+            <Container style={{ margin: "1rem" }}>
+                {activeTab === "home" && (
+                    <div style={{ textAlign: "start" }}>
+                        <h1>마이페이지</h1>
+                        <hr />
+                        <div className="default-boarder mb-5" style={{ display: "flex", alignItems: "center" }}>
+                            <img
+                                src={defualtProfile}
+                                alt=""
+                                style={{ width: "8rem", height: "8rem", borderRadius: "50%", margin: "1rem" }}
+                            />
+                            <div style={{ margin: "2rem" }}>
+                                <h4 className="my-4">
+                                    <strong>{testId.닉네임}</strong>님 안녕하세요!
+                                </h4>
+                                <p>가입날짜: ####년 ##월 ##일</p>
+                            </div>
+                        </div>
+
+                        <h3>최근 활동</h3>
+                        <div className="default-boarder">
+                            <div
+                                className="default-boarder m-1 p-1"
+                                style={{ display: "flex", justifyContent: "space-between" }}>
+                                <span>거래가 완료되었습니다.</span>
+                                <span>3시간전</span>
+                            </div>
+                            <div
+                                className="default-boarder m-1 p-1"
+                                style={{ display: "flex", justifyContent: "space-between" }}>
+                                <span>물건을 등록하였습니다.</span>
+                                <span>1일전</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {activeTab === "modify" && (
+                    <div style={{ textAlign: "start" }}>
+                        <h1>회원 정보 수정</h1>
+                        <hr />
+                        <Form style={{ width: "30rem" }}>
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formName">
+                                <Form.Label>이름</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="이름을 입력해주세요"
+                                    className="placeholder-lightgray"
+                                    defaultValue={testId.이름}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formNickname">
+                                <Form.Label>닉네임</Form.Label>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="닉네임을 입력해주세요"
+                                        className="placeholder-lightgray"
+                                        defaultValue={testId.닉네임}
+                                    />
+                                    <Button variant="outline-dark">닉네임 중복확인</Button>
+                                </InputGroup>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formEmail">
+                                <Form.Label>이메일</Form.Label>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="이메일을 입력해주세요"
+                                        className="placeholder-lightgray"
+                                        defaultValue={testId.이메일}
+                                    />
+                                    <Button variant="outline-dark">이메일 확인</Button>
+                                </InputGroup>
+                            </Form.Group>
+
+                            <Form.Group className="mb-0 form-group-align-left" controlId="formPassword">
+                                <Form.Label>비밀번호 변경</Form.Label>
+                                <Form.Control
+                                    type="password-change"
+                                    placeholder="비밀번호를 변경하려면 입력해주세요"
+                                    className="placeholder-lightgray"
+                                />
+                            </Form.Group>
+                            <p style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
+                                ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
+                            </p>
+
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
+                                <Form.Label>비밀번호 확인</Form.Label>
+                                <Form.Control
+                                    type="password-confirm"
+                                    placeholder="비밀번호를 다시 입력해주세요"
+                                    className="placeholder-lightgray"
+                                />
+                            </Form.Group>
+                            <hr />
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
+                                <Form.Label>수정내용을 등록하기 위해 비밀번호를 입력해주세요</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="비밀번호를 입력해주세요"
+                                    className="placeholder-lightgray"
+                                />
+                            </Form.Group>
+                            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                                <Button variant="primary" type="submit" size="lg" style={{ margin: "1rem" }}>
+                                    수정한 정보로 등록
+                                </Button>
+                                <Button variant="danger" type="button" size="lg" style={{ margin: "1rem" }}>
+                                    취소
+                                </Button>
+                            </div>
+                        </Form>
+                    </div>
+                )}
+                {activeTab === "post-list" && (
+                    <div style={{ textAlign: "start" }}>
+                        <h1>작성한 글목록</h1>
+                        <hr />
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>
+                                    <div
+                                        className="px-1"
+                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                        <span>제목1</span>
+                                        <span>####년##월##일</span>
+                                    </div>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <img src="" alt="" />
+                                    <p>
+                                        본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
+                                        laudantium ea sapiente, atque praesentium aliquid porro velit dolore explicabo,
+                                        natus iusto ducimus aperiam nemo a optio blanditiis eos delectus adipisci!
+                                    </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="1">
+                                <Accordion.Header>
+                                    <div
+                                        className="px-1"
+                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                        <span>제목2</span>
+                                        <span>####년##월##일</span>
+                                    </div>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <img src="" alt="" />
+                                    <p>
+                                        본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
+                                        voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia suscipit
+                                        perspiciatis incidunt dolorum unde, consectetur voluptate commodi beatae
+                                        temporibus et? Eius?
+                                    </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
+                )}
+                {activeTab === "trade-history" && (
+                    <div style={{ textAlign: "start" }}>
+                        <h1>거래내역</h1>
+                        <hr />
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>
+                                    <div
+                                        className="px-1"
+                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                        <span>
+                                            <Badge bg="primary" className="me-3" style={{ display: "inline-block" }}>
+                                                구매
+                                            </Badge>
+                                            제목1
+                                        </span>
+                                        <span>####년##월##일</span>
+                                    </div>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <img src="" alt="" />
+                                    <p>
+                                        본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
+                                        laudantium ea sapiente, atque praesentium aliquid porro velit dolore explicabo,
+                                        natus iusto ducimus aperiam nemo a optio blanditiis eos delectus adipisci!
+                                    </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="1">
+                                <Accordion.Header>
+                                    <div
+                                        className="px-1"
+                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                        <span>
+                                            <Badge bg="danger" className="me-3" style={{ display: "inline-block" }}>
+                                                판매
+                                            </Badge>
+                                            제목2
+                                        </span>
+                                        <span>####년##월##일</span>
+                                    </div>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <img src="" alt="" />
+                                    <p>
+                                        본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
+                                        voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia suscipit
+                                        perspiciatis incidunt dolorum unde, consectetur voluptate commodi beatae
+                                        temporibus et? Eius?
+                                    </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
+                )}
+            </Container>
+        </div>
+    );
 }
 
 export default MyPage;

@@ -1,0 +1,11 @@
+.nav-link-mypage {
+    color: black !important;
+}
+
+.nav-link-mypage-logout {
+    color: red !important;
+}
+
+.default-boarder {
+    border: 1px solid black;
+}
