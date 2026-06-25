@@ -1,0 +1,40 @@
+.MainPage-picture-size {
+    width: 50%;
+    height: 100%;
+    object-fit:contain;
+    background-color: #f8f8f8;
+    border-radius: 12px;
+}
+
+.MainPage-Font-Main {
+    font-size: 50px;
+    font-weight: bold;
+
+}
+
+
+
+.MainPage-Font-Text-Size {
+    font-size: 1rem;
+    margin:0%;
+}
+
+.MainPage-card-body {
+    font-size: 15px;
+    width: 50%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.MainPage-Title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;      
+    margin: 15px 0;
+}
+
+/* -------------------------------------------------------------------------------- */
