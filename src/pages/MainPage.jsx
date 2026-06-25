@@ -22,8 +22,8 @@ function MainPage() {
 
         <Container>
 
-            <Row>
-                <Col style={{ backgroundColor: 'orange' }}>
+            <Row style={{border:'6px solid green', borderRadius: '15px'}}>
+                <Col>
                     <span className="MainPage-Font-Main" style={{color:'red'}}>중고</span>
                     <div style={{display: 'flex',flexDirection:'column',alignItems: 'center'}}>
                         {
@@ -32,17 +32,18 @@ function MainPage() {
                                     return;
                                 }
                                 return (
-                                    <Card style={{ width: '18rem', display:'flex', flexDirection:'row'}}>
+                                    <Card style={{ width: '80%',height:'15rem' ,display:'flex', flexDirection:'row',
+                                        marginBottom:'18px', padding: '12px', border:'none', borderRadius:'18px',backgroundColor:'orange'}} key={index}>
                                         <Card.Img variant="string" src={'images/' + data.img} className="MainPage-picture-size"/>
-                                        <Card.Body style={{fontSize:'15px', width:'50%'}}>
-                                            <Card.Title>{data.품목}</Card.Title>
-                                            <Card.Text>
+                                        <Card.Body className="MainPage-card-body">
+                                            <Card.Title style={{fontSize:'1.5rem'}}>{data.제목}</Card.Title>
+                                            <Card.Text className="MainPage-Font-Text-Size">
                                                 카테고리:{data.카테고리}
                                             </Card.Text>
-                                            <Card.Text>
+                                            <Card.Text className="MainPage-Font-Text-Size">
                                                 가격:{data.가격}
                                             </Card.Text>
-                                            <Card.Text>
+                                            <Card.Text className="MainPage-Font-Text-Size">
                                                 조회수:{data.조회수}
                                             </Card.Text>
                                         </Card.Body>
@@ -55,7 +56,7 @@ function MainPage() {
 
 
                 </Col>
-                <Col style={{ backgroundColor: 'skyblue' }}>
+                <Col>
                     <span className="MainPage-Font-Main" style={{color:'blue'}}>경매</span>
                     <div>
 

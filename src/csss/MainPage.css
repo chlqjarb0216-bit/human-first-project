@@ -1,11 +1,45 @@
 .MainPage-picture-size {
     width: 50%;
-    height: 150px;
+    height: 100%;
+    object-fit:contain;
+    background-color: #f8f8f8;
+    border-radius: 12px;
 }
 
 .MainPage-Font-Main {
-    font-size: 40px;
+    font-size: 50px;
+    font-weight: bold;
+
+}
 
 
+
+.MainPage-Font-Text-Size {
+    font-size: 1rem;
+    margin:0%;
+}
+
+.MainPage-card-body {
+    font-size: 15px;
+    width: 50%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.MainPage-card {
+    width: 80%;
+    height: 15rem;
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 18px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 
