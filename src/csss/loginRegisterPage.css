@@ -1,0 +1,7 @@
+.form-group-align-left {
+    text-align: left;
+}
+
+.placeholder-lightgray::placeholder {
+    color: lightgrey !important;
+}
