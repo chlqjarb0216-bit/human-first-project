@@ -1,7 +1,7 @@
 import "../csss/loginRegisterPage.css";
 import { Button, Form } from "react-bootstrap";
 
-function LoginPage() {
+function RegisterPage() {
     return (
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <p style={{ fontSize: "2rem", fontWeight: "bold", marginTop: "3rem" }}>로그인</p>
@@ -25,4 +25,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default RegisterPage;

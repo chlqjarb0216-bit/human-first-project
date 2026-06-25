@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
     return (
@@ -12,8 +13,11 @@ function App() {
                 {/* 메인페이지를 따로 만들것인가 아니면 물품리스트로 바로 넘어갈 것인가 */}
                 <Route path="/" element={<div></div>} />
 
-                {/* 로그인 및 회원가입 페이지 */}
+                {/* 로그인 페이지 */}
                 <Route path="/login" element={<LoginPage />} />
+
+                {/* 회원가입 페이지 */}
+                <Route path="/register" element={<RegisterPage />} />
 
                 {/* 로그인 했다면 마이 페이지 */}
                 <Route path="/mypage" element={<div></div>} />
