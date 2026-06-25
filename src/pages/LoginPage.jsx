@@ -9,12 +9,16 @@ function LoginPage() {
             <Form style={{ width: "20rem" }}>
                 <Form.Group className="mb-3 form-group-align-left" controlId="formBasicEmail">
                     <Form.Label>이메일</Form.Label>
-                    <Form.Control type="email" placeholder="이메일을 입력해주세요" />
+                    <Form.Control type="email" placeholder="이메일을 입력해주세요" className="placeholder-lightgray" />
                 </Form.Group>
 
                 <Form.Group className="mb-3 form-group-align-left" controlId="formBasicPassword">
                     <Form.Label>비밀번호</Form.Label>
-                    <Form.Control type="password" placeholder="비밀번호를 입력해주세요" />
+                    <Form.Control
+                        type="password"
+                        placeholder="비밀번호를 입력해주세요"
+                        className="placeholder-lightgray"
+                    />
                 </Form.Group>
                 <Button variant="primary" type="submit" size="lg" style={{ margin: "1rem" }}>
                     로그인
