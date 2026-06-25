@@ -4,6 +4,7 @@ import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
+import MyPage from "./pages/MyPage";
 
 function App() {
     return (
@@ -12,7 +13,7 @@ function App() {
             <NavgationBar />
             <Routes>
                 {/* 메인페이지를 따로 만들것인가 아니면 물품리스트로 바로 넘어갈 것인가 */}
-                <Route path="/" element={<MainPage/>} />
+                <Route path="/" element={<MainPage />} />
 
                 {/* 로그인 페이지 */}
                 <Route path="/login" element={<LoginPage />} />
@@ -21,7 +22,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
 
                 {/* 로그인 했다면 마이 페이지 */}
-                <Route path="/mypage" element={<div></div>} />
+                <Route path="/mypage" element={<MyPage />} />
 
                 {/* 고객센터 페이지 */}
                 <Route path="/customer-service" element={<div></div>} />
