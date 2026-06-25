@@ -4,6 +4,7 @@ import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
+import MainSecondHand from "./pages/MainSecondHand";
 
 function App() {
     return (
@@ -30,7 +31,7 @@ function App() {
                 <Route path="/search" element={<div></div>} />
 
                 {/* 중고거래 페이지 */}
-                <Route path="/trade" element={<div></div>} />
+                <Route path="/MainSecondHand" element={<MainSecondHand/>} />
 
                 {/* 중고물품등록 페이지 */}
                 <Route path="/trade-insert" element={<div></div>} />
