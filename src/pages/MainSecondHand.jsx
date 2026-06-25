@@ -1,10 +1,12 @@
 import '../csss/MainSecondHand.css';
 import { Container, Row, Col, Card, CardImg } from "react-bootstrap";
+import { useState } from 'react';
+import dataset from '../datas/dataset.json';
 
 function MainSecondHand() {
 
 
-
+let [datas,setDatas] = useState(dataset);
 
 
 
