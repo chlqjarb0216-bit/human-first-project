@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
     return (
@@ -12,7 +13,7 @@ function App() {
                 <Route path="/" element={<div></div>} />
 
                 {/* 로그인 및 회원가입 페이지 */}
-                <Route path="/login" element={<div></div>} />
+                <Route path="/login" element={<LoginPage />} />
 
                 {/* 로그인 했다면 마이 페이지 */}
                 <Route path="/mypage" element={<div></div>} />
