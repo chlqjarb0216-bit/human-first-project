@@ -18,17 +18,14 @@ function MainPage() {
     console.log(dataset);
 
 
-
-
-
     return (
 
         <Container>
 
             <Row>
                 <Col style={{ backgroundColor: 'orange' }}>
-                    <span>중고</span>
-                    <div>
+                    <span className="MainPage-Font-Main" style={{color:'red'}}>중고</span>
+                    <div style={{display: 'flex',flexDirection:'column',alignItems: 'center'}}>
                         {
                             dataset.map((data, index) => {
                                 if (index > 5) {
@@ -59,7 +56,7 @@ function MainPage() {
 
                 </Col>
                 <Col style={{ backgroundColor: 'skyblue' }}>
-                    <span>경매</span>
+                    <span className="MainPage-Font-Main" style={{color:'blue'}}>경매</span>
                     <div>
 
                     </div>

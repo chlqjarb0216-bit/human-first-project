@@ -1,10 +1,10 @@
 .MainPage-picture-size {
-    width: 45%;
+    width: 50%;
     height: 150px;
 }
 
-.MainPage-Font-Size {
-    
+.MainPage-Font-Main {
+    font-size: 40px;
 
 
 }
