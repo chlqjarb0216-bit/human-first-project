@@ -1,0 +1,21 @@
+.MainSecondHand-Photo-Size{
+    aspect-ratio: 1/1;
+    object-fit:contain;
+}
+
+.SecondHand-section {
+    border: 1px solid orange;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.SecondHand-fontstyle {
+    font-weight:bold;
+    font-size:30px;
+    margin-top:10px;
+    margin-bottom:10px;
+    text-align:start;
+    margin-left: 40px;
+}
+
+
