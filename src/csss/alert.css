@@ -1,0 +1,14 @@
+.alert-xs {
+    margin: 0;
+    padding: 0 !important;
+}
+
+.alert-xs .btn-close {
+    width: 1rem;
+    height: 1rem;
+    padding: 0.2rem !important;
+}
+
+.form-alert-bc-pink {
+    background-color: rgb(255, 231, 234) !important;
+}
