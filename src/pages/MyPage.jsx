@@ -1,4 +1,5 @@
 import "../csss/MyPage.css";
+import "../csss/userForm.css";
 import { Container, Nav, Form, InputGroup, Button, Accordion, Badge } from "react-bootstrap";
 import { useState } from "react";
 import defualtProfile from "../assets/vite.svg";
@@ -114,10 +115,10 @@ function MyPage() {
                                 </InputGroup>
                             </Form.Group>
 
-                            <Form.Group className="mb-0 form-group-align-left" controlId="formPassword">
+                            <Form.Group className="mb-0 form-group-align-left" controlId="formPasswordChange">
                                 <Form.Label>비밀번호 변경</Form.Label>
                                 <Form.Control
-                                    type="password-change"
+                                    type="password"
                                     placeholder="비밀번호를 변경하려면 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
@@ -126,10 +127,10 @@ function MyPage() {
                                 ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
                             </p>
 
-                            <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formPasswordConfirm">
                                 <Form.Label>비밀번호 확인</Form.Label>
                                 <Form.Control
-                                    type="password-confirm"
+                                    type="password"
                                     placeholder="비밀번호를 다시 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
