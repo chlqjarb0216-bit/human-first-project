@@ -7,7 +7,6 @@ import '../csss/MainPage.css';
 
 function MainPage() {
 
-    console.log(dataset);
 
     dataset.sort((a, b) => {
         return (
@@ -15,7 +14,6 @@ function MainPage() {
         )
 
     })
-    console.log(dataset);
 
 
     return (
