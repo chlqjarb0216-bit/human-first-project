@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import "../csss/userForm.css";
 import "../csss/alert.css";
 import { Button, Form, InputGroup, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const false5 = [false, false, false, false, false];
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function RegisterPage() {
     const [shows, setShows] = useState(false5);
@@ -15,10 +17,23 @@ function RegisterPage() {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const passConfirmRef = useRef(null);
+    const passwordInfoRef = useRef(null);
+
+    const navigate = useNavigate();
+
+    const handleCheckPassword = () => {
+        if (!passwordRegex.test(passwordRef.current.value)) {
+            passwordInfoRef.current.style.setProperty("background-color", "pink");
+            setTimeout(() => {
+                passwordInfoRef.current.style.setProperty("background-color", "white");
+            }, 3000);
+            return false;
+        }
+        return true;
+    };
 
     const handleRegister = (e) => {
         e.preventDefault();
-        console.log(confirmedNick);
 
         if (nameRef.current.value == "") {
             const tmp = [...shows];
@@ -48,13 +63,61 @@ function RegisterPage() {
             setTimeout(() => {
                 emailRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
+        } else if (passwordRef.current.value == "") {
+            const tmp = [...shows];
+            tmp[3] = true;
+            setShows(tmp);
+            passwordRef.current.focus();
+            passwordRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                passwordRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (!handleCheckPassword()) {
+            return;
+        } else if (passConfirmRef.current.value != passwordRef.current.value) {
+            const tmp = [...shows];
+            tmp[4] = true;
+            setShows(tmp);
+            passConfirmRef.current.focus();
+            passConfirmRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                passConfirmRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else {
+            const registerData = {
+                name: nameRef.current.value,
+                nickName: confirmedNick,
+                email: confirmedEMail,
+                password: passwordRef.current.value,
+            };
+            const registedListRaw = localStorage.getItem("registedList");
+            const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+            registedList.push(registerData);
+            localStorage.setItem("registedList", JSON.stringify(registedList));
+
+            navigate("/");
         }
     };
 
+    const handleCheckEmail = () => {
+        if (!emailRef.current.validity.valid || emailRef.current.value.trim() == "") {
+            if (!emailRef.current.value.trim()) {
+                alert("이메일을 입력해주세요");
+            }
+            emailRef.current.reportValidity();
+            return false;
+        }
+        return true;
+    };
+
     useEffect(() => {
-        setTimeout(() => {
+        if (shows.every((show) => !show)) return;
+
+        const timer = setTimeout(() => {
             setShows(false5);
         }, 3000);
+
+        return () => clearTimeout(timer);
     }, [shows]);
 
     return (
@@ -126,9 +189,7 @@ function RegisterPage() {
                         <Button
                             variant="outline-dark"
                             onClick={() => {
-                                if (emailRef.current.value == "") {
-                                    alert("이메일을 입력해주세요");
-                                } else {
+                                if (handleCheckEmail()) {
                                     setConfirmedEMail(emailRef.current.value);
                                     emailRef.current.style.setProperty("background-color", "lightgreen");
                                     emailRef.current.disabled = true;
@@ -157,9 +218,6 @@ function RegisterPage() {
                         className="placeholder-lightgray"
                     />
                 </Form.Group>
-                <p style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
-                    ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
-                </p>
                 {shows[3] && (
                     <Alert
                         variant="danger"
@@ -169,6 +227,9 @@ function RegisterPage() {
                         비밀번호를 입력해주세요
                     </Alert>
                 )}
+                <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
+                    ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
+                </p>
 
                 <Form.Group className="mb-3 form-group-align-left" controlId="formPasswordConfirm">
                     <Form.Label>비밀번호 확인</Form.Label>
