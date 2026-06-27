@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import "../csss/userForm.css";
 import "../csss/alert.css";
 import { Button, Form, InputGroup, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 const false5 = [false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-function RegisterPage() {
+function RegisterPage(props) {
     const [shows, setShows] = useState(false5);
     const [confirmedNick, setConfirmedNick] = useState("");
     const [confirmedEMail, setConfirmedEMail] = useState("");
@@ -94,6 +94,8 @@ function RegisterPage() {
             const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
             registedList.push(registerData);
             localStorage.setItem("registedList", JSON.stringify(registedList));
+
+            props.setLoginUser(registerData);
 
             navigate("/");
         }
@@ -253,7 +255,9 @@ function RegisterPage() {
                     회원가입
                 </Button>
             </Form>
-            <p style={{ textDecoration: "underLine", cursor: "pointer" }}>로그인 화면으로 돌아가기</p>
+            <Link to="/login" style={{ textDecoration: "underLine", cursor: "pointer", color: "black" }}>
+                로그인 화면으로 돌아가기
+            </Link>
         </div>
     );
 }

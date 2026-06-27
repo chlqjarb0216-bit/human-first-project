@@ -1,12 +1,15 @@
 import "./App.css";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Link } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
+import { useState } from "react";
 
 function App() {
+    let [loginUser, setLoginUser] = useState(null);
+
     return (
         <>
             {/* 네비게이션 바를 둘 것인가 */}
@@ -16,13 +19,13 @@ function App() {
                 <Route path="/" element={<MainPage />} />
 
                 {/* 로그인 페이지 */}
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage setLoginUser={setLoginUser} />} />
 
                 {/* 회원가입 페이지 */}
-                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/register" element={<RegisterPage setLoginUser={setLoginUser} />} />
 
                 {/* 로그인 했다면 마이 페이지 */}
-                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
                 <Route path="/customer-service" element={<div></div>} />
@@ -107,7 +110,7 @@ function NavgationBar() {
                             <Button variant="outline-success">Search</Button>
                         </Form>
                         <Nav className="justify-content-start flex-grow-1 pe-3">
-                            <Nav.Link href="#action2" style={{ wordBreak: "keep-all" }}>
+                            <Nav.Link as={Link} to="/login" style={{ wordBreak: "keep-all" }}>
                                 로그인
                             </Nav.Link>
                         </Nav>

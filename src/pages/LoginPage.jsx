@@ -1,5 +1,6 @@
 import "../csss/userForm.css";
 import { Button, Form } from "react-bootstrap";
+import { Link } from "react-router";
 
 function LoginPage() {
     return (
@@ -24,7 +25,9 @@ function LoginPage() {
                     로그인
                 </Button>
             </Form>
-            <p style={{ textDecoration: "underLine", cursor: "pointer" }}>아직 가입하시지 않으셨나요?</p>
+            <Link to="/register" style={{ textDecoration: "underLine", cursor: "pointer", color: "black" }}>
+                아직 가입하시지 않으셨나요?
+            </Link>
         </div>
     );
 }
