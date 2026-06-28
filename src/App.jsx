@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import MainSecondHand from "./pages/MainSecondHand";
+import TradeCategoty from "./pages/TradeCategory";
 
 function App() {
     return (
@@ -38,7 +39,7 @@ function App() {
                 <Route path="/trade-insert" element={<div></div>} />
 
                 {/* 중고거래 카테고리 페이지 */}
-                <Route path="/trade-category" element={<div></div>} />
+                <Route path="/trade-category/:category" element={<TradeCategoty/>} />
 
                 {/* 중고물품상세 페이지 */}
                 <Route path="/trade-detail/:id" element={<div></div>} />
