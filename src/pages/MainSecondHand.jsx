@@ -66,10 +66,10 @@ function MainSecondHand() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ width: '23%', border: '1px solid black', position: 'sticky', top: '80px', borderRadius: '10px' }}>
                     {/* 카테고리 영역 */}
-                    <p style={{ fontWeight: 'bold', fontSize: '30px' }} onClick={() => navigate('/trade')}>중고카테고리</p>
-                    <p onClick={() => navigate('/trade-category/생활/가전')}>생활/가전</p>
+                    <p style={{ fontWeight: 'bold', fontSize: '30px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
+                    <p onClick={() => navigate('/trade-category/생활가전')}>생활/가전</p>
                     <p onClick={() => navigate('/trade-category/낚시용품')}>낚시용품</p>
-                    <p onClick={() => navigate('/trade-category/it기기')}>it기기</p>
+                    <p onClick={() => navigate('/trade-category/IT기기')}>IT기기</p>
                     <p onClick={() => navigate('/trade-category/의류')}>의류</p>
                     <p onClick={() => navigate('/trade-category/반려용품')}>반려용품</p>
                     <p onClick={() => navigate('/trade-category/가구')}>가구</p>

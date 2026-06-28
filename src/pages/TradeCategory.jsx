@@ -13,15 +13,15 @@ function TradeCategoty() {
     let { category } = useParams();
 
 
-    let realCartgory = category;
+    let realCartegory = category;
 
-    if (category === '생활-가전') {
-        realCartgory = '생활/가전';
+    if (category === '생활가전') {
+        realCartegory = '생활/가전';
     }
 
     let categoryDatas = dataset.filter((item) => {
         return (
-            item.카테고리 === realCartgory
+            item.카테고리 === realCartegory
         )
     });
 
@@ -33,9 +33,9 @@ function TradeCategoty() {
                 <div className='TradeCategory-sidebar'>
                     {/* 카테고리 영역 */}
                     <p style={{ fontWeight: 'bold', fontSize: '30px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
-                    <p onClick={() => navigate('/trade-category/생활/가전')}>생활/가전</p>
+                    <p onClick={() => navigate('/trade-category/생활가전')}>생활/가전</p>
                     <p onClick={() => navigate('/trade-category/낚시용품')}>낚시용품</p>
-                    <p onClick={() => navigate('/trade-category/it기기')}>it기기</p>
+                    <p onClick={() => navigate('/trade-category/IT기기')}>IT기기</p>
                     <p onClick={() => navigate('/trade-category/의류')}>의류</p>
                     <p onClick={() => navigate('/trade-category/반려용품')}>반려용품</p>
                     <p onClick={() => navigate('/trade-category/가구')}>가구</p>
@@ -44,7 +44,21 @@ function TradeCategoty() {
                     <p onClick={() => navigate('/trade-category/굿즈')}>굿즈</p>
                 </div>
 
+
+
+
                 <div style={{ width: '73%', height: 'fit-content' }}>
+                    <div
+                        style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'white', borderLeft: '6px solid orange',
+                            padding: '15px 20px', borderRadius: '10px', marginBottom: '20px'
+                        }}>
+                        <div>
+                            <h2 style={{ margin: 0, fontWeight: 'bold' }}>{realCartegory}</h2>
+
+                            <p style={{ margin: '5px 0 0 0', color: 'black' }}>{realCartegory} 상품 목록입니다.</p>
+                        </div>
+                    </div>
                     <div className='SecondHand-section'>
                         {/* 카드 목록 영역 */}
 
@@ -67,6 +81,10 @@ function TradeCategoty() {
                                                 <Card.Text>
                                                     <small className="text-muted">카테고리:{data.카테고리}</small>
                                                 </Card.Text>
+                                                <Card.Text>
+                                                    <small className="text-muted">가격:{data.가격}원</small>
+                                                </Card.Text>
+
 
 
                                             </Card.Footer>
