@@ -21,8 +21,11 @@ function RegisterPage(props) {
 
     const navigate = useNavigate();
 
+    const registedListRaw = localStorage.getItem("registedList");
+    const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+
     const handleCheckPassword = () => {
-        if (!passwordRegex.test(passwordRef.current.value)) {
+        if (!passwordRegex.test(passwordRef.current.value.trim())) {
             passwordInfoRef.current.style.setProperty("background-color", "pink");
             setTimeout(() => {
                 passwordInfoRef.current.style.setProperty("background-color", "white");
@@ -35,7 +38,7 @@ function RegisterPage(props) {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        if (nameRef.current.value == "") {
+        if (nameRef.current.value.trim() == "") {
             const tmp = [...shows];
             tmp[0] = true;
             setShows(tmp);
@@ -63,7 +66,7 @@ function RegisterPage(props) {
             setTimeout(() => {
                 emailRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
-        } else if (passwordRef.current.value == "") {
+        } else if (passwordRef.current.value.trim() == "") {
             const tmp = [...shows];
             tmp[3] = true;
             setShows(tmp);
@@ -84,14 +87,18 @@ function RegisterPage(props) {
                 passConfirmRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
         } else {
+            const today = new Date();
+
+            // 프랑스어권 캐나다 국가 코드인 fr-CA를 넣으면 우리가 흔히 쓰는 YYYY-MM-DD 포맷을 정확히 뱉어내어 실무에서 꿀팁으로 자주 쓰임
+            const createdDate = new Intl.DateTimeFormat("fr-CA").format(today);
+
             const registerData = {
-                name: nameRef.current.value,
+                name: nameRef.current.value.trim(),
                 nickName: confirmedNick,
                 email: confirmedEMail,
-                password: passwordRef.current.value,
+                password: passwordRef.current.value.trim(),
+                registedDate: createdDate,
             };
-            const registedListRaw = localStorage.getItem("registedList");
-            const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
             registedList.push(registerData);
             localStorage.setItem("registedList", JSON.stringify(registedList));
 
@@ -101,6 +108,14 @@ function RegisterPage(props) {
         }
     };
 
+    const handleCheckNick = (nickName) => {
+        const same = registedList.find((item) => {
+            return item.nickName === nickName;
+        });
+        if (same === undefined) return true;
+        return false;
+    };
+
     const handleCheckEmail = () => {
         if (!emailRef.current.validity.valid || emailRef.current.value.trim() == "") {
             if (!emailRef.current.value.trim()) {
@@ -108,6 +123,12 @@ function RegisterPage(props) {
             }
             emailRef.current.reportValidity();
             return false;
+        } else {
+            const same = registedList.find((item) => item.email === emailRef.current.value.trim().toLowerCase());
+            if (same !== undefined) {
+                alert("이미 등록된 이메일입니다");
+                return false;
+            }
         }
         return true;
     };
@@ -158,10 +179,14 @@ function RegisterPage(props) {
                         <Button
                             variant="outline-dark"
                             onClick={() => {
-                                if (nickRef.current.value == "") {
+                                if (nickRef.current.value.trim() == "") {
                                     alert("닉네임을 입력해주세요");
+                                    nickRef.current.style.setProperty("background-color", "white");
+                                } else if (!handleCheckNick(nickRef.current.value.trim())) {
+                                    alert("이미 등록된 닉네임입니다");
+                                    nickRef.current.style.setProperty("background-color", "white");
                                 } else {
-                                    setConfirmedNick(nickRef.current.value);
+                                    setConfirmedNick(nickRef.current.value.trim());
                                     nickRef.current.style.setProperty("background-color", "lightgreen");
                                 }
                             }}>
@@ -192,7 +217,7 @@ function RegisterPage(props) {
                             variant="outline-dark"
                             onClick={() => {
                                 if (handleCheckEmail()) {
-                                    setConfirmedEMail(emailRef.current.value);
+                                    setConfirmedEMail(emailRef.current.value.trim().toLowerCase());
                                     emailRef.current.style.setProperty("background-color", "lightgreen");
                                     emailRef.current.disabled = true;
                                 }
@@ -219,16 +244,16 @@ function RegisterPage(props) {
                         placeholder="비밀번호를 입력해주세요"
                         className="placeholder-lightgray"
                     />
+                    {shows[3] && (
+                        <Alert
+                            variant="danger"
+                            onClose={() => setShows(false5)}
+                            dismissible
+                            className="alert-xs text-center">
+                            비밀번호를 입력해주세요
+                        </Alert>
+                    )}
                 </Form.Group>
-                {shows[3] && (
-                    <Alert
-                        variant="danger"
-                        onClose={() => setShows(false5)}
-                        dismissible
-                        className="alert-xs text-center">
-                        비밀번호를 입력해주세요
-                    </Alert>
-                )}
                 <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
                     ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
                 </p>
