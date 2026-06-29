@@ -4,25 +4,17 @@ import "../csss/alert.css";
 import { Container, Nav, Form, InputGroup, Button, Accordion, Badge, Alert } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
 import defualtProfile from "../assets/vite.svg";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 const false5 = [false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function MyPage(props) {
     const navigate = useNavigate();
-    console.log(props.loginUser);
-    useEffect(() => {
-        if (props.loginUser === null) {
-            console.log("abc");
-            navigate("/");
-        }
-    }, []);
-    if (props.loginUser === null) return;
     const [activeTab, setActiveTab] = useState("home");
     const [shows, setShows] = useState(false5);
-    const [confirmedNick, setConfirmedNick] = useState(props.loginUser.nickName);
-    const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser.email);
+    const [confirmedNick, setConfirmedNick] = useState(props.loginUser?.nickName);
+    const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser?.email);
 
     const nameRef = useRef(null);
     const nickRef = useRef(null);
@@ -31,6 +23,22 @@ function MyPage(props) {
     const passChangeConfirmRef = useRef(null);
     const passwordInfoRef = useRef(null);
     const passwordRef = useRef(null);
+
+    useEffect(() => {
+        if (shows.every((show) => !show)) return;
+
+        const timer = setTimeout(() => {
+            setShows(false5);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [shows]);
+    useEffect(() => {
+        if (props.loginUser === null) {
+            navigate("/");
+        }
+    }, [navigate, props.loginUser]);
+    if (props.loginUser === null) return;
 
     const loginUser = props.loginUser;
     const registedListRaw = localStorage.getItem("registedList");
@@ -69,7 +77,7 @@ function MyPage(props) {
             setTimeout(() => {
                 nickRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
-        } else if (confirmedEMail == "") {
+        } else if (confirmedEMail == "" || confirmedEMail != emailRef.current.value.trim().toLowerCase()) {
             const tmp = [...shows];
             tmp[2] = true;
             setShows(tmp);
@@ -80,7 +88,7 @@ function MyPage(props) {
             }, 3000);
         } else if (passwordChangeRef.current.value.trim() != "" && !handleCheckPassword()) {
             return;
-        } else if (passChangeConfirmRef.current.value != passwordRef.current.value) {
+        } else if (passChangeConfirmRef.current.value != passwordChangeRef.current.value) {
             const tmp = [...shows];
             tmp[3] = true;
             setShows(tmp);
@@ -163,16 +171,6 @@ function MyPage(props) {
         return true;
     };
 
-    useEffect(() => {
-        if (shows.every((show) => !show)) return;
-
-        const timer = setTimeout(() => {
-            setShows(false5);
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [shows]);
-
     return (
         <div style={{ display: "flex", height: "300vh" }}>
             <Nav
@@ -199,7 +197,13 @@ function MyPage(props) {
                     거래내역
                 </Nav.Link>
                 <hr />
-                <Nav.Link href="/logout" className="nav-link-mypage-logout">
+                <Nav.Link
+                    as={Link}
+                    to="/"
+                    onClick={() => {
+                        props.setLoginUser(null);
+                    }}
+                    className="nav-link-mypage-logout">
                     로그아웃
                 </Nav.Link>
             </Nav>
@@ -243,7 +247,7 @@ function MyPage(props) {
                     <div style={{ textAlign: "start" }}>
                         <h1>회원 정보 수정</h1>
                         <hr />
-                        <Form onSubmit={() => handleRegisterChange()} style={{ width: "30rem" }}>
+                        <Form onSubmit={handleRegisterChange} style={{ width: "30rem" }}>
                             <Form.Group className="mb-3 form-group-align-left" controlId="formName">
                                 <Form.Label>이름</Form.Label>
                                 <Form.Control
