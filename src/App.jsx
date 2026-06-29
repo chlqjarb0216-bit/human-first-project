@@ -9,6 +9,7 @@ import MainSecondHand from "./pages/MainSecondHand";
 import TradeCategoty from "./pages/TradeCategory";
 import { useState } from "react";
 import defualtProfile from "./assets/vite.svg";
+import TradeDetail from "./pages/TradeDetail";
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
