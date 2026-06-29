@@ -9,3 +9,127 @@
 .default-boarder {
     border: 1px solid black;
 }
+
+.hero-banner{
+
+    width:100%;
+
+    background:white;
+
+    border-radius:25px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:45px;
+
+    margin-bottom:35px;
+
+}
+
+.hero-left{
+
+    width:55%;
+
+}
+
+.hero-badge{
+
+    display:inline-block;
+
+    background:#E8F1FF;
+
+    color:#2563EB;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+
+}
+
+.hero-left h1{
+
+    font-size:48px;
+
+    font-weight:800;
+
+    color:#222;
+
+    margin-bottom:20px;
+
+}
+
+.hero-left p{
+
+    color:#666;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+.hero-btn-wrap{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.hero-btn-used{
+
+    border:none;
+
+    background:#2563EB;
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:14px 28px;
+
+    font-weight:bold;
+
+}
+
+.hero-btn-auction{
+
+    border:none;
+
+    background:#F3F4F6;
+
+    border-radius:12px;
+
+    padding:14px 28px;
+
+    font-weight:bold;
+
+}
+
+.hero-right{
+
+    width:40%;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.hero-right img{
+
+    width:90%;
+
+}

@@ -1,0 +1,136 @@
+.product-card{
+
+    display:flex !important;
+    flex-direction:row !important;
+
+    width:100%;
+    min-height:180px;
+
+    border:none !important;
+    border-radius:18px !important;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    background:white;
+
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+
+    transition:.25s;
+
+}
+
+.product-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 14px 30px rgba(0,0,0,.15);
+
+}
+
+.product-image{
+
+    width:42% !important;
+
+    object-fit:contain;
+
+    background:#f7f8fa;
+
+    padding:15px;
+
+}
+
+.product-body{
+
+    width:58%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+}
+
+.product-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.product-header h5{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+.product-category{
+
+    color:#777;
+
+    font-size:15px;
+
+}
+
+.product-price{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#2563EB;
+
+}
+
+.product-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#888;
+
+    font-size:14px;
+
+}
+
+.used-badge{
+
+    background:#FFF3E0;
+
+    color:#F57C00;
+
+    padding:4px 10px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+.auction-badge{
+
+    background:#E3F2FD;
+
+    color:#1976D2;
+
+    padding:4px 10px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}

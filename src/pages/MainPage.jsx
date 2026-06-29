@@ -18,83 +18,202 @@ function MainPage() {
 
     return (
 
-        <Container>
+        //수정
+        <Container fluid className="main-container">
 
-            <Row style={{ columnGap: '20px', position: 'relative' }}>
-                <Col style={{ flex: '1', border: '2px solid gray', borderRadius: '15px', borderRight: '2px solid gray', paddingRight: '20px' }}>
-                <div className="MainPage-Title"><img src="/images/shopping_basket.png"alt="중고 거래"/>
-                    <span className="MainPage-Font-Main" style={{ color: 'orange' }}>중고 거래</span>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        {
-                            dataset.map((data, index) => {
-                                if (index > 5) {
-                                    return;
-                                }
-                                return (
-                                    <Card style={{
-                                        width: '80%', height: '15rem', display: 'flex', flexDirection: 'row',
-                                        marginBottom: '18px', padding: '12px', border: 'none', borderRadius: '18px', border:'2px solid orange'
-                                    }} key={index}>
-                                        <Card.Img variant="string" src={'images/' + data.img} className="MainPage-picture-size" />
-                                        <Card.Body className="MainPage-card-body">
-                                            <Card.Title style={{ fontSize: '1.5rem' }}>{data.제목}</Card.Title>
-                                            <Card.Text className="MainPage-Font-Text-Size">
-                                                카테고리:{data.카테고리}
-                                            </Card.Text>
-                                            <Card.Text className="MainPage-Font-Text-Size" style={{color:'orange'}}>
-                                                가격:{data.가격}
-                                            </Card.Text>
-                                            <Card.Text className="MainPage-Font-Text-Size">
-                                                조회수:{data.조회수}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
+            {/* 추가 */}
+            <div className="hero-banner">
 
-                                );
-                            })
-                        }
+                <div className="hero-left">
+
+                    <span className="hero-badge">
+                        🔒 안전한 즉시거래
+                    </span>
+
+                    <h1>
+                        믿고 거래하는
+                        <br />
+                        중고거래 플랫폼
+                    </h1>
+
+                    <p>
+                        사기 예방 시스템과 즉시거래를 통해
+                        더욱 안전하고 빠른 거래를 경험하세요.
+                    </p>
+
+                    <div className="hero-btn-wrap">
+
+                        <button className="hero-btn-used">
+                            중고거래
+                        </button>
+
+                        <button className="hero-btn-auction">
+                            경매
+                        </button>
+
                     </div>
 
+                </div>
+
+                <div className="hero-right">
+
+                    <img src="/images/banner.png" alt="banner" />
+
+                </div>
+
+            </div>
+
+            {/* 수정 */}
+            <Row className="g-4">
+                <Col md={6}>
+                    <div className="main-section">
+
+                        {/* 수정 */}
+                        <div className="section-header">
+
+                            <div className="section-title">
+
+                                <img
+                                    src="/images/shopping_basket.png"
+                                    className="section-icon"
+                                />
+
+                                <span>중고거래</span>
+
+                            </div>
+
+
+                            <button className="more-btn">
+                                전체보기 →
+                            </button>
+
+                        </div>
+
+
+                        {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
+
+                        <div className="card-grid">
+
+                            {
+                                dataset.map((data, index) => {
+                                    if (index > 5) {
+                                        return;
+                                    }
+                                    return (
+                                        // 삭제 + 추가
+                                        <Card className="product-card" key={index}>
+
+                                            {/* 수정 */}
+                                            <Card.Img
+                                                src={'images/' + data.img}
+                                                className="product-image"
+                                            />
+
+                                            {/* 수정 */}
+                                            <Card.Body>
+
+                                                <Card.Title className="product-name">
+                                                    {data.제목}
+                                                </Card.Title>
+
+                                                <Card.Text className="product-category">
+                                                    {data.카테고리}
+                                                </Card.Text>
+
+                                                <Card.Text className="product-price">
+                                                    ₩ {Number(data.가격).toLocaleString()}
+                                                </Card.Text>
+
+                                                <Card.Text className="product-view">
+                                                    👁 {data.조회수}
+                                                </Card.Text>
+
+                                                <Card.Text className="auction-time" style={{ visibility: "hidden" }}>
+                                                    남은시간 3일
+                                                </Card.Text>
+
+                                            </Card.Body>
+                                        </Card>
+
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
 
                 </Col>
-                
-                <Col style={{ flex: '1', border: '2px solid gray', borderRadius: '15px', paddingLeft: '20px' }}>
-                    <div className="MainPage-Title"><img src="/images/auction.png"alt="중고"/>
-                    <span className="MainPage-Font-Main" style={{ color: 'blue' }}>경매</span>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        {
-                            dataset.map((data, index) => {
-                                if (index > 5) {
-                                    return;
-                                }
-                                return (
-                                    <Card style={{
-                                        width: '80%', height: '15rem', display: 'flex', flexDirection: 'row',
-                                        marginBottom: '18px', padding: '12px', border: 'none', borderRadius: '18px', border:'2px solid skyblue'
-                                    }} key={index}>
-                                        <Card.Img variant="string" src={'images/' + data.img} className="MainPage-picture-size" />
-                                        <Card.Body className="MainPage-card-body">
-                                            <Card.Title style={{ fontSize: '1.5rem' }}>{data.제목}</Card.Title>
-                                            <Card.Text className="MainPage-Font-Text-Size">
-                                                카테고리:{data.카테고리}
-                                            </Card.Text>
-                                            <Card.Text className="MainPage-Font-Text-Size" style={{color:'blue'}}>
-                                                가격:{data.가격}
-                                            </Card.Text>
-                                            <Card.Text className="MainPage-Font-Text-Size">
-                                                조회수:{data.조회수}
-                                            </Card.Text>
-                                            <Card.Text>남은시간: 3일 01:11:23s</Card.Text>
-                                        </Card.Body>
-                                    </Card>
 
-                                );
-                            })
-                        }
-                    </div>
+                {/* 수정 */}
+                <Col lg={6}>
+                    <div className="main-section">
+                        {/* 수정 */}
+                        <div className="section-header">
 
+                            <div className="section-title">
+
+                                <img
+                                    src="/images/auction.png"
+                                    className="section-icon"
+                                />
+
+                                <span>경매</span>
+
+                            </div>
+
+                            <button className="more-btn">
+                                전체보기 →
+                            </button>
+
+                        </div>
+
+
+                        {/* 수정 */}
+                        <div className="card-grid">
+                            {
+                                dataset.map((data, index) => {
+                                    if (index > 5) {
+                                        return;
+                                    }
+                                    return (
+                                        //수정
+                                        <Card className="product-card" key={index}>
+
+                                            <Card.Img
+                                                src={'images/' + data.img}
+                                                className="product-image"
+                                            />
+
+                                            {/* 수정 */}
+                                            <Card.Body>
+
+                                                <Card.Title className="product-name">
+                                                    {data.제목}
+                                                </Card.Title>
+
+                                                <Card.Text className="product-category">
+                                                    {data.카테고리}
+                                                </Card.Text>
+
+                                                <Card.Text className="product-price">
+                                                    ₩ {Number(data.가격).toLocaleString()}
+                                                </Card.Text>
+
+                                                <Card.Text className="product-view">
+                                                    👁 {data.조회수}
+                                                </Card.Text>
+
+                                                <Card.Text className="auction-time">
+                                                    남은시간 3일
+                                                </Card.Text>
+
+                                            </Card.Body>
+                                        </Card>
+
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
 
 
                 </Col>
