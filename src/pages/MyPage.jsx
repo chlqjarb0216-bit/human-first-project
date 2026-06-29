@@ -1,11 +1,175 @@
 import "../csss/MyPage.css";
-import { Container, Nav, Form, InputGroup, Button, Accordion, Badge } from "react-bootstrap";
-import { useState } from "react";
+import "../csss/userForm.css";
+import "../csss/alert.css";
+import { Container, Nav, Form, InputGroup, Button, Accordion, Badge, Alert } from "react-bootstrap";
+import { useState, useRef, useEffect } from "react";
 import defualtProfile from "../assets/vite.svg";
-import testId from "../datas/testId.json";
+import { useNavigate, Link } from "react-router";
 
-function MyPage() {
+const false5 = [false, false, false, false, false];
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+function MyPage(props) {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("home");
+    const [shows, setShows] = useState(false5);
+    const [confirmedNick, setConfirmedNick] = useState(props.loginUser?.nickName);
+    const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser?.email);
+
+    const nameRef = useRef(null);
+    const nickRef = useRef(null);
+    const emailRef = useRef(null);
+    const passwordChangeRef = useRef(null);
+    const passChangeConfirmRef = useRef(null);
+    const passwordInfoRef = useRef(null);
+    const passwordRef = useRef(null);
+
+    useEffect(() => {
+        if (shows.every((show) => !show)) return;
+
+        const timer = setTimeout(() => {
+            setShows(false5);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [shows]);
+    useEffect(() => {
+        if (props.loginUser === null) {
+            navigate("/");
+        }
+    }, [navigate, props.loginUser]);
+    if (props.loginUser === null) return;
+
+    const loginUser = props.loginUser;
+    const registedListRaw = localStorage.getItem("registedList");
+    const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+
+    const handleCheckPassword = () => {
+        if (!passwordRegex.test(passwordChangeRef.current.value.trim())) {
+            passwordInfoRef.current.style.setProperty("background-color", "pink");
+            setTimeout(() => {
+                passwordInfoRef.current.style.setProperty("background-color", "white");
+            }, 3000);
+            return false;
+        }
+        return true;
+    };
+
+    const handleRegisterChange = (e) => {
+        e.preventDefault();
+
+        if (nameRef.current.value.trim() == "") {
+            const tmp = [...shows];
+            tmp[0] = true;
+            setShows(tmp);
+            nameRef.current.focus();
+            nameRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                nameRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (confirmedNick == "" || confirmedNick != nickRef.current.value) {
+            nickRef.current.style.setProperty("background-color", "white");
+            const tmp = [...shows];
+            tmp[1] = true;
+            setShows(tmp);
+            nickRef.current.focus();
+            nickRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                nickRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (confirmedEMail == "" || confirmedEMail != emailRef.current.value.trim().toLowerCase()) {
+            const tmp = [...shows];
+            tmp[2] = true;
+            setShows(tmp);
+            emailRef.current.focus();
+            emailRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                emailRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (passwordChangeRef.current.value.trim() != "" && !handleCheckPassword()) {
+            return;
+        } else if (passChangeConfirmRef.current.value != passwordChangeRef.current.value) {
+            const tmp = [...shows];
+            tmp[3] = true;
+            setShows(tmp);
+            passChangeConfirmRef.current.focus();
+            passChangeConfirmRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                passChangeConfirmRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (
+            nameRef.current.value.trim() === loginUser.name &&
+            confirmedNick === loginUser.nickName &&
+            confirmedEMail === loginUser.email &&
+            passChangeConfirmRef.current.value.trim() === ""
+        ) {
+            alert("변경된 사항이 없습니다. 마이페이지 홈으로 돌아갑니다");
+            setActiveTab("home");
+        } else if (passwordRef.current.value.trim() === "") {
+            const tmp = [...shows];
+            tmp[4] = true;
+            setShows(tmp);
+            passwordRef.current.focus();
+            passwordRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                passwordRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (passwordRef.current.value.trim() !== loginUser.password) {
+            alert("비밀번호를 다시 확인해주세요");
+            passwordRef.current.focus();
+            passwordRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                passwordRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else {
+            const registerChangeData = {
+                ...loginUser,
+                name: nameRef.current.value.trim(),
+                nickName: confirmedNick,
+                email: confirmedEMail,
+                password:
+                    passwordChangeRef.current.value.trim() !== ""
+                        ? passwordChangeRef.current.value.trim()
+                        : passwordRef.current.value.trim(),
+            };
+
+            const userIdx = registedList.findIndex((item) => item.email === loginUser.email);
+
+            registedList.splice(userIdx, 1, registerChangeData);
+            localStorage.setItem("registedList", JSON.stringify(registedList));
+
+            props.setLoginUser(registerChangeData);
+
+            alert("회원정보가 성공적으로 변경되었습니다.");
+
+            setActiveTab("home");
+        }
+    };
+
+    const handleCheckNick = (nickName) => {
+        const same = registedList.find((item) => {
+            return item.nickName === nickName;
+        });
+        if (same === undefined) return true;
+        return false;
+    };
+
+    const handleCheckEmail = () => {
+        if (!emailRef.current.validity.valid || emailRef.current.value.trim() == "") {
+            if (!emailRef.current.value.trim()) {
+                alert("이메일을 입력해주세요");
+            }
+            emailRef.current.reportValidity();
+            return false;
+        } else {
+            const same = registedList.find((item) => item.email === emailRef.current.value.trim().toLowerCase());
+            if (same !== undefined) {
+                alert("이미 등록된 이메일입니다");
+                return false;
+            }
+        }
+        return true;
+    };
 
     return (
         <div style={{ display: "flex", height: "300vh" }}>
@@ -33,7 +197,13 @@ function MyPage() {
                     거래내역
                 </Nav.Link>
                 <hr />
-                <Nav.Link href="/logout" className="nav-link-mypage-logout">
+                <Nav.Link
+                    as={Link}
+                    to="/"
+                    onClick={() => {
+                        props.setLoginUser(null);
+                    }}
+                    className="nav-link-mypage-logout">
                     로그아웃
                 </Nav.Link>
             </Nav>
@@ -50,9 +220,9 @@ function MyPage() {
                             />
                             <div style={{ margin: "2rem" }}>
                                 <h4 className="my-4">
-                                    <strong>{testId.닉네임}</strong>님 안녕하세요!
+                                    <strong>{props.loginUser.nickName}</strong>님 안녕하세요!
                                 </h4>
-                                <p>가입날짜: ####년 ##월 ##일</p>
+                                <p>가입날짜: {props.loginUser.registedDate}</p>
                             </div>
                         </div>
 
@@ -77,77 +247,160 @@ function MyPage() {
                     <div style={{ textAlign: "start" }}>
                         <h1>회원 정보 수정</h1>
                         <hr />
-                        <Form style={{ width: "30rem" }}>
+                        <Form onSubmit={handleRegisterChange} style={{ width: "30rem" }}>
                             <Form.Group className="mb-3 form-group-align-left" controlId="formName">
                                 <Form.Label>이름</Form.Label>
                                 <Form.Control
+                                    ref={nameRef}
                                     type="text"
                                     placeholder="이름을 입력해주세요"
                                     className="placeholder-lightgray"
-                                    defaultValue={testId.이름}
+                                    defaultValue={props.loginUser.name}
                                 />
+                                {shows[0] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false5)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        이름을 입력해주세요
+                                    </Alert>
+                                )}
                             </Form.Group>
 
                             <Form.Group className="mb-3 form-group-align-left" controlId="formNickname">
                                 <Form.Label>닉네임</Form.Label>
                                 <InputGroup>
                                     <Form.Control
+                                        ref={nickRef}
                                         type="text"
                                         placeholder="닉네임을 입력해주세요"
                                         className="placeholder-lightgray"
-                                        defaultValue={testId.닉네임}
+                                        defaultValue={props.loginUser.nickName}
                                     />
-                                    <Button variant="outline-dark">닉네임 중복확인</Button>
+                                    <Button
+                                        variant="outline-dark"
+                                        onClick={() => {
+                                            if (nickRef.current.value.trim() == "") {
+                                                alert("닉네임을 입력해주세요");
+                                                nickRef.current.style.setProperty("background-color", "white");
+                                            } else if (!handleCheckNick(nickRef.current.value.trim())) {
+                                                alert("이미 등록된 닉네임입니다");
+                                                nickRef.current.style.setProperty("background-color", "white");
+                                            } else {
+                                                setConfirmedNick(nickRef.current.value.trim());
+                                                nickRef.current.style.setProperty("background-color", "lightgreen");
+                                            }
+                                        }}>
+                                        닉네임 중복확인
+                                    </Button>
                                 </InputGroup>
+                                {shows[1] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false5)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        닉네임 중복확인을 진행해주세요
+                                    </Alert>
+                                )}
                             </Form.Group>
 
                             <Form.Group className="mb-3 form-group-align-left" controlId="formEmail">
                                 <Form.Label>이메일</Form.Label>
                                 <InputGroup>
                                     <Form.Control
+                                        ref={emailRef}
                                         type="email"
                                         placeholder="이메일을 입력해주세요"
                                         className="placeholder-lightgray"
-                                        defaultValue={testId.이메일}
+                                        defaultValue={props.loginUser.email}
                                     />
-                                    <Button variant="outline-dark">이메일 확인</Button>
+                                    <Button
+                                        variant="outline-dark"
+                                        onClick={() => {
+                                            if (handleCheckEmail()) {
+                                                setConfirmedEMail(emailRef.current.value.trim().toLowerCase());
+                                                emailRef.current.style.setProperty("background-color", "lightgreen");
+                                                emailRef.current.disabled = true;
+                                            }
+                                        }}>
+                                        이메일 확인
+                                    </Button>
                                 </InputGroup>
+                                {shows[2] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false5)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        이메일 확인을 진행해주세요
+                                    </Alert>
+                                )}
                             </Form.Group>
 
-                            <Form.Group className="mb-0 form-group-align-left" controlId="formPassword">
+                            <Form.Group className="mb-0 form-group-align-left" controlId="formPasswordChange">
                                 <Form.Label>비밀번호 변경</Form.Label>
                                 <Form.Control
-                                    type="password-change"
+                                    ref={passwordChangeRef}
+                                    type="password"
                                     placeholder="비밀번호를 변경하려면 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
                             </Form.Group>
-                            <p style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
+                            <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
                                 ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
                             </p>
 
-                            <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formPasswordConfirm">
                                 <Form.Label>비밀번호 확인</Form.Label>
                                 <Form.Control
-                                    type="password-confirm"
+                                    ref={passChangeConfirmRef}
+                                    type="password"
                                     placeholder="비밀번호를 다시 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
+                                {shows[3] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false5)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        비밀번호가 일치하지 않습니다.
+                                    </Alert>
+                                )}
                             </Form.Group>
                             <hr />
                             <Form.Group className="mb-3 form-group-align-left" controlId="formPassword">
-                                <Form.Label>수정내용을 등록하기 위해 비밀번호를 입력해주세요</Form.Label>
+                                <Form.Label>수정내용을 등록하기 위해 원래 비밀번호를 입력해주세요</Form.Label>
                                 <Form.Control
+                                    ref={passwordRef}
                                     type="password"
                                     placeholder="비밀번호를 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
+                                {shows[4] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false5)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        비밀번호를 입력해주세요
+                                    </Alert>
+                                )}
                             </Form.Group>
                             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                                 <Button variant="primary" type="submit" size="lg" style={{ margin: "1rem" }}>
                                     수정한 정보로 등록
                                 </Button>
-                                <Button variant="danger" type="button" size="lg" style={{ margin: "1rem" }}>
+                                <Button
+                                    onClick={() => {
+                                        setActiveTab("home");
+                                    }}
+                                    variant="danger"
+                                    type="button"
+                                    size="lg"
+                                    style={{ margin: "1rem" }}>
                                     취소
                                 </Button>
                             </div>
