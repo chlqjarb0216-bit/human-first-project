@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import dataset from '../datas/dataset.json';
 import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
+import TradeDetail from './TradeDetail';
 
 function MainSecondHand() {
 
@@ -76,6 +77,7 @@ function MainSecondHand() {
                     <p onClick={() => navigate('/trade-category/장난감')}>장난감</p>
                     <p onClick={() => navigate('/trade-category/서적')}>서적</p>
                     <p onClick={() => navigate('/trade-category/굿즈')}>굿즈</p>
+                    <p onClick={() => navigate('/trade-category/헬스')}>헬스</p>
                 </div>
 
                 <div style={{ width: '73%', height: 'fit-content' }}>
@@ -89,7 +91,7 @@ function MainSecondHand() {
                                         return;
                                     }
                                     return (
-                                        <Card>
+                                        <Card onClick={()=>navigate('/trade-detail/' + data.id)}>
                                             <Card.Img variant="string" src={'images/' + data.img} className='MainSecondHand-Photo-Size' />
                                             <Card.Body>
                                                 <Card.Title>{data.제목}</Card.Title>

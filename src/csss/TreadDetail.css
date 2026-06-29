@@ -1,0 +1,17 @@
+.TreadDetail-card-style{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 828px;
+    flex-direction: row;
+}
+
+
+.TreadDetail-poto-size{
+    width: 48%;
+    margin: 3rem;
+}
+
+.TreadDetail-body-size{
+    width: 48%;
+}
