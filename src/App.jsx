@@ -10,6 +10,7 @@ import TradeCategoty from "./pages/TradeCategory";
 import { useState } from "react";
 import defualtProfile from "./assets/vite.svg";
 import TradeDetail from "./pages/TradeDetail";
+import PostRegister from "./pages/PostRegister";
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
@@ -42,7 +43,7 @@ function App() {
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<div></div>} />
+                <Route path="/trade-insert" element={<PostRegister/>} />
 
                 {/* 중고거래 카테고리 페이지 */}
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />
