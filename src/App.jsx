@@ -33,10 +33,10 @@ function App() {
                 <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<div></div>} />
+                <Route path="/customer-service" element={<div>고객센터 준비중</div>} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
-                <Route path="/search" element={<div></div>} />
+                <Route path="/search" element={<div>검색기능 준비중</div>} />
 
                 {/* 중고거래 페이지 */}
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
@@ -55,7 +55,7 @@ function App() {
 
                 {/* 여기부터 추가사항 */}
                 {/* 경매 메인페이지 */}
-                <Route path="/auction" element={<div></div>} />
+                <Route path="/auction" element={<div>경매 페이지 준비중</div>} />
 
                 {/* 경매물품등록 페이지 */}
                 <Route path="/auction-insert" element={<div></div>} />
@@ -84,12 +84,14 @@ function NavgationBar(props) {
     const [isProfileHovered, setIsProfileHovered] = useState(false);
     const navigate = useNavigate();
 
-    const expand = "md";
+    const expand = "sm";
 
     return (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">로고</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">
+                    로고
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                     id={`offcanvasNavbar-expand-${expand}`}
@@ -99,90 +101,108 @@ function NavgationBar(props) {
                         <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>Offcanvas</Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                        <Nav className="justify-content-start flex-grow-1 pe-3">
-                            <Nav.Link href="#action1">중고거래</Nav.Link>
-                            <Nav.Link href="#action2">경매</Nav.Link>
-                            <Nav.Link href="#action2">고객센터</Nav.Link>
+                        <Nav className="justify-content-around flex-grow-1 pe-3" style={{ width: "7.5rem" }}>
+                            <Nav.Link as={Link} to="/MainSecondHand">
+                                중고거래
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/auction">
+                                경매
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/customer-service">
+                                고객센터
+                            </Nav.Link>
                         </Nav>
-                        <Form className="d-flex" style={{ margin: "0 1rem" }}>
+                        <Form className="d-flex" style={{ margin: "0 1rem", flexGrow: "2" }}>
                             <Form.Select
                                 aria-label="Default select example"
                                 className="ms-3 w-auto"
                                 style={{ margin: "0 1rem" }}>
-                                <option>통합검색</option>
                                 <option value="1">통합검색</option>
                                 <option value="2">중고검색</option>
                                 <option value="3">경매검색</option>
                             </Form.Select>
                             <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                            <Button variant="outline-success">Search</Button>
+                            <Button
+                                variant="outline-success"
+                                onClick={() => navigate("/search")}
+                                style={{ wordBreak: "keep-all" }}>
+                                검색
+                            </Button>
                         </Form>
-                        {!props.loginUser ? (
-                            <Nav className="justify-content-start flex-grow-1 pe-3">
-                                <Nav.Link as={Link} to="/login" style={{ wordBreak: "keep-all" }}>
-                                    로그인
-                                </Nav.Link>
-                            </Nav>
-                        ) : (
-                            <div
-                                onMouseEnter={() => setIsProfileHovered(true)}
-                                onMouseLeave={() => setIsProfileHovered(false)}
-                                style={{ position: "relative", display: "inline-block" }}>
-                                <img
-                                    src={defualtProfile}
-                                    alt=""
-                                    onClick={() => navigate("/mypage")}
-                                    style={{
-                                        height: "2.5rem",
-                                        aspectRatio: "1/1",
-                                        borderRadius: "50%",
-                                        cursor: "pointer",
-                                    }}
-                                />
-
-                                {isProfileHovered && (
-                                    <ul
+                        <div style={{ width: "5rem" }}>
+                            {!props.loginUser ? (
+                                <Nav className="justify-content-end pe-3">
+                                    <Nav.Link as={Link} to="/login" style={{ wordBreak: "keep-all" }}>
+                                        로그인
+                                    </Nav.Link>
+                                </Nav>
+                            ) : (
+                                <div
+                                    onMouseEnter={() => setIsProfileHovered(true)}
+                                    onMouseLeave={() => setIsProfileHovered(false)}
+                                    style={{ position: "relative", display: "inline-block" }}>
+                                    <img
+                                        src={defualtProfile}
+                                        alt=""
+                                        onClick={() => navigate("/mypage")}
                                         style={{
-                                            position: "absolute",
-                                            top: "100%",
-                                            right: 0,
-                                            listStyle: "none",
-                                            padding: "0.6rem 0",
-                                            margin: "0",
-                                            zIndex: "10",
-                                            width: "max-content",
-                                            whiteSpace: "nowrap",
-                                            textAlign: "center",
-                                        }}>
-                                        <div
+                                            height: "2.5rem",
+                                            aspectRatio: "1/1",
+                                            borderRadius: "50%",
+                                            cursor: "pointer",
+                                        }}
+                                    />
+
+                                    {isProfileHovered && (
+                                        <ul
                                             style={{
-                                                border: "1px solid #ddd",
-                                                borderRadius: "5%",
-                                                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                                                backgroundColor: "white",
-                                                padding: "0.5rem",
+                                                position: "absolute",
+                                                top: "100%",
+                                                right: 0,
+                                                listStyle: "none",
+                                                padding: "0.6rem 0",
+                                                margin: "0",
+                                                zIndex: "10",
+                                                width: "max-content",
+                                                whiteSpace: "nowrap",
+                                                textAlign: "center",
                                             }}>
-                                            <li
+                                            <div
                                                 style={{
-                                                    padding: "0.5rem 0.75rem",
-                                                    fontWeight: "bold",
+                                                    border: "1px solid #ddd",
+                                                    borderRadius: "5%",
+                                                    boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                                                    backgroundColor: "white",
+                                                    padding: "0.5rem",
                                                 }}>
-                                                <Link to="/mypage" style={{ textDecoration: "none", color: "black" }}>
-                                                    마이페이지
-                                                </Link>
-                                            </li>
-                                            <li
-                                                onClick={() => {
-                                                    props.setLoginUser(null);
-                                                }}
-                                                style={{ padding: "0.5rem 0.75rem", color: "red", cursor: "pointer" }}>
-                                                로그아웃
-                                            </li>
-                                        </div>
-                                    </ul>
-                                )}
-                            </div>
-                        )}
+                                                <li
+                                                    style={{
+                                                        padding: "0.5rem 0.75rem",
+                                                        fontWeight: "bold",
+                                                    }}>
+                                                    <Link
+                                                        to="/mypage"
+                                                        style={{ textDecoration: "none", color: "black" }}>
+                                                        마이페이지
+                                                    </Link>
+                                                </li>
+                                                <li
+                                                    onClick={() => {
+                                                        props.setLoginUser(null);
+                                                    }}
+                                                    style={{
+                                                        padding: "0.5rem 0.75rem",
+                                                        color: "red",
+                                                        cursor: "pointer",
+                                                    }}>
+                                                    로그아웃
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>
