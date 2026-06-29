@@ -4,6 +4,7 @@ import dataset from '../datas/dataset.json';
 import { Container, Card, CardImg, CardGroup } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { data, useNavigate, useParams } from 'react-router';
+import TradeDetail from './TradeDetail';
 
 
 function TradeCategoty() {
@@ -24,7 +25,7 @@ function TradeCategoty() {
             item.카테고리 === realCartegory
         )
     });
-
+    console.log(realCartegory)
 
 
     return (
@@ -42,6 +43,7 @@ function TradeCategoty() {
                     <p onClick={() => navigate('/trade-category/장난감')}>장난감</p>
                     <p onClick={() => navigate('/trade-category/서적')}>서적</p>
                     <p onClick={() => navigate('/trade-category/굿즈')}>굿즈</p>
+                    <p onClick={() => navigate('/trade-category/헬스')}>헬스</p>
                 </div>
 
 
@@ -66,7 +68,7 @@ function TradeCategoty() {
                             {
                                 categoryDatas.map((data) => {
                                     return (
-                                        <Card key={data.id} className="TradeCategory-card">
+                                        <Card key={data.id} className="TradeCategory-card" onClick={()=>navigate('/trade-detail/' + data.id)}>
                                             <Card.Img variant="string" src={'/images/' + data.img} className='MainSecondHand-Photo-Size' />
                                             <Card.Body>
                                                 <Card.Title>{data.제목}</Card.Title>
