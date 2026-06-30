@@ -20,10 +20,13 @@ function customerService({ loginUser }) {
             return;
         }
 
+        const angry = new Intl.DateTimeFormat("fr-CA").format( new Date() );
+
         let newInquiry = {
             email: loginUser.email,
             nickName: loginUser.nickName,
-            content: inquiryRef.current.value
+            content: inquiryRef.current.value,
+            inquiriedDate : angry,
         };
 
         let savedInquiries =
