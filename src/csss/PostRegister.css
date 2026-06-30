@@ -134,6 +134,12 @@
     box-sizing: border-box;
 }
 
+
+/* 카테고리를 선택하세요 색상 옅게 */
+.form-input option[value=""] {
+    color: #999;
+}
+
 .form-input:focus {
 
     outline: none;
@@ -324,7 +330,21 @@ textarea.form-input {
 
 }
 
+
 /* 30일 추가분 */
+
+
+/* 가격 1씩 올라가던 화살표 삭제..*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+/* 토글 */
 .trade-switch-group {
 
     display: felx;
@@ -341,7 +361,8 @@ textarea.form-input {
 .trade-switch-group .form-check {
     display: flex;
     align-items: center;
-    gap: 12px;          /* 토글과 글자 간격 */
+    gap: 12px;
+    /* 토글과 글자 간격 */
 
     margin-bottom: 10px;
 }

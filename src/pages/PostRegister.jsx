@@ -38,6 +38,8 @@ export default function PostRegister() {
 
     const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
 
+    const tagRef = useRef(null);        //태그 미입력 검사 추가
+
 
     const [images, setImages] = useState([]);
 
@@ -109,9 +111,7 @@ export default function PostRegister() {
                 block: "center"
             });
 
-            setTimeout(() => {
-                alert("상품 이미지를 등록하세요.");
-            }, 100);
+            alert("상품 이미지를 등록하세요.");
 
             return;
         }
@@ -126,9 +126,7 @@ export default function PostRegister() {
 
             titleRef.current.focus();   //빈칸 시 커서 이동
 
-            setTimeout(() => {
-                alert("물품명을 입력하세요.");
-            }, 100);
+            alert("물품명을 입력하세요.");
 
             return;
 
@@ -144,12 +142,39 @@ export default function PostRegister() {
 
             priceRef.current.focus();
 
-            setTimeout(() => {
-                alert("판매 가격은 0원보다 크게 입력하세요.");
-            }, 100);
+
+            alert("판매 가격은 0원보다 크게 입력하세요.");
+
 
             return;
         }
+
+
+        //태그 검사
+        if (tagRef.current.value.trim() === "") {
+
+            tagRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            tagRef.current.focus();   //빈칸 시 커서 이동
+
+            alert("태그를 입력하세요.");
+
+            return;
+
+        }
+
+
+
+
+
+
+
+
+
+
 
         //카테고리 검사
         if (categoryRef.current.value === "") {
@@ -161,9 +186,7 @@ export default function PostRegister() {
 
             categoryRef.current.focus();    //커서 이동 (셀렉창 색깔만 바뀜, 드롭다운X)
 
-            setTimeout(() => {
-                alert("카테고리를 선택하세요.");
-            }, 100);
+            alert("카테고리를 선택하세요.");
 
             return;
 
@@ -179,9 +202,7 @@ export default function PostRegister() {
 
             descriptionRef.current.focus();
 
-            setTimeout(() => {
-                alert("상품 설명을 입력하세요.");
-            }, 100);
+            alert("상품 설명을 입력하세요.");
 
             return;
         }
@@ -319,50 +340,15 @@ export default function PostRegister() {
                     </div>
 
 
-
-                    {/* 거래방식 */}
-
-                    {/* <div className="form-group">
-
-                        <label className="form-label">
-
-                            거래 방식
-
-                        </label>
-
-                        <div className="button-group">
-
-                            <button
-                                type="button"
-                                className={`btn-trade ${tradeType === "used" ? "active" : ""}`}
-                                onClick={() => setTradeType("used")}
-                            >
-                                일반 중고거래
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`btn-trade ${tradeType === "auction" ? "active" : ""}`}
-                                onClick={() => setTradeType("auction")}
-                            >
-                                경매
-                            </button>
-
-                        </div>
-                        
-                    </div> */}
-
-
-
                     {/* 가격 */}
                     <div className="form-group">
                         <label className="form-label">판매 가격
                             <span className="required">*</span>
                         </label>
                         <div className="price-input-wrapper">
-                            <input type="number"
+                            <input type='number'
                                 className="form-input price-input"
-                                placeholder="판매가격"
+                                placeholder="판매가격을 입력하세요."
 
                                 ref={priceRef}  //가격 미입력 검사
                             />
@@ -372,6 +358,20 @@ export default function PostRegister() {
                     </div>
 
 
+                    {/* 태그 */}
+                    <div className="form-group">
+                        <label className="form-label">태그
+                            <span className="required">*</span>
+                        </label>
+                        <div className="price-input-wrapper">
+                            <input
+                                className="form-input"
+                                placeholder="태그를 입력하세요."
+                                ref={tagRef}    //커서 이동
+                            />
+                        </div>
+                    </div>
+
 
                     {/* 카테고리 */}
                     <div className="form-group">
@@ -379,23 +379,21 @@ export default function PostRegister() {
                             카테고리
                             <span className="required">*</span>
                         </label>
-                        <select className="form-input"
 
+                        <select className="form-input"
                             ref={categoryRef}   //커서이동 추가
+                            defaultValue=""
                         >
-                            <option value="">
+                            <option value="" disabled>
                                 카테고리를 선택하세요.
                             </option>
-                            {
-                                categoryList.map(item => (
-                                    <option
-                                        key={item}
-                                        value={item}
-                                    >
-                                        {item}
-                                    </option>
-                                ))
-                            }
+                            {categoryList.map(item => (
+                                <option key={item}
+                                    value={item}
+                                >
+                                    {item}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -443,36 +441,10 @@ export default function PostRegister() {
                             placeholder="상품 상태, 구성품, 구매 시기 등을 입력하세요."
 
                             ref={descriptionRef}    //상품 설명 미입력 검사
-                            
+
                         />
 
                     </div>
-
-                    
-                    
-
-
-
-
-                    {/* 거래 지역 */}
-
-                    {/* <div className="form-group">
-
-                        <label className="form-label">
-
-                            거래 지역
-
-                        </label>
-
-                        <input
-                            type="text"
-                            className="form-input"
-                            placeholder="예) 서울 강남구"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                        />
-
-                    </div> */}
 
 
 
