@@ -13,6 +13,7 @@ import TradeDetail from "./pages/TradeDetail";
 import PostRegister from "./pages/PostRegister";
 import CustomerService from "./pages/CustomerService";
 import dataset from "./datas/dataset.json";
+import AdmimPage from "./pages/AdminPage";
 
 const localStTradeDatas = "trade-datas";
 const localStTradeDataIdNext = "trade-data-id-next";
@@ -44,6 +45,9 @@ function App() {
 
                 {/* 고객센터 페이지 */}
                 <Route path="/customer-service" element={<CustomerService loginUser={loginUser}/>} />
+
+                {/* 고객센터 관리자페이지 */}
+                <Route path="/admin-page" element={<AdmimPage/>} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
                 <Route path="/search" element={<div>검색기능 준비중</div>} />
