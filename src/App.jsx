@@ -11,6 +11,7 @@ import { useState } from "react";
 import defualtProfile from "./assets/vite.svg";
 import TradeDetail from "./pages/TradeDetail";
 import PostRegister from "./pages/PostRegister";
+import CustomerService from "./pages/CustomerService";
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
@@ -34,7 +35,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<div>고객센터 준비중</div>} />
+                <Route path="/customer-service" element={<CustomerService/>} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
                 <Route path="/search" element={<div>검색기능 준비중</div>} />

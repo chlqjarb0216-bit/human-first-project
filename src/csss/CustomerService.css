@@ -1,0 +1,75 @@
+.customer-page {
+    width: 85%;
+    margin: 50px auto;
+    display: flex;
+    
+}
+
+.customer-title {
+    text-align:center;
+    font-size: 32px;
+    font-weight: bold;
+    color: red;
+    
+}
+
+.customer-subtitle {
+    text-align: center;
+    color: gray;
+    margin-bottom: 40px;
+}
+
+.customer-box {
+    border: 1px solid orangered;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+.customer-box h4 {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.faq-item {
+    border-bottom: 1px solid orangered;
+    margin: 20px;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-item p {
+    margin-top: 8px;
+    color: darkgray;
+}
+
+.customer-box input,
+.customer-box textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid gray;
+    border-radius: 8px;
+}
+
+.customer-box textarea {
+    height: 150px;
+}
+
+.customer-box button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: orangered;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.customer-box button:hover {
+    background-color: red;
+}
