@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 //useState : 화면의 글자나 이미지 목록처럼 변하는 데이터를 담는 상자.
 //useRef : HTML요소(숨겨진 파일 입력창)를 직접 가리킬 때 쓰는 집게..
 import "../csss/PostRegister.css";
+import nowDate from '../pure_functions/nowDate'
 
 const categoryList = [
     "생활/가전",
@@ -208,7 +209,7 @@ export default function PostRegister() {
 
         let idNext = JSON.parse(localStorage.getItem("trade-data-id-next"))
         const itemInfo = {
-            id:idNext++,
+            "id":idNext++,
             "img":imgNames.length==1?imgNames[0]:imgNames,
             "즉시거래":shipping,
             "채팅":chattrade,
@@ -218,7 +219,8 @@ export default function PostRegister() {
             "가격":priceRef.current.value,
             "태그":"LG,냉장고,양문형",
             "상세설명":descriptionRef.current.value,
-            "조회수":0
+            "조회수":0,
+            "등록일시":nowDate()
         }
 
         localStorage.setItem("trade-data-id-next",idNext)
