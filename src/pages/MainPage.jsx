@@ -22,7 +22,7 @@ function MainPage() {
         <Container fluid className="main-container">
 
             {/* 추가 */}
-            <div className="hero-banner">
+            <div className="hero-banner" style={{backgroundColor:'paleturquoise'}}>
 
                 <div className="hero-left">
 
