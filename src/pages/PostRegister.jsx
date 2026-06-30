@@ -38,25 +38,12 @@ export default function PostRegister() {
 
     const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
 
+
     const [images, setImages] = useState([]);
 
-    const [title, setTitle] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
+    const [instantTrade, setInstantTrade] = useState(false);    //즉시거래
 
-    const [price, setPrice] = useState("");   //상태변수들
-
-    const [category, setCategory] = useState(""); //상태변수들
-
-    const [condition, setCondition] = useState("");
-
-    const [description, setDescription] = useState("");
-
-    const [shipping, setShipping] = useState(false);    //즉시거래
-
-    const [chattrade, setChatTrade] = useState(false);  //채팅
-
-    const [suggestPrice, setSuggestPrice] = useState(false);
-
-    // const [error, setError] = useState("");
+    const [chatTrade, setChatTrade] = useState(true);           //채팅
 
 
     //이미지 업로드 로직
@@ -130,7 +117,7 @@ export default function PostRegister() {
         }
 
         //물품명 검사
-        if (title.trim() === "") {
+        if (titleRef.current.value.trim() === "") {
 
             titleRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -148,7 +135,7 @@ export default function PostRegister() {
         }
 
         //가격 검사
-        if (price.trim() === "" || Number(price) <= 0) {
+        if (priceRef.current.value.trim() === "" || Number(priceRef.current.value) <= 0) {
 
             priceRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -165,7 +152,7 @@ export default function PostRegister() {
         }
 
         //카테고리 검사
-        if (category === "") {
+        if (categoryRef.current.value === "") {
 
             categoryRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -183,7 +170,7 @@ export default function PostRegister() {
         }
 
         //상품 설명 검사
-        if (description.trim() === "") {
+        if (descriptionRef.current.value.trim() === "") {
 
             descriptionRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -319,14 +306,13 @@ export default function PostRegister() {
                             className="form-input"
                             placeholder="물품명을 입력하세요."
                             maxLength={50}  //최대 50자 까지만 제한
-                            value={title}   //현재 입력된 글자를 title이라는 상태(State)에 담아 관리..
-                            onChange={(e) => setTitle(e.target.value)}
-                            //키보드를 누를 때마다 실시간으로 title 값을 업데이트함..
+
+                            //ref를 이용해 입력값을 검사.
                             ref={titleRef}  //물품명 빈칸일때 커서 이동
                         />
 
                         <div className="char-count">
-                            {title.length} / 50
+                            최대 50자
                             {/* 우측 하단에 현재 몇글자를 썼는지 숫자로 보여줌. */}
                         </div>
 
@@ -377,22 +363,12 @@ export default function PostRegister() {
                             <input type="number"
                                 className="form-input price-input"
                                 placeholder="판매가격"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
 
                                 ref={priceRef}  //가격 미입력 검사
                             />
                             <span className="price-unit">원</span>
                         </div>
 
-                        {/* <label className="checkbox-label">
-                            <input
-                                type="checkbox"
-                                checked={suggestPrice}
-                                onChange={(e) => setSuggestPrice(e.target.checked)}
-                            />
-                            가격 제안 허용
-                        </label> */}
                     </div>
 
 
@@ -404,8 +380,7 @@ export default function PostRegister() {
                             <span className="required">*</span>
                         </label>
                         <select className="form-input"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
+
                             ref={categoryRef}   //커서이동 추가
                         >
                             <option value="">
@@ -466,13 +441,16 @@ export default function PostRegister() {
                         <textarea className="form-input"
                             rows={8}
                             placeholder="상품 상태, 구성품, 구매 시기 등을 입력하세요."
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
 
                             ref={descriptionRef}    //상품 설명 미입력 검사
+                            
                         />
 
                     </div>
+
+                    
+                    
+
 
 
 
@@ -499,72 +477,74 @@ export default function PostRegister() {
 
 
                     {/* 거래 형식 체크박스 */}
-                    <label className="form-label">
+                    <div className="form-group">
+                        <label className="form-label">
 
-                        거래 형식
-                        <span className="required">*</span>
+                            거래 형식
+                            <span className="required">*</span>
 
-                    </label>
-
-
-
-                    {/* 즉시거래 / 채팅 */}
-                    <div className="form-check form-switch">
-
-
-                        <input className="form-check-input"
-                            type="checkbox"
-                            checked={chattrade}
-                            onChange={(e) => setChatTrade(e.target.checked)}
-                        />
-                        <label className="form-check-label">
-                            즉시 거래
                         </label>
 
+
+
+                        {/* 즉시거래 / 채팅 */}
+                        <div className="trade-switch-group">
+                            <div className="form-check form-switch">
+
+
+                                <input className="form-check-input"
+                                    type="checkbox"
+                                    checked={instantTrade}
+                                    onChange={(e) => setInstantTrade(e.target.checked)}
+                                />
+                                <label className="form-check-label">
+                                    즉시 거래
+                                </label>
+                            </div>
+
+
+
+                            <div className="form-check form-switch">
+
+                                <input className="form-check-input"
+                                    type="checkbox"
+                                    checked={chatTrade}
+                                    onChange={(e) => setChatTrade(e.target.checked)}
+                                />
+
+                                <label className="form-check-label">
+                                    구매자와 대화
+                                </label>
+
+                            </div>
+                        </div>
+
+                        {/* 취소 / 등록 버튼 */}
+
+                        <div className="form-actions">
+
+                            <button type="button"
+                                className="btn-cancel"
+                                onClick={() => navigate("/")}
+                            // onClick={() => window.history.back()}
+                            >
+                                취소
+                            </button>
+
+                            <button
+                                type="submit"
+                                className="btn-submit"
+                            >
+                                중고 등록
+                            </button>
+
+                        </div>
                     </div>
-
-
-                    <div className="form-check form-switch">
-
-                        <input className="form-check-input"
-                            type="checkbox"
-                            checked={shipping}
-                            onChange={(e) => setShipping(e.target.checked)}
-                        />
-
-                        <label className="form-check-label">
-                            구매자와 대화
-                        </label>
-
-                    </div>
-
-
-                    {/* 취소 / 등록 버튼 */}
-
-                    <div className="form-actions">
-
-                        <button type="button"
-                            className="btn-cancel"
-                            onClick={() => navigate("/")}
-                        // onClick={() => window.history.back()}
-                        >
-                            취소
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="btn-submit"
-                        >
-                            중고 등록
-                        </button>
-
-                    </div>
-
                 </form>
 
-            </div>
+            </div >
 
-        </div>
+        </div >
 
     );
 }

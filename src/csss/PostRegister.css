@@ -323,3 +323,33 @@ textarea.form-input {
     }
 
 }
+
+/* 30일 추가분 */
+.trade-switch-group {
+
+    display: felx;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+
+.trade-switch-group .form-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;          /* 토글과 글자 간격 */
+
+    margin-bottom: 10px;
+}
+
+.trade-switch-group .form-check-input {
+    margin: 0;
+}
+
+.trade-switch-group .form-check-label {
+    margin-bottom: 0;
+}
