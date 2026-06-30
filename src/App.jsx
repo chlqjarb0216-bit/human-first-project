@@ -12,10 +12,18 @@ import defualtProfile from "./assets/vite.svg";
 import TradeDetail from "./pages/TradeDetail";
 import PostRegister from "./pages/PostRegister";
 import CustomerService from "./pages/CustomerService";
+import dataset from "./datas/dataset.json";
+
+const localStTradeDatas = "trade-datas";
+const localStTradeDataIdNext = "trade-data-id-next";
+const dataListRaw = localStorage.getItem(localStTradeDatas);
+if (!dataListRaw) {
+    localStorage.setItem(localStTradeDatas, JSON.stringify(dataset));
+    localStorage.setItem(localStTradeDataIdNext, 61);
+}
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
-    console.log(loginUser);
 
     return (
         <>
@@ -35,7 +43,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<CustomerService/>} />
+                <Route path="/customer-service" element={<CustomerService />} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
                 <Route path="/search" element={<div>검색기능 준비중</div>} />
@@ -44,7 +52,7 @@ function App() {
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<PostRegister/>} />
+                <Route path="/trade-insert" element={<PostRegister />} />
 
                 {/* 중고거래 카테고리 페이지 */}
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />

@@ -39,6 +39,7 @@ export default function PostRegister() {
     const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
 
     const [images, setImages] = useState([]);
+    const [imgNames, setImgNames] = useState([]);
 
     const [title, setTitle] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
 
@@ -88,7 +89,11 @@ export default function PostRegister() {
         const preview = files.map(file => URL.createObjectURL(file));
         //브라우저 메모리에 이미지를 임시로 올려서 주소를 만들어주는 기능
 
+        const imgNames = files.map(file=>file.name)
+
         setImages(prev => [...prev, ...preview]);
+
+        setImgNames(prev=>[...prev,...imgNames])
 
         e.target.value = "";
 
@@ -200,6 +205,24 @@ export default function PostRegister() {
         }
 
         alert("등록 완료");
+
+        let idNext = JSON.parse(localStorage.getItem("trade-data-id-next"))
+        const itemInfo = {
+            id:idNext++,
+            "img":imgNames.length==1?imgNames[0]:imgNames,
+            "즉시거래":shipping,
+            "채팅":chattrade,
+            "카테고리":categoryRef.current.value,
+            "품목":titleRef.current.value,
+            "제목":"LG 디오스 양문형 냉장고",
+            "가격":priceRef.current.value,
+            "태그":"LG,냉장고,양문형",
+            "상세설명":descriptionRef.current.value,
+            "조회수":0
+        }
+
+        localStorage.setItem("trade-data-id-next",idNext)
+        localStorage.setItem('trade-datas', JSON.stringify(itemInfo))
 
     };
 
