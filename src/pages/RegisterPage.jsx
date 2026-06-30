@@ -3,9 +3,10 @@ import "../csss/userForm.css";
 import "../csss/alert.css";
 import { Button, Form, InputGroup, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router";
+import nowDate from "../pure_functions/nowDate";
 
 const false5 = [false, false, false, false, false];
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&~])[A-Za-z\d@$!%*?&~]{8,20}$/;
 
 function RegisterPage(props) {
     const [shows, setShows] = useState(false5);
@@ -87,17 +88,12 @@ function RegisterPage(props) {
                 passConfirmRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
         } else {
-            const today = new Date();
-
-            // 프랑스어권 캐나다 국가 코드인 fr-CA를 넣으면 우리가 흔히 쓰는 YYYY-MM-DD 포맷을 정확히 뱉어내어 실무에서 꿀팁으로 자주 쓰임
-            const createdDate = new Intl.DateTimeFormat("fr-CA").format(today);
-
             const registerData = {
                 name: nameRef.current.value.trim(),
                 nickName: confirmedNick,
                 email: confirmedEMail,
                 password: passwordRef.current.value.trim(),
-                registedDate: createdDate,
+                registedDate: nowDate()[0],
             };
             registedList.push(registerData);
             localStorage.setItem("registedList", JSON.stringify(registedList));
@@ -255,7 +251,7 @@ function RegisterPage(props) {
                     )}
                 </Form.Group>
                 <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
-                    ※비밀번호는 알파벳 대소문자 및 특수문자를 포함한 8자 이상이어야합니다.
+                    ※비밀번호는 알파벳 대소문자 및 특수문자(@$!%*?&~)를 포함한 8자 이상이어야합니다(최대20자).
                 </p>
 
                 <Form.Group className="mb-3 form-group-align-left" controlId="formPasswordConfirm">
