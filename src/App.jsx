@@ -35,7 +35,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<CustomerService/>} />
+                <Route path="/customer-service" element={<CustomerService loginUser={loginUser}/>} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
                 <Route path="/search" element={<div>검색기능 준비중</div>} />
