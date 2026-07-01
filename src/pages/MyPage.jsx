@@ -3,8 +3,9 @@ import "../csss/userForm.css";
 import "../csss/alert.css";
 import { Container, Nav, Form, InputGroup, Button, Accordion, Badge, Alert } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-import defualtProfile from "../assets/vite.svg";
 import { useNavigate, Link } from "react-router";
+import defualtProfile from "../assets/vite.svg";
+import storage from "../pure_functions/storage";
 
 const false5 = [false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -41,8 +42,9 @@ function MyPage(props) {
     if (props.loginUser === null) return;
 
     const loginUser = props.loginUser;
-    const registedListRaw = localStorage.getItem("registedList");
-    const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+
+    const registedListKey = 'registedList'
+    const registedList = storage.get(registedListKey,[])
 
     const handleCheckPassword = () => {
         if (!passwordRegex.test(passwordChangeRef.current.value.trim())) {
@@ -136,7 +138,7 @@ function MyPage(props) {
             const userIdx = registedList.findIndex((item) => item.email === loginUser.email);
 
             registedList.splice(userIdx, 1, registerChangeData);
-            localStorage.setItem("registedList", JSON.stringify(registedList));
+            storage.set(registedListKey, registedList)
 
             props.setLoginUser(registerChangeData);
 
