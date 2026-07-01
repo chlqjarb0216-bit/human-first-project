@@ -69,9 +69,9 @@ export default function PostRegister() {
 
         const files = Array.from(e.target.files);
 
-        if (images.length + files.length > 10) {
+        if (images.length + files.length > 9) {
 
-            alert("이미지는 최대 10장까지 가능합니다.");
+            alert("이미지는 최대 9장까지 가능합니다.");
 
             return;
 
@@ -431,6 +431,7 @@ export default function PostRegister() {
                             ref={categoryRef}
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
+                            //카테고리 선택 전 회색 / 선택 후 검정
                             style={{ color: category === "" ? "#999" : "#333" }}
                         >
                             <option value="" disabled>
