@@ -14,7 +14,7 @@
 }
 
 .register-title {
-    font-size: 34px;
+    font-size: 35px;
     font-weight: 700;
     margin-bottom: 10px;
 }
@@ -28,21 +28,16 @@
     color: orange;
 }
 
-/* ---------- 상단 ---------- */
 
-.register-top {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 50px;
-    margin-bottom: 40px;
-}
 
 /* ---------- 이미지 ---------- */
 
 .image-list-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 140px);
     gap: 15px;
+    /* 이미지 추가 박스 조정 */
+    justify-content: start;
 }
 
 .image-upload-box,
@@ -51,7 +46,7 @@
     width: 140px;
     height: 140px;
 
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }
 
 .image-upload-box {
@@ -107,15 +102,19 @@
 
 .form-group {
 
-    margin-bottom: 25px;
+    width: 80%;
+    max-width: 800px;
+    /* 입력창 가운데로 */
+    margin: 0 auto 25px;
 }
 
 .form-label {
 
-    display: block;
+    display: flex;
 
-    font-size: 15px;
+    font-size: 19px;
     font-weight: 700;
+
 
     margin-bottom: 8px;
 }
@@ -126,13 +125,25 @@
 
     padding: 12px 15px;
 
-    border: 1px solid #d9d9d9;
+    border: 1px solid #999;
     border-radius: 8px;
 
     font-size: 15px;
 
     box-sizing: border-box;
 }
+
+
+
+
+
+
+/* 카테고리 펼쳐진 목록은 검정 (Chrome) */
+.form-input option {
+    color: #333;
+}
+
+
 
 .form-input:focus {
 
@@ -191,7 +202,7 @@
     margin-top: 12px;
 }
 
-/* ---------- textarea ---------- */
+/* ---------- 상품 설명 ---------- */
 
 textarea.form-input {
 
@@ -232,7 +243,7 @@ textarea.form-input {
 
 .btn-cancel:hover {
 
-    background: white;
+    background: #f8f8f8;
 }
 
 
@@ -261,12 +272,55 @@ textarea.form-input {
 }
 
 
-.error-alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    width: 320px;
+
+
+
+
+
+/* 30일 추가분 */
+
+
+/* 가격 1씩 올라가던 화살표 삭제..*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+
+/* 토글 */
+.trade-switch-group {
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+
+.trade-switch-group .form-check {
+    display: flex;
+    /* 토글 글자랑 균형 */
+    align-items: center;
+    /* 토글과 글자 간격 */
+    gap: 12px;
+
+    margin-bottom: 10px;
+}
+
+.trade-switch-group .form-check-input {
+    margin: 0;
+}
+
+.trade-switch-group .form-check-label {
+    margin-bottom: 0;
 }
 
 
@@ -290,16 +344,6 @@ textarea.form-input {
         gap: 30px;
     }
 
-    .image-list-wrapper {
-
-        justify-content: center;
-    }
-
-    .auction-grid {
-
-        grid-template-columns: 1fr;
-    }
-
     .form-actions {
 
         flex-direction: row;
@@ -320,6 +364,10 @@ textarea.form-input {
         justify-content: center;
         align-items: center;
 
+    }
+
+    .image-list-wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 
 }
