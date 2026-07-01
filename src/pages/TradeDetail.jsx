@@ -24,9 +24,7 @@ function TradeDetail(props) {
             item.id === Number(id)
         )
     })
-
-    console.log(id);
-    console.log(useParams());
+    const [isSeller, setIsSeller] = useState(props.loginUser!==null && idDatas[0].등록유저ID===props.loginUser.id && props.loginUser.id!==undefined);
 
     return (
         <Container style={{ width: '100%', margin: '0', padding: '0'}}>
@@ -60,7 +58,7 @@ function TradeDetail(props) {
                                                         alert('로그인 후 이용해주세요')
                                                         return
                                                     }
-                                                    setViewChat(!viewChat)}} variant="success" disabled = {!data.채팅}>판매자와대화</Button>
+                                                    setViewChat(!viewChat)}} variant="success" disabled = {!data.채팅}>{isSeller?"채팅목록":"판매자와대화"}</Button>
                                             </Card.Body>
 
                                         </Card>
@@ -69,7 +67,7 @@ function TradeDetail(props) {
                             }
                         </CardGroup>
                     </div>
-                    {viewChat&&<Chatting loginUser={props.loginUser} itemDetail={idDatas[0]}/>}
+                    {viewChat&&<Chatting loginUser={props.loginUser} itemDetail={idDatas[0]} isSeller={isSeller}/>}
                 </div>
                 
 

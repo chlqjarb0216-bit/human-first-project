@@ -4,7 +4,7 @@ import storage from "../pure_functions/storage";
 import nowDate from "../pure_functions/nowDate";
 import keys from "../datas/localStorageKeys.json";
 
-function Chatting({ loginUser, itemDetail }) {
+function Chatting({ loginUser, itemDetail, isSeller }) {
     const mkChat = (sender, message, type) => {
         return { type: type, sender: sender, message: message, dateTime: nowDate() };
     };
@@ -13,9 +13,8 @@ function Chatting({ loginUser, itemDetail }) {
     const chatBoxRef = useRef(null);
 
     const chatKey = itemDetail.id + "chat";
-    const allChat = storage.get(chatKey, {});
-    const currentChatKey = loginUser.email;
-    const [chatList, setChatList] = useState(allChat[currentChatKey] || []);
+    const [allChat, setAllChat] = useState(storage.get(chatKey, {}));
+    const [currentChatKey, setCurrentChatKey] = useState(isSeller ? Object.keys(allChat)[0] : loginUser.nickName);
 
     const userList = storage.get(keys.registedUserListKey);
     const seller = userList.find((user) => {
@@ -23,12 +22,16 @@ function Chatting({ loginUser, itemDetail }) {
         return user.id === itemDetail.등록유저ID;
     });
 
-    if (chatList.length === 0) {
-        const tmp = [...chatList];
+    if (allChat[currentChatKey] === undefined || allChat[currentChatKey].length === 0) {
+        const tmp = [];
         tmp.push(mkChat(loginUser.nickName, "안녕하세요", "normal"));
         tmp.push(mkChat(seller ? seller.nickName : "seller.nickName", "안녕하세요", "normal"));
-        setChatList(tmp);
+        setAllChat({ ...allChat, [currentChatKey]: [...tmp] });
     }
+
+    const onRoomChange = (roomKey) => {
+        setCurrentChatKey(roomKey);
+    };
 
     useEffect(() => {
         window.scrollTo({
@@ -40,7 +43,7 @@ function Chatting({ loginUser, itemDetail }) {
         if (chatBoxRef.current) {
             chatBoxRef.current.scrollTo({ behavior: "smooth", top: chatBoxRef.current.scrollHeight });
         }
-    }, [chatList]);
+    }, [allChat]);
 
     return (
         <Container
@@ -51,8 +54,50 @@ function Chatting({ loginUser, itemDetail }) {
                 display: "flex",
                 flexDirection: "column",
                 maxHeight: "90vh",
+                position: "relative",
             }}>
-            {/* <div style={{ flex: 1 }}> */}
+            {/* ⭐️ 2. 포스트잇 탭들을 모아두는 절대 좌표 박스 */}
+            <div
+                style={{
+                    position: "absolute",
+                    top: "2rem" /* 약간 위에서부터 정렬 시작 */,
+                    left: "-3rem" /* 3. 내 몸통(너비 3rem)만큼 정확히 왼쪽 밖으로 탈출시켜 벽에 붙임 */,
+                    width: "3rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    zIndex: 10 /* 상품 정보 이미지 위로 둥둥 뜨게 가드 */,
+                }}>
+                {/* 4. 열려있는 모든 채팅방 목록 루프 돌리기 */}
+                {isSeller &&
+                    Object.keys(allChat).map((roomKey) => {
+                        const isActive = roomKey === currentChatKey;
+
+                        return (
+                            <div
+                                key={roomKey}
+                                onClick={() => onRoomChange(roomKey)} // 클릭 시 해당 방 키로 변경
+                                style={{
+                                    backgroundColor: isActive ? "lightskyblue" : "#e2e8f0", // 활성화된 방은 하늘색 칠하기
+                                    color: isActive ? "black" : "#666",
+                                    padding: "12px 6px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: isActive ? "bold" : "normal",
+                                    cursor: "pointer",
+                                    // 5. 포스트잇 특유의 둥근 모서리 모양 잡기 (왼쪽만 둥글게)
+                                    borderRadius: "0.5rem 0 0 0.5rem",
+                                    boxShadow: "-2px 2px 4px rgba(0,0,0,0.1)",
+                                    textAlign: "center",
+                                    wordBreak: "break-all",
+                                    writingMode: "vertical-lr", // 💡 글자를 세로로 이쁘게 흐르게 만듬
+                                    transform: "rotate(180deg)" /* 세로 읽기 방향 보정 */,
+                                }}>
+                                {/* 방 이름이나 유저 닉네임의 앞 3글자 정도만 슬라이싱해서 표시 */}
+                                {roomKey.substring(0, 3) || "대화방"}
+                            </div>
+                        );
+                    })}
+            </div>
             <h3 className="m-3">{seller ? seller.nickName : "seller.nickName"}</h3>
             <div
                 ref={chatBoxRef}
@@ -65,57 +110,57 @@ function Chatting({ loginUser, itemDetail }) {
                     scrollbarWidth: "none",
                     WebkitScrollbar: { display: "none" },
                 }}>
-                {chatList.map((item, index) => {
-                    const name = item.sender === loginUser.nickName ? "나" : item.sender;
+                {allChat[currentChatKey] === undefined ||
+                    allChat[currentChatKey].map((item, index) => {
+                        const name = item.sender === loginUser.nickName ? "나" : item.sender;
 
-                    const msgLines = item.message.split("\n");
+                        const msgLines = item.message.split("\n");
 
-                    return (
-                        <div key={index} style={{ margin: "1rem" }}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: name === "나" ? "flex-end" : "flex-start",
-                                }}>
-                                <p style={{ margin: 0 }}>{name}</p>
+                        return (
+                            <div key={index} style={{ margin: "1rem" }}>
                                 <div
-                                    className="mb-3"
                                     style={{
-                                        backgroundColor: "lightskyblue",
-                                        width: "fit-content",
-                                        minWidth: "7.5rem",
-                                        maxWidth: "70%",
-                                        borderRadius: "0.5rem",
-                                        padding: "0.2rem",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: name === "나" ? "flex-end" : "flex-start",
                                     }}>
-                                    {msgLines.map((msg, idx) => {
-                                        if (msg) {
-                                            return (
-                                                <p key={idx} style={{ margin: 0 }}>
-                                                    {msg}
-                                                </p>
-                                            );
-                                        } else {
-                                            return <br key={idx} />;
-                                        }
-                                    })}
+                                    <p style={{ margin: 0 }}>{name}</p>
+                                    <div
+                                        className="mb-3"
+                                        style={{
+                                            backgroundColor: "lightskyblue",
+                                            width: "fit-content",
+                                            minWidth: "7.5rem",
+                                            maxWidth: "70%",
+                                            borderRadius: "0.5rem",
+                                            padding: "0.2rem",
+                                        }}>
+                                        {msgLines.map((msg, idx) => {
+                                            if (msg) {
+                                                return (
+                                                    <p key={idx} style={{ margin: 0 }}>
+                                                        {msg}
+                                                    </p>
+                                                );
+                                            } else {
+                                                return <br key={idx} />;
+                                            }
+                                        })}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
             </div>
-            {/* </div> */}
             <div style={{ height: "fit-content", margin: "1rem 0", marginTop: "auto" }}>
                 <Form
                     style={{ display: "flex" }}
                     onSubmit={(e) => {
                         e.preventDefault();
-                        const tmp = [...chatList];
+                        const tmp = [...allChat[currentChatKey]];
                         tmp.push(mkChat(loginUser.nickName, textareaRef.current.value, "normal"));
-                        setChatList(tmp);
                         const updatedAllChat = { ...allChat, [currentChatKey]: [...tmp] };
+                        setAllChat(updatedAllChat);
                         storage.set(chatKey, updatedAllChat);
                         textareaRef.current.value = "";
                         textareaRef.current.focus();
