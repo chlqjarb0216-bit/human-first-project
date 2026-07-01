@@ -4,18 +4,34 @@
 }
 
 .SecondHand-section {
-    border: 1px solid orange;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    padding: 20px 0;    /* 수정 */   
+    margin-bottom: 30px;
+
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    text-align: left;
 }
 
-.SecondHand-fontstyle {
-    font-weight:bold;
-    font-size:30px;
-    margin-top:10px;
-    margin-bottom:10px;
-    text-align:start;
-    margin-left: 40px;
+.SecondHand-fontstyle{
+    width: 100%;
+    margin:0 0 24px 0;
+    padding-left: 0;
+    text-align: left;
+
+    font-weight: bold;
+    font-size: 29px;    
 }
 
 
+.card-grid {
+    width: 100%;
+    max-width: 1200px;  /* 큰 모니터용 */
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
