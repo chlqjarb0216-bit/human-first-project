@@ -25,7 +25,7 @@ const categoryList = [
     "헬스",
 ];
 
-export default function PostRegister() {
+export default function PostRegister({loginUser}) {
 
     const navigate = useNavigate();
 
@@ -277,7 +277,8 @@ export default function PostRegister() {
             "태그":"LG,냉장고,양문형",
             "상세설명":descriptionRef.current.value,
             "조회수":0,
-            "등록일시":nowDate()
+            "등록일시":nowDate(),
+            "등록유저ID":loginUser.id
         }
         tradeDataList.push(itemInfo)
 

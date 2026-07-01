@@ -19,6 +19,7 @@ import About from "./pages/about";
 import storage from "./pure_functions/storage";
 import keys from "./datas/localStorageKeys.json";
 import SearchPage from "./pages/SearchPage";
+import Error404 from "./pages/Error404";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -31,13 +32,13 @@ function App() {
 
     // 테스트할 때 로그인 귀찮으면 사용하세요
     // const [loginUser, setLoginUser] = useState({
-    //                 name: 'master',
-    //                 nickName: '@master',
-    //                 email: 'master@master',
-    //                 password: 'Master12233!@',
-    //                 registedDate: '2026-06-28',
-    //                 admin: true
-    //             })
+    //     name: "master",
+    //     nickName: "@master",
+    //     email: "master@master",
+    //     password: "Master12233!@",
+    //     registedDate: "2026-06-28",
+    //     admin: true,
+    // });
 
     return (
         <>
@@ -69,13 +70,13 @@ function App() {
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<PostRegister />} />
+                <Route path="/trade-insert" element={<PostRegister loginUser={loginUser} />} />
 
                 {/* 중고거래 카테고리 페이지 */}
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />
 
                 {/* 중고물품상세 페이지 */}
-                <Route path="/trade-detail/:id" element={<TradeDetail />} />
+                <Route path="/trade-detail/:id" element={<TradeDetail loginUser={loginUser} />} />
 
                 {/* 채팅 - 페이지를 따로 만들지 팝업이나 모달로 만들지 */}
                 <Route path="/chat" element={<div></div>} />
@@ -100,7 +101,7 @@ function App() {
                 <Route path="/about" element={<About />} />
 
                 {/* 잘못된 url */}
-                <Route path="/*" element={<div></div>} />
+                <Route path="/*" element={<Error404/>} />
             </Routes>
 
             {/* footer 필요하다면 */}

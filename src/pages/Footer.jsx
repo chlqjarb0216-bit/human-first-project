@@ -40,10 +40,10 @@ function Footer() {
 
                 <div className="footer-right">
 
-                    <FaFacebookF />
-                    <FaInstagram />
-                    <FaTwitter />
-                    <FaComment />
+                    <FaFacebookF  onClick={()=>{window.open('https://www.facebook.com/DonaldTrump/',"_blank")}}/>
+                    <FaInstagram onClick={()=>{window.open('https://www.instagram.com/zelenskyy_official/',"_blank")}}/>
+                    <FaTwitter onClick={()=>{window.open('https://x.com/Claudiashein',"_blank")}}/>
+                    <FaComment onClick={()=>{window.open('https://www.youtube.com/watch?v=gx8XOndq4uc',"_blank")}}/>
 
                 </div>
 

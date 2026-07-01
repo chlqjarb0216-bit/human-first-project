@@ -6,11 +6,14 @@ import dataset from '../datas/dataset.json';
 import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
 import '../csss/TreadDetail.css';
+import Chatting from './Chatting';
 
 
-function TradeDetail() {
+function TradeDetail(props) {
 
     let navigate = useNavigate();
+
+    const [viewChat, setViewChat] = useState(false);
 
     let { id } = useParams();
 
@@ -26,11 +29,11 @@ function TradeDetail() {
     console.log(useParams());
 
     return (
-        <Container style={{ width: '100%', margin: '0', padding: '0' }}>
+        <Container style={{ width: '100%', margin: '0', padding: '0'}}>
 
 
-                <div style={{ width: '100%', height: 'fit-content', marginLeft:'4rem' }}>
-                    <div style={{border:'1px solid orange'}}>
+                <div style={{ width: '100%', height: 'fit-content', marginLeft:'4rem', display:'flex'  }}>
+                    <div style={viewChat?{border:'1px solid orange',width:'60%'}:{border:'1px solid orange'}}>
                         {/* 카드 목록 영역 */}
                         <CardGroup>
                             {
@@ -52,7 +55,12 @@ function TradeDetail() {
                                                     <small className="text-muted" style={{fontSize:'1rem'}}>{data.상세설명}</small>
                                                 </Card.Text>
 
-                                                <Button variant="warning" disabled = {!data.즉시거래}>즉시거래</Button><Button variant="success" disabled = {!data.채팅}>판매자와대화</Button>
+                                                <Button variant="warning" disabled = {!data.즉시거래}>즉시거래</Button><Button onClick={()=>{
+                                                    if (props.loginUser===null){
+                                                        alert('로그인 후 이용해주세요')
+                                                        return
+                                                    }
+                                                    setViewChat(!viewChat)}} variant="success" disabled = {!data.채팅}>판매자와대화</Button>
                                             </Card.Body>
 
                                         </Card>
@@ -61,7 +69,9 @@ function TradeDetail() {
                             }
                         </CardGroup>
                     </div>
+                    {viewChat&&<Chatting loginUser={props.loginUser} itemDetail={idDatas[0]}/>}
                 </div>
+                
 
         </Container>
     )

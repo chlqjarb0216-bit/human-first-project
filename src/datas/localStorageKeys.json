@@ -1,4 +1,5 @@
 {
+    "registerUserIdNext": "userIdNext",
     "registedUserListKey": "registedList",
     "tradeItemListKey": "trade-datas",
     "tradeItemIdNextKey": "trade-data-id-next"
