@@ -7,6 +7,8 @@ import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
 import '../csss/TreadDetail.css';
 import Chatting from './Chatting';
+import storage from '../pure_functions/storage';
+import keys from '../datas/localStorageKeys.json'
 
 
 function TradeDetail(props) {
@@ -18,13 +20,15 @@ function TradeDetail(props) {
     let { id } = useParams();
 
 
-
-    let idDatas = dataset.filter((item)=>{
+    const itemList = storage.get(keys.tradeItemListKey)
+    let idDatas = itemList.filter((item)=>{
         return(
             item.id === Number(id)
         )
     })
+    console.log(idDatas)
     const [isSeller, setIsSeller] = useState(props.loginUser!==null && idDatas[0].등록유저ID===props.loginUser.id && props.loginUser.id!==undefined);
+    console.log(isSeller)
 
     return (
         <Container style={{ width: '100%', margin: '0', padding: '0'}}>
@@ -53,7 +57,12 @@ function TradeDetail(props) {
                                                     <small className="text-muted" style={{fontSize:'1rem'}}>{data.상세설명}</small>
                                                 </Card.Text>
 
-                                                <Button variant="warning" disabled = {!data.즉시거래}>즉시거래</Button><Button onClick={()=>{
+                                                <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={()=>{
+                                                    itemList[itemList.findIndex((item)=>item.id===Number(id))].status = 'deleted'
+                                                    storage.set(keys.tradeItemListKey,itemList)
+                                                    alert('등록하신 물품이 삭제되었습니다.')
+                                                    navigate('/MainSecondHand')
+                                                }}>{isSeller?"등록삭제":"즉시거래"}</Button><Button onClick={()=>{
                                                     if (props.loginUser===null){
                                                         alert('로그인 후 이용해주세요')
                                                         return

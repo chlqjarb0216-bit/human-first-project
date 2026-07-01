@@ -78,6 +78,7 @@ function MainSecondHand() {
                     <p onClick={() => navigate('/trade-category/서적')}>서적</p>
                     <p onClick={() => navigate('/trade-category/굿즈')}>굿즈</p>
                     <p onClick={() => navigate('/trade-category/헬스')}>헬스</p>
+                    <p onClick={() => navigate('/trade-insert')}>물품등록</p>
                 </div>
 
                 <div style={{ width: '73%', height: 'fit-content' }}>

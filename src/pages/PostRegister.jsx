@@ -257,10 +257,6 @@ export default function PostRegister({loginUser}) {
         }
 
 
-        alert("등록 완료");
-        navigate(-1);
-
-
 
 
         let idNext = storage.get(keys.tradeItemIdNextKey,100)
@@ -285,6 +281,10 @@ export default function PostRegister({loginUser}) {
         storage.set(keys.tradeItemIdNextKey, idNext)
         storage.set(keys.tradeItemListKey,tradeDataList)
 
+
+
+        alert("등록 완료");
+        navigate('/MainSecondHand');
     };
 
 
