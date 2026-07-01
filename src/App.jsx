@@ -70,7 +70,10 @@ function App() {
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<PostRegister loginUser={loginUser} />} />
+                <Route
+                    path="/trade-insert"
+                    element={<PostRegister loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 중고거래 카테고리 페이지 */}
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />
@@ -112,7 +115,7 @@ function App() {
 
 export default App;
 
-function NavgationBar(props) {
+function NavgationBar({ loginUser, setLoginUser }) {
     const [isProfileHovered, setIsProfileHovered] = useState(false);
 
     const searchCateRef = useRef(null);
@@ -180,7 +183,7 @@ function NavgationBar(props) {
                             </Button>
                         </Form>
                         <div style={{ width: "5rem" }}>
-                            {!props.loginUser ? (
+                            {!loginUser ? (
                                 <Nav className="justify-content-end pe-3">
                                     <Nav.Link as={Link} to="/login" style={{ wordBreak: "keep-all" }}>
                                         로그인
@@ -236,7 +239,7 @@ function NavgationBar(props) {
                                                         마이페이지
                                                     </Link>
                                                 </li>
-                                                {props.loginUser.admin && (
+                                                {loginUser.admin && (
                                                     <li
                                                         style={{
                                                             padding: "0.5rem 0.75rem",
@@ -251,7 +254,7 @@ function NavgationBar(props) {
                                                 )}
                                                 <li
                                                     onClick={() => {
-                                                        props.setLoginUser(null);
+                                                        setLoginUser(null);
                                                         storage.set(keys.currentUser, null);
                                                         navigate("/");
                                                     }}

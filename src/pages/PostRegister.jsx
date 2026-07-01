@@ -25,7 +25,22 @@ const categoryList = [
     "헬스",
 ];
 
-export default function PostRegister({loginUser}) {
+const userRegistItem = (loginUser, setLoginUser,itemId)=>{
+    const tmp = {...loginUser}
+    if(tmp.items===undefined){
+        tmp.items=[itemId]
+    }else{
+        tmp.items.push(itemId)
+    }
+    setLoginUser(tmp)
+    storage.set(keys.currentUser,tmp)
+
+    const userList = storage.get(keys.registedUserListKey)
+    userList.splice(userList.findIndex((user)=>user.id===tmp.id),1,tmp)
+    storage.set(keys.registedUserListKey, userList)
+}
+
+export default function PostRegister({loginUser,setLoginUser}) {
 
     const navigate = useNavigate();
 
@@ -262,7 +277,7 @@ export default function PostRegister({loginUser}) {
         let idNext = storage.get(keys.tradeItemIdNextKey,100)
         const tradeDataList = storage.get(keys.tradeItemListKey,[])
         const itemInfo = {
-            "id":idNext++,
+            "id":idNext,
             "img":imgNames.length==1?imgNames[0]:imgNames,
             "즉시거래":instantTrade,
             "채팅":chatTrade,
@@ -278,9 +293,10 @@ export default function PostRegister({loginUser}) {
         }
         tradeDataList.push(itemInfo)
 
-        storage.set(keys.tradeItemIdNextKey, idNext)
+        storage.set(keys.tradeItemIdNextKey, idNext+1)
         storage.set(keys.tradeItemListKey,tradeDataList)
 
+        userRegistItem(loginUser,setLoginUser,idNext)
 
 
         alert("등록 완료");

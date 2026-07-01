@@ -7,16 +7,21 @@ import { useNavigate, Link } from "react-router";
 import defualtProfile from "../assets/vite.svg";
 import storage from "../pure_functions/storage";
 import keys from "../datas/localStorageKeys.json";
+import getPastTime from "../pure_functions/getPastTime";
 
 const false7 = [false, false, false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function MyPage(props) {
+    const itemList = storage.get(keys.tradeItemListKey);
+
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("home");
     const [shows, setShows] = useState(false7);
     const [confirmedNick, setConfirmedNick] = useState(props.loginUser?.nickName);
     const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser?.email);
+    // 현재 열어둘 아코디언의 eventKey를 관리하는 상태
+    const [activeAccordionKey, setActiveAccordionKey] = useState(null);
 
     const nameRef = useRef(null);
     const nickRef = useRef(null);
@@ -205,6 +210,7 @@ function MyPage(props) {
                 activeKey={activeTab}
                 onSelect={(selectedkey) => {
                     setActiveTab(selectedkey);
+                    setActiveAccordionKey(null);
                 }}
                 className="flex-column"
                 style={{ width: "12rem", height: "fit-content", margin: "3rem 1rem", position: "sticky", top: "3rem" }}>
@@ -257,18 +263,40 @@ function MyPage(props) {
 
                         <h3>최근 활동</h3>
                         <div className="default-boarder">
-                            <div
-                                className="default-boarder m-1 p-1"
-                                style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span>거래가 완료되었습니다.</span>
-                                <span>3시간전</span>
-                            </div>
-                            <div
-                                className="default-boarder m-1 p-1"
-                                style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span>물건을 등록하였습니다.</span>
-                                <span>1일전</span>
-                            </div>
+                            {!props.loginUser.items ? (
+                                <>
+                                    <div
+                                        className="default-boarder m-1 p-1"
+                                        style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <span>거래가 완료되었습니다.</span>
+                                        <span>3시간전</span>
+                                    </div>
+                                    <div
+                                        className="default-boarder m-1 p-1"
+                                        style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <span>물품을 등록하였습니다.</span>
+                                        <span>1일전</span>
+                                    </div>
+                                </>
+                            ) : (
+                                props.loginUser.items.map((id) => {
+                                    const item = itemList.find((it) => it.id === id);
+                                    if (!item) return;
+                                    return (
+                                        <div
+                                            key={id}
+                                            className="default-boarder m-1 p-1"
+                                            onClick={() => {
+                                                setActiveTab("post-list");
+                                                setActiveAccordionKey(id);
+                                            }}
+                                            style={{ display: "flex", justifyContent: "space-between" }}>
+                                            <span>물품을 등록하였습니다.</span>
+                                            <span>{getPastTime(item.등록일시)}</span>
+                                        </div>
+                                    );
+                                })
+                            )}
                         </div>
                     </div>
                 )}
@@ -480,44 +508,103 @@ function MyPage(props) {
                     <div style={{ textAlign: "start" }}>
                         <h1>작성한 글목록</h1>
                         <hr />
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                    <div
-                                        className="px-1"
-                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                                        <span>제목1</span>
-                                        <span>####년##월##일</span>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    <img src="" alt="" />
-                                    <p>
-                                        본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
-                                        laudantium ea sapiente, atque praesentium aliquid porro velit dolore explicabo,
-                                        natus iusto ducimus aperiam nemo a optio blanditiis eos delectus adipisci!
-                                    </p>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                    <div
-                                        className="px-1"
-                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                                        <span>제목2</span>
-                                        <span>####년##월##일</span>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    <img src="" alt="" />
-                                    <p>
-                                        본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                                        voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia suscipit
-                                        perspiciatis incidunt dolorum unde, consectetur voluptate commodi beatae
-                                        temporibus et? Eius?
-                                    </p>
-                                </Accordion.Body>
-                            </Accordion.Item>
+                        <Accordion activeKey={activeAccordionKey} onSelect={(key) => setActiveAccordionKey(key)}>
+                            {!props.loginUser.items ? (
+                                <>
+                                    <Accordion.Item eventKey="0">
+                                        <Accordion.Header>
+                                            <div
+                                                className="px-1"
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                }}>
+                                                <span>제목1</span>
+                                                <span>####년##월##일</span>
+                                            </div>
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <img src="" alt="" />
+                                            <p>
+                                                본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
+                                                laudantium ea sapiente, atque praesentium aliquid porro velit dolore
+                                                explicabo, natus iusto ducimus aperiam nemo a optio blanditiis eos
+                                                delectus adipisci!
+                                            </p>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                    <Accordion.Item eventKey="1">
+                                        <Accordion.Header>
+                                            <div
+                                                className="px-1"
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                }}>
+                                                <span>제목2</span>
+                                                <span>####년##월##일</span>
+                                            </div>
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <img src="" alt="" />
+                                            <p>
+                                                본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
+                                                voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia
+                                                suscipit perspiciatis incidunt dolorum unde, consectetur voluptate
+                                                commodi beatae temporibus et? Eius?
+                                            </p>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </>
+                            ) : (
+                                props.loginUser.items.map((id) => {
+                                    const item = itemList.find((it) => it.id === id);
+                                    if (!item) return;
+                                    return (
+                                        <Accordion.Item key={id} eventKey={id}>
+                                            <Accordion.Header>
+                                                <div
+                                                    className="px-1"
+                                                    style={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                    }}>
+                                                    <span>{item.제목}</span>
+                                                    <span>{item.등록일시[0]}</span>
+                                                </div>
+                                            </Accordion.Header>
+                                            <Accordion.Body
+                                                style={{
+                                                    overflow: "hidden",
+                                                    display: "flex",
+                                                }}>
+                                                <img src={"/images/" + item.img} alt="" style={{ margin: "0 2rem" }} />
+                                                <div
+                                                    style={{
+                                                        position: "relative",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        flex: 1,
+                                                    }}>
+                                                    <h3>카테고리: {item.카테고리}</h3>
+                                                    <h4>품목: {item.품목}</h4>
+                                                    <h5>태그: {item.태그}</h5>
+                                                    <h3>가격: {item.가격}</h3>
+                                                    <h6>상세설명: {item.상세설명}</h6>
+                                                    <Button
+                                                        onClick={() => navigate("/trade-detail/" + id)}
+                                                        style={{ marginTop: "auto", marginLeft: "auto" }}>
+                                                        페이지로 이동
+                                                    </Button>
+                                                </div>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    );
+                                })
+                            )}
                         </Accordion>
                     </div>
                 )}
