@@ -96,15 +96,15 @@ function App() {
                 {/* 거래 및 결제 및 택배등록 등등 */}
                 <Route path="/final" element={<div></div>} />
 
+                {/* 어바웃 */}
+                <Route path="/about" element={<About />} />
+
                 {/* 잘못된 url */}
                 <Route path="/*" element={<div></div>} />
-
-                {/* 어바웃 */}
-                <Route path="/About" element={<About />} />
             </Routes>
 
             {/* footer 필요하다면 */}
-            <Footer/>
+            <Footer />
         </>
     );
 }

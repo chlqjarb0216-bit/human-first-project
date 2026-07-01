@@ -34,7 +34,7 @@ function Footer() {
 
                     <p onClick={() => navigate('/MainSecondHand')}>중고 메인</p>
                     <p onClick={() => navigate('/customer-service')}>CUSTOMER SERVICE</p>                  
-                    <p onClick={() => navigate('/About')}>ABOUT</p>
+                    <p onClick={() => navigate('/about')}>ABOUT</p>
 
                 </div>
 
