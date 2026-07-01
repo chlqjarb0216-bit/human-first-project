@@ -25,6 +25,7 @@ function SearchPage() {
         const searchWords = keyword.toLowerCase().split(splitRegex).filter(Boolean);
         // 만약 특수문자만 입력해서 검색 단어가 한 개도 안 남았다면 전체 노출 또는 검색 차단
         if (searchWords.length === 0) return false;
+        if (item.status === "deleted" || item.status === "completed") return false;
 
         // 3. ⭐️ 핵심: 상품 객체의 모든 값(Value)을 하나의 문자열로 결합합니다.
         // 예: { itemName: "나이키", price: 50000, category: "의류" }
