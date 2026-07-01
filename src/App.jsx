@@ -69,7 +69,7 @@ function App() {
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<PostRegister />} />
+                <Route path="/trade-insert" element={<PostRegister loginUser={loginUser} />} />
 
                 {/* 중고거래 카테고리 페이지 */}
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />

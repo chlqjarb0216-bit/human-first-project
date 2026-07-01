@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Container, Button, Form } from "react-bootstrap";
 import storage from "../pure_functions/storage";
 import nowDate from "../pure_functions/nowDate";
+import keys from "../datas/localStorageKeys.json";
 
 function Chatting({ loginUser, itemDetail }) {
     const mkChat = (sender, message, type) => {
@@ -16,12 +17,16 @@ function Chatting({ loginUser, itemDetail }) {
     const currentChatKey = loginUser.email;
     const [chatList, setChatList] = useState(allChat[currentChatKey] || []);
 
+    const userList = storage.get(keys.registedUserListKey);
+    const seller = userList.find((user) => {
+        if (itemDetail.등록유저ID === undefined) return false;
+        return user.id === itemDetail.등록유저ID;
+    });
+
     if (chatList.length === 0) {
         const tmp = [...chatList];
         tmp.push(mkChat(loginUser.nickName, "안녕하세요", "normal"));
-        tmp.push(
-            mkChat(itemDetail.user ? itemDetail.user.nickName : "itemDetail.user.nickName", "안녕하세요", "normal"),
-        );
+        tmp.push(mkChat(seller ? seller.nickName : "seller.nickName", "안녕하세요", "normal"));
         setChatList(tmp);
     }
 
@@ -48,7 +53,7 @@ function Chatting({ loginUser, itemDetail }) {
                 maxHeight: "90vh",
             }}>
             {/* <div style={{ flex: 1 }}> */}
-            <h3 className="m-3">{itemDetail.user ? itemDetail.user.nickName : "itemDetail.user.nickName"}</h3>
+            <h3 className="m-3">{seller ? seller.nickName : "seller.nickName"}</h3>
             <div
                 ref={chatBoxRef}
                 style={{

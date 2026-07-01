@@ -24,6 +24,7 @@ function RegisterPage(props) {
 
     const navigate = useNavigate();
 
+    let userIdNext = storage.get(keys.registerUserIdNext, 10);
     const registedList = storage.get(keys.registedUserListKey, []);
 
     const handleCheckPassword = () => {
@@ -90,6 +91,7 @@ function RegisterPage(props) {
             }, 3000);
         } else {
             const registerData = {
+                id: userIdNext++,
                 name: nameRef.current.value.trim(),
                 nickName: confirmedNick,
                 email: confirmedEMail,
@@ -97,6 +99,7 @@ function RegisterPage(props) {
                 registedDate: nowDate()[0],
             };
             registedList.push(registerData);
+            storage.set(keys.registerUserIdNext, userIdNext);
             storage.set(keys.registedUserListKey, registedList);
 
             props.setLoginUser(registerData);
