@@ -1,7 +1,7 @@
 .TradeCategory-layout {
-display: flex;
-justify-content: space-between; 
-align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .TradeCategory-sidebar {
@@ -13,6 +13,9 @@ align-items: flex-start;
     text-align: center;
     padding: 15px;
 }
+.TradeCategory-sidebar p {
+    cursor: pointer;
+}
 
 .TradeCategory-card-list {
     display: flex;
@@ -21,6 +24,4 @@ align-items: flex-start;
 
 .TradeCategory-card {
     width: 33.333%;
-    
 }
-
