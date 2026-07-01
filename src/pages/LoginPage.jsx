@@ -1,8 +1,9 @@
-import { useRef, useState, useEffect } from "react";
 import "../csss/userForm.css";
 import "../csss/alert.css";
+import { useRef, useState, useEffect } from "react";
 import { Button, Form, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
+import storage from "../pure_functions/storage";
 
 const false2 = [false, false];
 
@@ -14,8 +15,8 @@ function LoginPage(props) {
 
     const navigate = useNavigate();
 
-    const registedListRaw = localStorage.getItem("registedList");
-    const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+    const registedListKey = 'registedList'
+    const registedList = storage.get(registedListKey,[])
 
     const handleSubmit = (e) => {
         e.preventDefault();
