@@ -64,20 +64,10 @@ function MainSecondHand() {
 
 
     return (
-        //2줄 수정
-        <Container fluid style={{ padding: 0 }}>
-            <div style={{ display: 'flex', alignItems: "flex-start", gap: "30px" }}>
 
-                <div style={{
-                    width: '220px',
-                    position: 'sticky',
-                    top: '80px',
-                    borderRadius: "10px",
-
-                    marginLeft: "30px",
-                    paddingTop: "40px"
-                }}>
-
+        <Container style={{ width: '100%', margin: '0', padding: '0' }}>
+            <div className='trade-layout'>
+                <div className='trade-sidebar'>
                     {/* 카테고리 영역 */}
                     <p style={{ fontWeight: 'bold', fontSize: '23px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
                     <p onClick={() => navigate('/trade-category/생활가전')}>생활/가전</p>
@@ -92,7 +82,7 @@ function MainSecondHand() {
                     <p onClick={() => navigate('/trade-category/헬스')}>헬스</p>
                 </div>
 
-                
+
                 {/* 오른쪽 구역 */}
                 <div style={{
                     flex: 1,
@@ -100,9 +90,9 @@ function MainSecondHand() {
                 }}>
 
 
-                    <div className='SecondHand-section'>
+                    <div className='trade-section'>
                         {/* 카드 목록 영역 */}
-                        <p className='SecondHand-fontstyle'>🔥인기상품<span style={gang}>HOT</span></p>
+                        <p className='trade-fontstyle'>🔥인기상품<span style={gang}>HOT</span></p>
 
 
                         <div className="card-grid">
@@ -124,8 +114,8 @@ function MainSecondHand() {
                     </div>
 
 
-                    <div className="SecondHand-section">
-                        <p className="SecondHand-fontstyle">굿즈</p>
+                    <div className="trade-section">
+                        <p className="trade-fontstyle">굿즈</p>
 
                         <div className="card-grid">
                             {babobabo
@@ -147,8 +137,8 @@ function MainSecondHand() {
 
 
 
-                    <div className="SecondHand-section">
-                        <p className="SecondHand-fontstyle">장난감</p>
+                    <div className="trade-section">
+                        <p className="trade-fontstyle">장난감</p>
 
                         <div className="card-grid">
                             {gg

@@ -1,9 +1,51 @@
-.MainSecondHand-Photo-Size{
-    aspect-ratio: 1/1;
-    object-fit:contain;
+.trade-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 30px 0;
 }
 
-.SecondHand-section {
+
+.trade-sidebar {
+    width: 220px;
+
+    top: 80px;
+
+    margin-left: 30px;
+    padding: 25px 20px;
+
+    background: #fff;
+
+    border: none;
+    border-radius: 15px;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+    text-align: center;
+}
+
+.trade-sidebar p {
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.trade-sidebar p:first-child {
+    margin-bottom: 24px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.trade-sidebar p:last-child {
+    margin-bottom: 0;
+}
+
+.trade-sidebar p:hover {
+    color: royalblue;
+}
+
+
+.trade-section {
     padding: 20px 0;    /* 수정 */   
     margin-bottom: 30px;
 
@@ -14,7 +56,7 @@
     text-align: left;
 }
 
-.SecondHand-fontstyle{
+.trade-fontstyle{
     width: 100%;
     margin:0 0 24px 0;
     padding-left: 0;

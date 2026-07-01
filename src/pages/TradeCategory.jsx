@@ -1,4 +1,4 @@
-import '../csss/TradeCategory.css';
+// import '../csss/TradeCategory.css';
 import '../csss/MainSecondHand.css';
 import dataset from '../datas/dataset.json';
 import { Container, Card, CardImg, CardGroup } from "react-bootstrap";
@@ -30,8 +30,8 @@ function TradeCategoty() {
 
     return (
         <Container style={{ width: '100%', margin: '0', padding: '0' }}>
-            <div className='TradeCategory-layout'>
-                <div className='TradeCategory-sidebar'>
+            <div className='trade-layout'>
+                <div className='trade-sidebar'>
                     {/* 카테고리 영역 */}
                     <p style={{ fontWeight: 'bold', fontSize: '23px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
                     <p onClick={() => navigate('/trade-category/생활가전')}>생활/가전</p>
@@ -61,7 +61,7 @@ function TradeCategoty() {
                             <p style={{ margin: '5px 0 0 0', color: 'black' }}>{realCartegory} 상품 목록입니다.</p>
                         </div>
                     </div>
-                    <div className='SecondHand-section'>
+                    <div className='trade-section'>
                         {/* 카드 목록 영역 */}
 
                         <div className="TradeCategory-card-list">
