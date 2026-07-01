@@ -31,13 +31,13 @@ function App() {
 
     // 테스트할 때 로그인 귀찮으면 사용하세요
     // const [loginUser, setLoginUser] = useState({
-    //                 name: 'master',
-    //                 nickName: '@master',
-    //                 email: 'master@master',
-    //                 password: 'Master12233!@',
-    //                 registedDate: '2026-06-28',
-    //                 admin: true
-    //             })
+    //     name: "master",
+    //     nickName: "@master",
+    //     email: "master@master",
+    //     password: "Master12233!@",
+    //     registedDate: "2026-06-28",
+    //     admin: true,
+    // });
 
     return (
         <>
@@ -75,7 +75,7 @@ function App() {
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />
 
                 {/* 중고물품상세 페이지 */}
-                <Route path="/trade-detail/:id" element={<TradeDetail />} />
+                <Route path="/trade-detail/:id" element={<TradeDetail loginUser={loginUser} />} />
 
                 {/* 채팅 - 페이지를 따로 만들지 팝업이나 모달로 만들지 */}
                 <Route path="/chat" element={<div></div>} />
