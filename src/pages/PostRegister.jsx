@@ -28,7 +28,9 @@ export default function PostRegister() {
 
     const fileInputRef = useRef(null);
 
-    const titleRef = useRef(null);      //물품입력창에 커서 바로 이동하게 추가..!
+    const titleRef = useRef(null);      //제목입력창에 커서 바로 이동하게 추가..!
+
+    const productRef = useRef(null);      //물품입력창에 커서 바로 이동하게 추가..!
 
     const categoryRef = useRef(null);  //카테고리 미선택시 바로 이동하게 추가..!
 
@@ -36,10 +38,12 @@ export default function PostRegister() {
 
     const priceRef = useRef(null);      //가격 미입력 검사 추가
 
-    const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
+    const textareaRef = useRef(null);    //상품 설명 미입력 검사 추가
 
     const tagRef = useRef(null);        //태그 미입력 검사 추가
 
+
+    const [category, setCategory] = useState("");   //카테고리 css적용
 
     const [images, setImages] = useState([]);
 
@@ -116,7 +120,8 @@ export default function PostRegister() {
             return;
         }
 
-        //물품명 검사
+
+        //제목 검사
         if (titleRef.current.value.trim() === "") {
 
             titleRef.current.scrollIntoView({
@@ -125,6 +130,23 @@ export default function PostRegister() {
             });
 
             titleRef.current.focus();   //빈칸 시 커서 이동
+
+            alert("제목을 입력하세요.");
+
+            return;
+
+        }
+
+
+        //물품명 검사
+        if (productRef.current.value.trim() === "") {
+
+            productRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            productRef.current.focus();   //빈칸 시 커서 이동
 
             alert("물품명을 입력하세요.");
 
@@ -193,14 +215,14 @@ export default function PostRegister() {
         }
 
         //상품 설명 검사
-        if (descriptionRef.current.value.trim() === "") {
+        if (textareaRef.current.value.trim() === "") {
 
-            descriptionRef.current.scrollIntoView({
+            textareaRef.current.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
             })
 
-            descriptionRef.current.focus();
+            textareaRef.current.focus();
 
             alert("상품 설명을 입력하세요.");
 
@@ -208,6 +230,7 @@ export default function PostRegister() {
         }
 
         alert("등록 완료");
+        navigate(-1);
 
     };
 
@@ -313,13 +336,12 @@ export default function PostRegister() {
 
 
 
-
-                    {/* label : "물품명*" 이라는 이름을 표시해줌. */}
-
+                    {/* 제목 */}
                     <div className="form-group">
 
                         <label className="form-label">
-                            물품명
+                            {/* label : "제목*" 이라는 이름을 표시해줌. */}
+                            제목
                             <span className="required">*</span>
                         </label>
 
@@ -329,12 +351,36 @@ export default function PostRegister() {
                             maxLength={50}  //최대 50자 까지만 제한
 
                             //ref를 이용해 입력값을 검사.
-                            ref={titleRef}  //물품명 빈칸일때 커서 이동
+                            ref={titleRef}  //제목 빈칸일때 커서 이동
                         />
 
                         <div className="char-count">
                             최대 50자
                             {/* 우측 하단에 현재 몇글자를 썼는지 숫자로 보여줌. */}
+                        </div>
+
+                    </div>
+
+
+
+                    {/* 물품명 */}
+                    <div className="form-group">
+
+                        <label className="form-label">
+                            물품명
+                            <span className="required">*</span>
+                        </label>
+
+                        <input type="text"  //input : 실제 글자를 입력하는 창
+                            className="form-input"
+                            placeholder="물품명을 입력하세요."
+                            maxLength={30}  //최대 30자 까지만
+
+                            ref={productRef}  //물품명 빈칸일때 커서 이동
+                        />
+
+                        <div className="char-count">
+                            최대 30자
                         </div>
 
                     </div>
@@ -380,17 +426,20 @@ export default function PostRegister() {
                             <span className="required">*</span>
                         </label>
 
-                        <select className="form-input"
-                            ref={categoryRef}   //커서이동 추가
-                            defaultValue=""
+                        <select
+                            className="form-input"
+                            ref={categoryRef}
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            style={{ color: category === "" ? "#999" : "#333" }}
                         >
                             <option value="" disabled>
                                 카테고리를 선택하세요.
                             </option>
+
                             {categoryList.map(item => (
-                                <option key={item}
-                                    value={item}
-                                >
+                                <option key={item} 
+                                    value={item}>
                                     {item}
                                 </option>
                             ))}
@@ -440,7 +489,7 @@ export default function PostRegister() {
                             rows={8}
                             placeholder="상품 상태, 구성품, 구매 시기 등을 입력하세요."
 
-                            ref={descriptionRef}    //상품 설명 미입력 검사
+                            ref={textareaRef}    //상품 설명 미입력 검사
 
                         />
 
