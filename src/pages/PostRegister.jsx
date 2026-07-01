@@ -274,7 +274,7 @@ export default function PostRegister({loginUser}) {
             "품목":productRef.current.value,
             "제목":titleRef.current.value,
             "가격":priceRef.current.value,
-            "태그":tagRef.current.value.split(" ").filter((item)=>item).concat(','),
+            "태그":tagRef.current.value.split(" ").filter((item)=>item).join(','),
             "상세설명":textareaRef.current.value,
             "조회수":0,
             "등록일시":nowDate(),
