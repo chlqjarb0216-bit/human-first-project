@@ -25,6 +25,7 @@ if (!dataListRaw) {
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
+
     // 테스트할 때 로그인 귀찮으면 사용하세요
     // const [loginUser, setLoginUser] = useState({
     //                 name: 'master',
@@ -209,6 +210,17 @@ function NavgationBar(props) {
                                                         마이페이지
                                                     </Link>
                                                 </li>
+                                                {props.loginUser.admin&&(<li
+                                                    style={{
+                                                        padding: "0.5rem 0.75rem",
+                                                        fontWeight: "bold",
+                                                    }}>
+                                                    <Link
+                                                        to="/admin-page"
+                                                        style={{ textDecoration: "none", color: "blue" }}>
+                                                        관리페이지
+                                                    </Link>
+                                                </li>)}
                                                 <li
                                                     onClick={() => {
                                                         props.setLoginUser(null);
