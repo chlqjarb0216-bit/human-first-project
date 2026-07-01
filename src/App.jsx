@@ -79,7 +79,10 @@ function App() {
                 <Route path="/trade-category/:category" element={<TradeCategoty />} />
 
                 {/* 중고물품상세 페이지 */}
-                <Route path="/trade-detail/:id" element={<TradeDetail loginUser={loginUser} />} />
+                <Route
+                    path="/trade-detail/:id"
+                    element={<TradeDetail loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 채팅 - 페이지를 따로 만들지 팝업이나 모달로 만들지 */}
                 <Route path="/chat" element={<div></div>} />

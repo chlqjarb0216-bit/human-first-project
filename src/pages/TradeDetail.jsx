@@ -81,6 +81,15 @@ function TradeDetail(props) {
                                                 <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={()=>{
                                                     itemList[itemList.findIndex((item)=>item.id===Number(id))].status = 'deleted'
                                                     storage.set(keys.tradeItemListKey,itemList)
+                                                    const tmp={...props.loginUser,
+                                                        items:props.loginUser.items.filter(item=>item!==Number(id))
+                                                    }
+                                                    props.setLoginUser(tmp)
+                                                    storage.set(keys.currentUser,tmp)
+                                                    const userList = storage.get(keys.registedUserListKey)
+                                                    userList.splice(userList.findIndex((user)=>user.id===tmp.id),1,tmp)
+                                                    storage.set(keys.registedUserListKey, userList)
+                                                    
                                                     alert('등록하신 물품이 삭제되었습니다.')
                                                     navigate('/MainSecondHand')
                                                 }}>{isSeller?"등록삭제":"즉시거래"}</Button><Button onClick={()=>{
