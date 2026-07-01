@@ -35,9 +35,6 @@ function Chatting({ loginUser, itemDetail }) {
         if (chatBoxRef.current) {
             chatBoxRef.current.scrollTo({ behavior: "smooth", top: chatBoxRef.current.scrollHeight });
         }
-
-        const updatedAllChat = { ...allChat, [currentChatKey]: [...chatList] };
-        storage.set(chatKey, updatedAllChat);
     }, [chatList]);
 
     return (
@@ -113,6 +110,8 @@ function Chatting({ loginUser, itemDetail }) {
                         const tmp = [...chatList];
                         tmp.push(mkChat(loginUser.nickName, textareaRef.current.value, "normal"));
                         setChatList(tmp);
+                        const updatedAllChat = { ...allChat, [currentChatKey]: [...tmp] };
+                        storage.set(chatKey, updatedAllChat);
                         textareaRef.current.value = "";
                         textareaRef.current.focus();
                         if (textareaRef.current) textareaRef.current.style.height = "auto";
