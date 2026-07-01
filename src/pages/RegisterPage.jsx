@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import "../csss/userForm.css";
 import "../csss/alert.css";
+import { useEffect, useRef, useState } from "react";
 import { Button, Form, InputGroup, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router";
 import nowDate from "../pure_functions/nowDate";
+import storage from "../pure_functions/storage";
 
 const false5 = [false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&~])[A-Za-z\d@$!%*?&~]{8,20}$/;
@@ -22,8 +23,8 @@ function RegisterPage(props) {
 
     const navigate = useNavigate();
 
-    const registedListRaw = localStorage.getItem("registedList");
-    const registedList = registedListRaw ? JSON.parse(registedListRaw) : [];
+    const registedListKey = 'registedList'
+    const registedList = storage.get(registedListKey,[])
 
     const handleCheckPassword = () => {
         if (!passwordRegex.test(passwordRef.current.value.trim())) {
@@ -96,7 +97,7 @@ function RegisterPage(props) {
                 registedDate: nowDate()[0],
             };
             registedList.push(registerData);
-            localStorage.setItem("registedList", JSON.stringify(registedList));
+            storage.set(registedListKey, registedList)
 
             props.setLoginUser(registerData);
 
