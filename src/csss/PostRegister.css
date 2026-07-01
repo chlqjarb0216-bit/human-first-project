@@ -36,8 +36,8 @@
     display: grid;
     grid-template-columns: repeat(5, 140px);
     gap: 15px;
-
-    justify-content: center;
+    /* 이미지 추가 박스 조정 */
+    justify-content: start;
 }
 
 .image-upload-box,

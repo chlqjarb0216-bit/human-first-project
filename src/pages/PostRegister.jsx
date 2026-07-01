@@ -65,7 +65,6 @@ export default function PostRegister() {
 
 
     const handleImageUpload = (e) => {
-        //선택한 이미지들을 화면에 보여주기 위해 **URL.createObjectURL** 82line <- 이 기술을 씀
 
         const files = Array.from(e.target.files);
 
@@ -78,12 +77,27 @@ export default function PostRegister() {
         }
 
         // const 들여쓴 이유~ URL. ..
-        const preview = files.map(file => URL.createObjectURL(file));
-        //브라우저 메모리에 이미지를 임시로 올려서 주소를 만들어주는 기능
+        const preview = files.map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));;
 
         setImages(prev => [...prev, ...preview]);
 
         e.target.value = "";
+
+        /* 이런 형태로 저장됨..
+        [
+            {
+                file: File,
+                preview: "blob:http://localhost/..."
+            },
+            {
+                file: File,
+                preview: "blob:http://localhost/..."
+            }
+        ]
+        */
 
     };
 
@@ -92,7 +106,7 @@ export default function PostRegister() {
     const removeImage = (index) => {
         // X 버튼을 누르면 이미지를 목록에서 지움.
 
-        URL.revokeObjectURL(images[index]);
+        URL.revokeObjectURL(images[index].preview);
         //메모리 낭비를 방지하기 위해 임시주소(생성했던)를 해제해 줌..
 
         setImages(images.filter((_, i) => i !== index));
@@ -155,7 +169,9 @@ export default function PostRegister() {
         }
 
         //가격 검사
-        if (priceRef.current.value.trim() === "" || Number(priceRef.current.value) <= 0) {
+        const price = priceRef.current.value.replace(/,/g, "");
+
+        if (price === "" || Number(price) <= 0) {
 
             priceRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -164,9 +180,7 @@ export default function PostRegister() {
 
             priceRef.current.focus();
 
-
             alert("판매 가격은 0원보다 크게 입력하세요.");
-
 
             return;
         }
@@ -186,16 +200,13 @@ export default function PostRegister() {
 
             return;
 
+
+
+
+
+
+
         }
-
-
-
-
-
-
-
-
-
 
 
         //카테고리 검사
@@ -229,8 +240,20 @@ export default function PostRegister() {
             return;
         }
 
+        //거래 형식 검사
+        if (!instantTrade && !chatTrade) {
+
+            alert("거래 형식을 하나 이상 선택하세요.");
+
+            return;
+        }
+
+
         alert("등록 완료");
         navigate(-1);
+
+
+
 
     };
 
@@ -310,7 +333,7 @@ export default function PostRegister() {
                                     >
 
                                         <img
-                                            src={img}
+                                            src={img.preview}
                                             className="preview-image"
                                         />
 
@@ -392,11 +415,22 @@ export default function PostRegister() {
                             <span className="required">*</span>
                         </label>
                         <div className="price-input-wrapper">
-                            <input type='number'
+                            <input
+                                type='text'
                                 className="form-input price-input"
-                                placeholder="판매가격을 입력하세요."
+
+                                //가격 콤마 추가
+                                onInput={(e)=> {
+
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    e.target.value = value
+                                        ? Number(value).toLocaleString("ko-KR")
+                                        : "";
+
+                                }}
 
                                 ref={priceRef}  //가격 미입력 검사
+                                placeholder="판매가격을 입력하세요."
                             />
                             <span className="price-unit">원</span>
                         </div>
@@ -406,16 +440,23 @@ export default function PostRegister() {
 
                     {/* 태그 */}
                     <div className="form-group">
+
                         <label className="form-label">태그
                             <span className="required">*</span>
                         </label>
-                        <div className="price-input-wrapper">
+                        
+                        <div className="tag-input-wrapper">
                             <input
                                 className="form-input"
-                                placeholder="태그를 입력하세요."
+                                placeholder="태그를 공백으로 구분하여 입력하세요."
                                 ref={tagRef}    //커서 이동
                             />
                         </div>
+
+                        <div className="char-count">
+                            여러개 입력 시 공백을 사용해 주세요.
+                        </div>
+
                     </div>
 
 
@@ -439,7 +480,7 @@ export default function PostRegister() {
                             </option>
 
                             {categoryList.map(item => (
-                                <option key={item} 
+                                <option key={item}
                                     value={item}>
                                     {item}
                                 </option>
@@ -498,7 +539,7 @@ export default function PostRegister() {
 
 
 
-                    {/* 거래 형식 체크박스 */}
+                    {/* 거래 형식 토글(체크박스) */}
                     <div className="form-group">
                         <label className="form-label">
 
