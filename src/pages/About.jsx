@@ -13,7 +13,7 @@ function About() {
                 <p>
                     믿을 수 있는 중고거래 플랫폼,
                     <br />
-                    TEAM STYLE에 오신 것을 환영합니다.
+                    엄현규에 오신 것을 환영합니다.
                 </p>
 
             </div>
@@ -45,7 +45,7 @@ function About() {
                 </div>
 
                 <div className="about-box">
-                    <h2> 신뢰 있는 서비스</h2>
+                    <h2> 신뢰 </h2>
                     <p>
                         이용자들이 안심하고 사용할 수 있는
                         중고거래 환경을 제공합니다.
@@ -56,10 +56,10 @@ function About() {
 
             <div className="about-bottom">
 
-                <h3>TEAM STYLE</h3>
+                <h3>엄.현.규</h3>
 
                 <p>
-                    "사람과 사람을 연결하는 가장 쉬운 중고거래"
+                    "즉시거래를 통한 사람과의 스트레스를 줄여주는 캡틴짱 중고거래"
                 </p>
 
             </div>
