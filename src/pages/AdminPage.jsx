@@ -1,10 +1,18 @@
 import { Container, Card, Button } from "react-bootstrap";
 import { useState } from "react";
 import '../csss/AdminPage.css';
+import nowDate from '../pure_functions/nowDate';
+
 
 function AdminPage() {
 
-    let [inquiries, setInquiries] = useState(JSON.parse(localStorage.getItem("inquiries")) || []);
+    let inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+    let [date, time] =nowDate()
+
+    inquiries.sort((a,b)=>{
+        b.inquiriedDate - a.inquiriedDate
+    })
+
 
     return (
         <div>
@@ -16,6 +24,8 @@ function AdminPage() {
                             <p>닉네임:{item.nickName}</p>
                             <p>이메일{item.email}</p>
                             <p>문의내용:{item.content}</p>
+                            <p>문의시간:{item.inquiriedDate}</p>
+                            <p></p>
                         </div>
                     );
                 })

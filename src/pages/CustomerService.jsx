@@ -1,13 +1,18 @@
 import '../csss/CustomerService.css';
 import { useRef } from 'react';
+import nowDate from '../pure_functions/nowDate';
 
 
 function customerService({ loginUser }) {
 
 
     let inquiryRef = useRef(null);
+    
+
 
     function sendInquiry() {
+
+        
 
         if (loginUser == null) {
             alert("로그인 후 이용해주세요.");
@@ -20,13 +25,14 @@ function customerService({ loginUser }) {
             return;
         }
 
-        const angry = new Intl.DateTimeFormat("fr-CA").format( new Date() );
+        let [date,time] = nowDate();
+
 
         let newInquiry = {
             email: loginUser.email,
             nickName: loginUser.nickName,
             content: inquiryRef.current.value,
-            inquiriedDate : angry,
+            inquiriedDate : date + " " +time,
         };
 
         let savedInquiries =
