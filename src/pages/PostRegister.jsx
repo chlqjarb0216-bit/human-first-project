@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import "../csss/PostRegister.css";
 import nowDate from '../pure_functions/nowDate'
 import storage from "../pure_functions/storage";
+import keys from '../datas/localStorageKeys.json'
 
 const categoryList = [
     "생활/가전",
@@ -208,10 +209,8 @@ export default function PostRegister() {
 
         alert("등록 완료");
 
-        const idNextKey = "trade-data-id-next"
-        const tradeDatasKey = 'trade-datas'
-        let idNext = storage.get(idNextKey,100)
-        const tradeDataList = storage.get(tradeDatasKey,[])
+        let idNext = storage.get(keys.tradeItemIdNextKey,100)
+        const tradeDataList = storage.get(keys.tradeItemListKey,[])
         const itemInfo = {
             "id":idNext++,
             "img":imgNames.length==1?imgNames[0]:imgNames,
@@ -228,8 +227,8 @@ export default function PostRegister() {
         }
         tradeDataList.push(itemInfo)
 
-        storage.set(idNextKey, idNext)
-        storage.set(tradeDatasKey,tradeDataList)
+        storage.set(keys.tradeItemIdNextKey, idNext)
+        storage.set(keys.tradeItemListKey,tradeDataList)
 
     };
 

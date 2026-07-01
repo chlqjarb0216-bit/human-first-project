@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Button, Form, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
 import storage from "../pure_functions/storage";
+import keys from "../datas/localStorageKeys.json";
 
 const false2 = [false, false];
 
@@ -15,8 +16,7 @@ function LoginPage(props) {
 
     const navigate = useNavigate();
 
-    const registedListKey = 'registedList'
-    const registedList = storage.get(registedListKey,[])
+    const registedList = storage.get(keys.registedUserListKey, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

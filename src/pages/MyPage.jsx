@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
 import defualtProfile from "../assets/vite.svg";
 import storage from "../pure_functions/storage";
+import keys from '../datas/localStorageKeys.json'
 
 const false5 = [false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -43,8 +44,7 @@ function MyPage(props) {
 
     const loginUser = props.loginUser;
 
-    const registedListKey = 'registedList'
-    const registedList = storage.get(registedListKey,[])
+    const registedList = storage.get(keys.registedUserListKey,[])
 
     const handleCheckPassword = () => {
         if (!passwordRegex.test(passwordChangeRef.current.value.trim())) {
@@ -138,7 +138,7 @@ function MyPage(props) {
             const userIdx = registedList.findIndex((item) => item.email === loginUser.email);
 
             registedList.splice(userIdx, 1, registerChangeData);
-            storage.set(registedListKey, registedList)
+            storage.set(keys.registedUserListKey, registedList)
 
             props.setLoginUser(registerChangeData);
 

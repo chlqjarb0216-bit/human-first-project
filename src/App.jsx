@@ -15,13 +15,12 @@ import CustomerService from "./pages/CustomerService";
 import dataset from "./datas/dataset.json";
 import AdmimPage from "./pages/AdminPage";
 import storage from "./pure_functions/storage";
+import keys from "./datas/localStorageKeys.json";
 
-const localStTradeDatasKey = "trade-datas";
-const localStTradeDataIdNextKey = "trade-data-id-next";
-const dataListRaw = storage.get(localStTradeDatasKey);
+const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
-    storage.set(localStTradeDatasKey,dataset)
-    storage.set(localStTradeDataIdNextKey,61)
+    storage.set(keys.tradeItemListKey, dataset);
+    storage.set(keys.tradeItemIdNextKey, 61);
 }
 
 function App() {
@@ -55,10 +54,10 @@ function App() {
                 <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<CustomerService loginUser={loginUser}/>} />
+                <Route path="/customer-service" element={<CustomerService loginUser={loginUser} />} />
 
                 {/* 고객센터 관리자페이지 */}
-                <Route path="/admin-page" element={<AdmimPage/>} />
+                <Route path="/admin-page" element={<AdmimPage />} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
                 <Route path="/search" element={<div>검색기능 준비중</div>} />
@@ -211,17 +210,19 @@ function NavgationBar(props) {
                                                         마이페이지
                                                     </Link>
                                                 </li>
-                                                {props.loginUser.admin&&(<li
-                                                    style={{
-                                                        padding: "0.5rem 0.75rem",
-                                                        fontWeight: "bold",
-                                                    }}>
-                                                    <Link
-                                                        to="/admin-page"
-                                                        style={{ textDecoration: "none", color: "blue" }}>
-                                                        관리페이지
-                                                    </Link>
-                                                </li>)}
+                                                {props.loginUser.admin && (
+                                                    <li
+                                                        style={{
+                                                            padding: "0.5rem 0.75rem",
+                                                            fontWeight: "bold",
+                                                        }}>
+                                                        <Link
+                                                            to="/admin-page"
+                                                            style={{ textDecoration: "none", color: "blue" }}>
+                                                            관리페이지
+                                                        </Link>
+                                                    </li>
+                                                )}
                                                 <li
                                                     onClick={() => {
                                                         props.setLoginUser(null);
