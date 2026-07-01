@@ -7,7 +7,7 @@ import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import MainSecondHand from "./pages/MainSecondHand";
 import TradeCategoty from "./pages/TradeCategory";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import defualtProfile from "./assets/vite.svg";
 import TradeDetail from "./pages/TradeDetail";
 import PostRegister from "./pages/PostRegister";
@@ -18,6 +18,7 @@ import Footer from "./pages/Footer";
 import About from "./pages/about";
 import storage from "./pure_functions/storage";
 import keys from "./datas/localStorageKeys.json";
+import SearchPage from "./pages/SearchPage";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -62,7 +63,7 @@ function App() {
                 <Route path="/admin-page" element={<AdmimPage />} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
-                <Route path="/search" element={<div>검색기능 준비중</div>} />
+                <Route path="/search" element={<SearchPage />} />
 
                 {/* 중고거래 페이지 */}
                 <Route path="/MainSecondHand" element={<MainSecondHand />} />
@@ -112,6 +113,10 @@ export default App;
 
 function NavgationBar(props) {
     const [isProfileHovered, setIsProfileHovered] = useState(false);
+
+    const searchCateRef = useRef(null);
+    const searchRef = useRef(null);
+
     const navigate = useNavigate();
 
     const expand = "sm";
@@ -142,20 +147,33 @@ function NavgationBar(props) {
                                 고객센터
                             </Nav.Link>
                         </Nav>
-                        <Form className="d-flex" style={{ margin: "0 1rem", flexGrow: "2" }}>
+                        <Form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(
+                                    `/search?cate=${searchCateRef.current.value}&keyword=${searchRef.current.value}`,
+                                );
+                            }}
+                            className="d-flex"
+                            style={{ margin: "0 1rem", flexGrow: "2" }}>
                             <Form.Select
+                                ref={searchCateRef}
                                 aria-label="Default select example"
                                 className="ms-3 w-auto"
                                 style={{ margin: "0 1rem" }}>
-                                <option value="1">통합검색</option>
-                                <option value="2">중고검색</option>
-                                <option value="3">경매검색</option>
+                                <option value="통합검색">통합검색</option>
+                                <option value="중고검색">중고검색</option>
+                                <option value="경매검색">경매검색</option>
                             </Form.Select>
-                            <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                            <Button
-                                variant="outline-success"
-                                onClick={() => navigate("/search")}
-                                style={{ wordBreak: "keep-all" }}>
+                            <Form.Control
+                                ref={searchRef}
+                                type="search"
+                                placeholder="검색어 입력"
+                                className="me-2"
+                                aria-label="Search"
+                                required
+                            />
+                            <Button type="submit" variant="outline-success" style={{ wordBreak: "keep-all" }}>
                                 검색
                             </Button>
                         </Form>
