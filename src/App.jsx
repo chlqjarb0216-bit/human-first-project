@@ -14,13 +14,14 @@ import PostRegister from "./pages/PostRegister";
 import CustomerService from "./pages/CustomerService";
 import dataset from "./datas/dataset.json";
 import AdmimPage from "./pages/AdminPage";
+import storage from "./pure_functions/storage";
 
-const localStTradeDatas = "trade-datas";
-const localStTradeDataIdNext = "trade-data-id-next";
-const dataListRaw = localStorage.getItem(localStTradeDatas);
+const localStTradeDatasKey = "trade-datas";
+const localStTradeDataIdNextKey = "trade-data-id-next";
+const dataListRaw = storage.get(localStTradeDatasKey);
 if (!dataListRaw) {
-    localStorage.setItem(localStTradeDatas, JSON.stringify(dataset));
-    localStorage.setItem(localStTradeDataIdNext, 61);
+    storage.set(localStTradeDatasKey,dataset)
+    storage.set(localStTradeDataIdNextKey,61)
 }
 
 function App() {
