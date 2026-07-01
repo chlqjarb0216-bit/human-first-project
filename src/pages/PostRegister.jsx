@@ -325,7 +325,7 @@ export default function PostRegister() {
 
                         <input type="text"  //input : 실제 글자를 입력하는 창
                             className="form-input"
-                            placeholder="물품명을 입력하세요."
+                            placeholder="제목을 입력하세요."
                             maxLength={50}  //최대 50자 까지만 제한
 
                             //ref를 이용해 입력값을 검사.

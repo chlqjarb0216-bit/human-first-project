@@ -8,11 +8,16 @@ function ProductCard({
     price,
     views,
     auction = false,
+    showBadge = true,
+    showView = true,
     remainTime = "",
     onClick
 }) {
     return (
-        <Card className="product-card" onClick={onClick}>
+        <Card
+            className={"product-card"}
+            onClick={onClick}
+        >
             <Card.Img
                 src={"images/" + image}
                 className="product-image"
@@ -23,10 +28,12 @@ function ProductCard({
                 <div className="product-header">
                     <h5>{title}</h5>
 
-                    {auction ? (
-                        <span className="auction-badge">경매</span>
-                    ) : (
-                        <span className="used-badge">중고</span>
+                    {showBadge && (
+                        auction ? (
+                            <span className="auction-badge">경매</span>
+                        ) : (
+                            <span className="used-badge">중고</span>
+                        )
                     )}
                 </div>
 
@@ -38,9 +45,12 @@ function ProductCard({
                     ₩ {Number(price).toLocaleString()}
                 </div>
 
-                <div className="product-footer">
 
-                    <span>👁 {views}</span>
+                <div className={`product-footer ${auction ? "auction-footer" : "used-footer"}`}>
+
+                    {showView && (
+                        <span>👁 {views}</span>
+                    )}
 
                     {auction && (
                         <span>{remainTime}</span>

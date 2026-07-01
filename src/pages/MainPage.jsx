@@ -1,8 +1,9 @@
-import { Container, Row, Col, Card, CardImg } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import dataset from '../datas/dataset.json';
 import { useState } from "react";
 import { data } from "react-router";
 import '../csss/MainPage.css';
+import ProductCard from "./ProductCard";
 
 
 function MainPage() {
@@ -57,15 +58,16 @@ function MainPage() {
 
                 <div className="hero-right">
 
-                    <img src="/images/banner.png" alt="banner" />
+                    <img src="images/banner.png" alt="banner" />
 
                 </div>
 
             </div>
 
-            {/* 수정 */}
+            
             <Row className="g-4">
-                <Col md={6}>
+                {/* 중고거래 */}
+                <Col lg={6}>
                     <div className="main-section">
 
                         {/* 수정 */}
@@ -92,7 +94,7 @@ function MainPage() {
 
                         {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
 
-                        <div className="card-grid">
+                        <div className="used-grid">
 
                             {
                                 dataset.map((data, index) => {
@@ -100,40 +102,18 @@ function MainPage() {
                                         return;
                                     }
                                     return (
-                                        // 삭제 + 추가
-                                        <Card className="product-card" key={index}>
 
-                                            {/* 수정 */}
-                                            <Card.Img
-                                                src={'images/' + data.img}
-                                                className="product-image"
-                                            />
-
-                                            {/* 수정 */}
-                                            <Card.Body>
-
-                                                <Card.Title className="product-name">
-                                                    {data.제목}
-                                                </Card.Title>
-
-                                                <Card.Text className="product-category">
-                                                    {data.카테고리}
-                                                </Card.Text>
-
-                                                <Card.Text className="product-price">
-                                                    ₩ {Number(data.가격).toLocaleString()}
-                                                </Card.Text>
-
-                                                <Card.Text className="product-view">
-                                                    👁 {data.조회수}
-                                                </Card.Text>
-
-                                                <Card.Text className="auction-time" style={{ visibility: "hidden" }}>
-                                                    남은시간 3일
-                                                </Card.Text>
-
-                                            </Card.Body>
-                                        </Card>
+                                        //카드로 변경 
+                                        <ProductCard
+                                            key={index}
+                                            image={data.img}
+                                            title={data.제목}
+                                            category={data.카테고리}
+                                            price={data.가격}
+                                            views={data.조회수}
+                                            showBadge={false}
+                                            showView={true}
+                                        />
 
                                     );
                                 })
@@ -143,8 +123,9 @@ function MainPage() {
 
                 </Col>
 
-                {/* 수정 */}
+                
                 <Col lg={6}>
+                 {/* 경매 */}
                     <div className="main-section">
                         {/* 수정 */}
                         <div className="section-header">
@@ -168,46 +149,24 @@ function MainPage() {
 
 
                         {/* 수정 */}
-                        <div className="card-grid">
+                        <div className="auction-grid">
                             {
                                 dataset.map((data, index) => {
                                     if (index > 5) {
                                         return;
                                     }
                                     return (
-                                        //수정
-                                        <Card className="product-card" key={index}>
-
-                                            <Card.Img
-                                                src={'images/' + data.img}
-                                                className="product-image"
-                                            />
-
-                                            {/* 수정 */}
-                                            <Card.Body>
-
-                                                <Card.Title className="product-name">
-                                                    {data.제목}
-                                                </Card.Title>
-
-                                                <Card.Text className="product-category">
-                                                    {data.카테고리}
-                                                </Card.Text>
-
-                                                <Card.Text className="product-price">
-                                                    ₩ {Number(data.가격).toLocaleString()}
-                                                </Card.Text>
-
-                                                <Card.Text className="product-view">
-                                                    👁 {data.조회수}
-                                                </Card.Text>
-
-                                                <Card.Text className="auction-time">
-                                                    남은시간 3일
-                                                </Card.Text>
-
-                                            </Card.Body>
-                                        </Card>
+                                        //카드로 변경
+                                        <ProductCard
+                                            key={index}
+                                            image={data.img}
+                                            title={data.제목}
+                                            category={data.카테고리}
+                                            price={data.가격}
+                                            auction={true}
+                                            showView={false}
+                                            remainTime="3일 남음"
+                                        />
 
                                     );
                                 })

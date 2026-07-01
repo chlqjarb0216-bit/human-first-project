@@ -1,136 +1,132 @@
-.product-card{
+.product-card {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border: none !important;
+    border-radius: 18px !important;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+}
 
-    display:flex !important;
-    flex-direction:row !important;
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .15);
+}
 
-    width:100%;
-    min-height:180px;
+.product-image {
 
-    border:none !important;
-    border-radius:18px !important;
+    width: 100% !important;
+    height: 160px;
 
-    overflow:hidden;
+    object-fit: contain;
 
-    cursor:pointer;
+    background: #f7f8fa;
 
-    background:white;
+    padding: 15px;
+}
 
-    box-shadow:0 4px 14px rgba(0,0,0,.08);
+.product-body {
 
-    transition:.25s;
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 12px;
+}
+
+.product-header {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.product-header h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+
+    min-height: 56px;          /* 제목 영역 확보 */
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;     /* 최대 2줄 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-category {
+
+    color: #777;
+
+    font-size: 13px;
 
 }
 
-.product-card:hover{
+.product-price {
 
-    transform:translateY(-5px);
+    font-size: 22px;
 
-    box-shadow:0 14px 30px rgba(0,0,0,.15);
+    font-weight: bold;
 
-}
-
-.product-image{
-
-    width:42% !important;
-
-    object-fit:contain;
-
-    background:#f7f8fa;
-
-    padding:15px;
+    color: #2563EB;
 
 }
 
-.product-body{
+.product-footer {
+    width: 100%;
+    display: flex;
+    margin-top: 8px;
+}
 
-    width:58%;
+/* 중고 */
+.used-footer {
+    justify-content: flex-start;
+}
 
-    display:flex;
+/* 경매 */
+.auction-footer {
+    justify-content: center;
+}
 
-    flex-direction:column;
+.used-badge {
 
-    justify-content:space-between;
+    background: #FFF3E0;
+
+    color: #F57C00;
+
+    padding: 4px 10px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    font-weight: bold;
 
 }
 
-.product-header{
+.auction-badge {
 
-    display:flex;
+    background: #E3F2FD;
 
-    justify-content:space-between;
+    color: #1976D2;
 
-    align-items:center;
+    padding: 4px 10px;
 
-}
+    border-radius: 30px;
 
-.product-header h5{
+    font-size: 13px;
 
-    margin:0;
-
-    font-size:22px;
-
-    font-weight:700;
-
-}
-
-.product-category{
-
-    color:#777;
-
-    font-size:15px;
-
-}
-
-.product-price{
-
-    font-size:28px;
-
-    font-weight:bold;
-
-    color:#2563EB;
-
-}
-
-.product-footer{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    color:#888;
-
-    font-size:14px;
-
-}
-
-.used-badge{
-
-    background:#FFF3E0;
-
-    color:#F57C00;
-
-    padding:4px 10px;
-
-    border-radius:30px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-}
-
-.auction-badge{
-
-    background:#E3F2FD;
-
-    color:#1976D2;
-
-    padding:4px 10px;
-
-    border-radius:30px;
-
-    font-size:13px;
-
-    font-weight:bold;
+    font-weight: bold;
 
 }
