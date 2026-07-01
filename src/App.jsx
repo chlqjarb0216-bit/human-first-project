@@ -19,6 +19,7 @@ import About from "./pages/about";
 import storage from "./pure_functions/storage";
 import keys from "./datas/localStorageKeys.json";
 import SearchPage from "./pages/SearchPage";
+import Error404 from "./pages/Error404";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -100,7 +101,7 @@ function App() {
                 <Route path="/about" element={<About />} />
 
                 {/* 잘못된 url */}
-                <Route path="/*" element={<div></div>} />
+                <Route path="/*" element={<Error404/>} />
             </Routes>
 
             {/* footer 필요하다면 */}

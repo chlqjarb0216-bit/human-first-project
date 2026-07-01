@@ -31,7 +31,9 @@ export default function PostRegister({loginUser}) {
 
     const fileInputRef = useRef(null);
 
-    const titleRef = useRef(null);      //물품입력창에 커서 바로 이동하게 추가..!
+    const titleRef = useRef(null);      //제목입력창에 커서 바로 이동하게 추가..!
+
+    const productRef = useRef(null);      //물품입력창에 커서 바로 이동하게 추가..!
 
     const categoryRef = useRef(null);  //카테고리 미선택시 바로 이동하게 추가..!
 
@@ -39,28 +41,19 @@ export default function PostRegister({loginUser}) {
 
     const priceRef = useRef(null);      //가격 미입력 검사 추가
 
-    const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
+    const textareaRef = useRef(null);    //상품 설명 미입력 검사 추가
+
+    const tagRef = useRef(null);        //태그 미입력 검사 추가
+
+
+    const [category, setCategory] = useState("");   //카테고리 css적용
 
     const [images, setImages] = useState([]);
     const [imgNames, setImgNames] = useState([]);
 
-    const [title, setTitle] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
+    const [instantTrade, setInstantTrade] = useState(false);    //즉시거래
 
-    const [price, setPrice] = useState("");   //상태변수들
-
-    const [category, setCategory] = useState(""); //상태변수들
-
-    const [condition, setCondition] = useState("");
-
-    const [description, setDescription] = useState("");
-
-    const [shipping, setShipping] = useState(false);    //즉시거래
-
-    const [chattrade, setChatTrade] = useState(false);  //채팅
-
-    const [suggestPrice, setSuggestPrice] = useState(false);
-
-    // const [error, setError] = useState("");
+    const [chatTrade, setChatTrade] = useState(true);           //채팅
 
 
     //이미지 업로드 로직
@@ -76,21 +69,22 @@ export default function PostRegister({loginUser}) {
 
 
     const handleImageUpload = (e) => {
-        //선택한 이미지들을 화면에 보여주기 위해 **URL.createObjectURL** 82line <- 이 기술을 씀
 
         const files = Array.from(e.target.files);
 
-        if (images.length + files.length > 10) {
+        if (images.length + files.length > 9) {
 
-            alert("이미지는 최대 10장까지 가능합니다.");
+            alert("이미지는 최대 9장까지 가능합니다.");
 
             return;
 
         }
 
         // const 들여쓴 이유~ URL. ..
-        const preview = files.map(file => URL.createObjectURL(file));
-        //브라우저 메모리에 이미지를 임시로 올려서 주소를 만들어주는 기능
+        const preview = files.map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));;
 
         const imgNames = files.map(file=>file.name)
 
@@ -100,6 +94,19 @@ export default function PostRegister({loginUser}) {
 
         e.target.value = "";
 
+        /* 이런 형태로 저장됨..
+        [
+            {
+                file: File,
+                preview: "blob:http://localhost/..."
+            },
+            {
+                file: File,
+                preview: "blob:http://localhost/..."
+            }
+        ]
+        */
+
     };
 
 
@@ -107,7 +114,7 @@ export default function PostRegister({loginUser}) {
     const removeImage = (index) => {
         // X 버튼을 누르면 이미지를 목록에서 지움.
 
-        URL.revokeObjectURL(images[index]);
+        URL.revokeObjectURL(images[index].preview);
         //메모리 낭비를 방지하기 위해 임시주소(생성했던)를 해제해 줌..
 
         setImages(images.filter((_, i) => i !== index));
@@ -130,15 +137,14 @@ export default function PostRegister({loginUser}) {
                 block: "center"
             });
 
-            setTimeout(() => {
-                alert("상품 이미지를 등록하세요.");
-            }, 100);
+            alert("상품 이미지를 등록하세요.");
 
             return;
         }
 
-        //물품명 검사
-        if (title.trim() === "") {
+
+        //제목 검사
+        if (titleRef.current.value.trim() === "") {
 
             titleRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -147,16 +153,33 @@ export default function PostRegister({loginUser}) {
 
             titleRef.current.focus();   //빈칸 시 커서 이동
 
-            setTimeout(() => {
-                alert("물품명을 입력하세요.");
-            }, 100);
+            alert("제목을 입력하세요.");
+
+            return;
+
+        }
+
+
+        //물품명 검사
+        if (productRef.current.value.trim() === "") {
+
+            productRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            productRef.current.focus();   //빈칸 시 커서 이동
+
+            alert("물품명을 입력하세요.");
 
             return;
 
         }
 
         //가격 검사
-        if (price.trim() === "" || Number(price) <= 0) {
+        const price = priceRef.current.value.replace(/,/g, "");
+
+        if (price === "" || Number(price) <= 0) {
 
             priceRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -165,15 +188,37 @@ export default function PostRegister({loginUser}) {
 
             priceRef.current.focus();
 
-            setTimeout(() => {
-                alert("판매 가격은 0원보다 크게 입력하세요.");
-            }, 100);
+            alert("판매 가격은 0원보다 크게 입력하세요.");
 
             return;
         }
 
+
+        //태그 검사
+        if (tagRef.current.value.trim() === "") {
+
+            tagRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            tagRef.current.focus();   //빈칸 시 커서 이동
+
+            alert("태그를 입력하세요.");
+
+            return;
+
+
+
+
+
+
+
+        }
+
+
         //카테고리 검사
-        if (category === "") {
+        if (categoryRef.current.value === "") {
 
             categoryRef.current.scrollIntoView({
                 behavior: "smooth",
@@ -182,46 +227,55 @@ export default function PostRegister({loginUser}) {
 
             categoryRef.current.focus();    //커서 이동 (셀렉창 색깔만 바뀜, 드롭다운X)
 
-            setTimeout(() => {
-                alert("카테고리를 선택하세요.");
-            }, 100);
+            alert("카테고리를 선택하세요.");
 
             return;
 
         }
 
         //상품 설명 검사
-        if (description.trim() === "") {
+        if (textareaRef.current.value.trim() === "") {
 
-            descriptionRef.current.scrollIntoView({
+            textareaRef.current.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
             })
 
-            descriptionRef.current.focus();
+            textareaRef.current.focus();
 
-            setTimeout(() => {
-                alert("상품 설명을 입력하세요.");
-            }, 100);
+            alert("상품 설명을 입력하세요.");
 
             return;
         }
 
+        //거래 형식 검사
+        if (!instantTrade && !chatTrade) {
+
+            alert("거래 형식을 하나 이상 선택하세요.");
+
+            return;
+        }
+
+
         alert("등록 완료");
+        navigate(-1);
+
+
+
 
         let idNext = storage.get(keys.tradeItemIdNextKey,100)
         const tradeDataList = storage.get(keys.tradeItemListKey,[])
         const itemInfo = {
             "id":idNext++,
             "img":imgNames.length==1?imgNames[0]:imgNames,
-            "즉시거래":shipping,
-            "채팅":chattrade,
+            "즉시거래":instantTrade,
+            "채팅":chatTrade,
             "카테고리":categoryRef.current.value,
-            "품목":titleRef.current.value,
-            "제목":"LG 디오스 양문형 냉장고",
+            "품목":productRef.current.value,
+            "제목":titleRef.current.value,
             "가격":priceRef.current.value,
-            "태그":"LG,냉장고,양문형",
-            "상세설명":descriptionRef.current.value,
+            "태그":tagRef.current.value.split(" ").filter((item)=>item).join(','),
+            "상세설명":textareaRef.current.value,
             "조회수":0,
             "등록일시":nowDate(),
             "등록유저ID":loginUser.id
@@ -309,7 +363,7 @@ export default function PostRegister({loginUser}) {
                                     >
 
                                         <img
-                                            src={img}
+                                            src={img.preview}
                                             className="preview-image"
                                         />
 
@@ -335,9 +389,34 @@ export default function PostRegister({loginUser}) {
 
 
 
+                    {/* 제목 */}
+                    <div className="form-group">
 
-                    {/* label : "물품명*" 이라는 이름을 표시해줌. */}
+                        <label className="form-label">
+                            {/* label : "제목*" 이라는 이름을 표시해줌. */}
+                            제목
+                            <span className="required">*</span>
+                        </label>
 
+                        <input type="text"  //input : 실제 글자를 입력하는 창
+                            className="form-input"
+                            placeholder="제목을 입력하세요."
+                            maxLength={50}  //최대 50자 까지만 제한
+
+                            //ref를 이용해 입력값을 검사.
+                            ref={titleRef}  //제목 빈칸일때 커서 이동
+                        />
+
+                        <div className="char-count">
+                            최대 50자
+                            {/* 우측 하단에 현재 몇글자를 썼는지 숫자로 보여줌. */}
+                        </div>
+
+                    </div>
+
+
+
+                    {/* 물품명 */}
                     <div className="form-group">
 
                         <label className="form-label">
@@ -348,54 +427,16 @@ export default function PostRegister({loginUser}) {
                         <input type="text"  //input : 실제 글자를 입력하는 창
                             className="form-input"
                             placeholder="물품명을 입력하세요."
-                            maxLength={50}  //최대 50자 까지만 제한
-                            value={title}   //현재 입력된 글자를 title이라는 상태(State)에 담아 관리..
-                            onChange={(e) => setTitle(e.target.value)}
-                            //키보드를 누를 때마다 실시간으로 title 값을 업데이트함..
-                            ref={titleRef}  //물품명 빈칸일때 커서 이동
+                            maxLength={30}  //최대 30자 까지만
+
+                            ref={productRef}  //물품명 빈칸일때 커서 이동
                         />
 
                         <div className="char-count">
-                            {title.length} / 50
-                            {/* 우측 하단에 현재 몇글자를 썼는지 숫자로 보여줌. */}
+                            최대 30자
                         </div>
 
                     </div>
-
-
-
-                    {/* 거래방식 */}
-
-                    {/* <div className="form-group">
-
-                        <label className="form-label">
-
-                            거래 방식
-
-                        </label>
-
-                        <div className="button-group">
-
-                            <button
-                                type="button"
-                                className={`btn-trade ${tradeType === "used" ? "active" : ""}`}
-                                onClick={() => setTradeType("used")}
-                            >
-                                일반 중고거래
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`btn-trade ${tradeType === "auction" ? "active" : ""}`}
-                                onClick={() => setTradeType("auction")}
-                            >
-                                경매
-                            </button>
-
-                        </div>
-                        
-                    </div> */}
-
 
 
                     {/* 가격 */}
@@ -404,27 +445,49 @@ export default function PostRegister({loginUser}) {
                             <span className="required">*</span>
                         </label>
                         <div className="price-input-wrapper">
-                            <input type="number"
+                            <input
+                                type='text'
                                 className="form-input price-input"
-                                placeholder="판매가격"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+
+                                //가격 콤마 추가
+                                onInput={(e)=> {
+
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    e.target.value = value
+                                        ? Number(value).toLocaleString("ko-KR")
+                                        : "";
+
+                                }}
 
                                 ref={priceRef}  //가격 미입력 검사
+                                placeholder="판매가격을 입력하세요."
                             />
                             <span className="price-unit">원</span>
                         </div>
 
-                        {/* <label className="checkbox-label">
-                            <input
-                                type="checkbox"
-                                checked={suggestPrice}
-                                onChange={(e) => setSuggestPrice(e.target.checked)}
-                            />
-                            가격 제안 허용
-                        </label> */}
                     </div>
 
+
+                    {/* 태그 */}
+                    <div className="form-group">
+
+                        <label className="form-label">태그
+                            <span className="required">*</span>
+                        </label>
+                        
+                        <div className="tag-input-wrapper">
+                            <input
+                                className="form-input"
+                                placeholder="태그를 공백으로 구분하여 입력하세요."
+                                ref={tagRef}    //커서 이동
+                            />
+                        </div>
+
+                        <div className="char-count">
+                            여러개 입력 시 공백을 사용해 주세요.
+                        </div>
+
+                    </div>
 
 
                     {/* 카테고리 */}
@@ -433,24 +496,25 @@ export default function PostRegister({loginUser}) {
                             카테고리
                             <span className="required">*</span>
                         </label>
-                        <select className="form-input"
+
+                        <select
+                            className="form-input"
+                            ref={categoryRef}
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            ref={categoryRef}   //커서이동 추가
+                            //카테고리 선택 전 회색 / 선택 후 검정
+                            style={{ color: category === "" ? "#999" : "#333" }}
                         >
-                            <option value="">
+                            <option value="" disabled>
                                 카테고리를 선택하세요.
                             </option>
-                            {
-                                categoryList.map(item => (
-                                    <option
-                                        key={item}
-                                        value={item}
-                                    >
-                                        {item}
-                                    </option>
-                                ))
-                            }
+
+                            {categoryList.map(item => (
+                                <option key={item}
+                                    value={item}>
+                                    {item}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -496,105 +560,84 @@ export default function PostRegister({loginUser}) {
                         <textarea className="form-input"
                             rows={8}
                             placeholder="상품 상태, 구성품, 구매 시기 등을 입력하세요."
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
 
-                            ref={descriptionRef}    //상품 설명 미입력 검사
+                            ref={textareaRef}    //상품 설명 미입력 검사
+
                         />
 
                     </div>
 
 
 
-                    {/* 거래 지역 */}
-
-                    {/* <div className="form-group">
-
+                    {/* 거래 형식 토글(체크박스) */}
+                    <div className="form-group">
                         <label className="form-label">
 
-                            거래 지역
+                            거래 형식
+                            <span className="required">*</span>
 
                         </label>
 
-                        <input
-                            type="text"
-                            className="form-input"
-                            placeholder="예) 서울 강남구"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                        />
-
-                    </div> */}
 
 
+                        {/* 즉시거래 / 채팅 */}
+                        <div className="trade-switch-group">
+                            <div className="form-check form-switch">
 
-                    {/* 거래 형식 체크박스 */}
-                    <label className="form-label">
 
-                        거래 형식
-                        <span className="required">*</span>
-
-                    </label>
+                                <input className="form-check-input"
+                                    type="checkbox"
+                                    checked={instantTrade}
+                                    onChange={(e) => setInstantTrade(e.target.checked)}
+                                />
+                                <label className="form-check-label">
+                                    즉시 거래
+                                </label>
+                            </div>
 
 
 
-                    {/* 즉시거래 / 채팅 */}
-                    <div className="form-check form-switch">
+                            <div className="form-check form-switch">
 
+                                <input className="form-check-input"
+                                    type="checkbox"
+                                    checked={chatTrade}
+                                    onChange={(e) => setChatTrade(e.target.checked)}
+                                />
 
-                        <input className="form-check-input"
-                            type="checkbox"
-                            checked={chattrade}
-                            onChange={(e) => setChatTrade(e.target.checked)}
-                        />
-                        <label className="form-check-label">
-                            즉시 거래
-                        </label>
+                                <label className="form-check-label">
+                                    구매자와 대화
+                                </label>
 
+                            </div>
+                        </div>
+
+                        {/* 취소 / 등록 버튼 */}
+
+                        <div className="form-actions">
+
+                            <button type="button"
+                                className="btn-cancel"
+                                onClick={() => navigate("/")}
+                            // onClick={() => window.history.back()}
+                            >
+                                취소
+                            </button>
+
+                            <button
+                                type="submit"
+                                className="btn-submit"
+                            >
+                                중고 등록
+                            </button>
+
+                        </div>
                     </div>
-
-
-                    <div className="form-check form-switch">
-
-                        <input className="form-check-input"
-                            type="checkbox"
-                            checked={shipping}
-                            onChange={(e) => setShipping(e.target.checked)}
-                        />
-
-                        <label className="form-check-label">
-                            구매자와 대화
-                        </label>
-
-                    </div>
-
-
-                    {/* 취소 / 등록 버튼 */}
-
-                    <div className="form-actions">
-
-                        <button type="button"
-                            className="btn-cancel"
-                            onClick={() => navigate("/")}
-                        // onClick={() => window.history.back()}
-                        >
-                            취소
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="btn-submit"
-                        >
-                            중고 등록
-                        </button>
-
-                    </div>
-
                 </form>
 
-            </div>
+            </div >
 
-        </div>
+        </div >
 
     );
 }
