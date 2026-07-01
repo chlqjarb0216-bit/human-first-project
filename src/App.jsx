@@ -14,6 +14,8 @@ import PostRegister from "./pages/PostRegister";
 import CustomerService from "./pages/CustomerService";
 import dataset from "./datas/dataset.json";
 import AdmimPage from "./pages/AdminPage";
+import Footer from "./pages/Footer";
+import About from "./pages/about";
 import storage from "./pure_functions/storage";
 import keys from "./datas/localStorageKeys.json";
 
@@ -95,9 +97,13 @@ function App() {
 
                 {/* 잘못된 url */}
                 <Route path="/*" element={<div></div>} />
+
+                {/* 어바웃 */}
+                <Route path="/About" element={<About />} />
             </Routes>
 
             {/* footer 필요하다면 */}
+            <Footer/>
         </>
     );
 }
