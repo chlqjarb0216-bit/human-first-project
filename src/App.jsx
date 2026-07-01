@@ -24,6 +24,15 @@ if (!dataListRaw) {
 
 function App() {
     const [loginUser, setLoginUser] = useState(null);
+    // 테스트할 때 로그인 귀찮으면 사용하세요
+    // const [loginUser, setLoginUser] = useState({
+    //                 name: 'master',
+    //                 nickName: '@master',
+    //                 email: 'master@master',
+    //                 password: 'Master12233!@',
+    //                 registedDate: '2026-06-28',
+    //                 admin: true
+    //             })
 
     return (
         <>
