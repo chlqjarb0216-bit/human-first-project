@@ -28,7 +28,7 @@ if (!dataListRaw) {
 }
 
 function App() {
-    const [loginUser, setLoginUser] = useState(null);
+    const [loginUser, setLoginUser] = useState(() => storage.get(keys.currentUser));
 
     // 테스트할 때 로그인 귀찮으면 사용하세요
     // const [loginUser, setLoginUser] = useState({
@@ -101,7 +101,7 @@ function App() {
                 <Route path="/about" element={<About />} />
 
                 {/* 잘못된 url */}
-                <Route path="/*" element={<Error404/>} />
+                <Route path="/*" element={<Error404 />} />
             </Routes>
 
             {/* footer 필요하다면 */}
@@ -154,6 +154,7 @@ function NavgationBar(props) {
                                 navigate(
                                     `/search?cate=${searchCateRef.current.value}&keyword=${searchRef.current.value}`,
                                 );
+                                searchRef.current.value = "";
                             }}
                             className="d-flex"
                             style={{ margin: "0 1rem", flexGrow: "2" }}>
@@ -251,6 +252,8 @@ function NavgationBar(props) {
                                                 <li
                                                     onClick={() => {
                                                         props.setLoginUser(null);
+                                                        storage.set(keys.currentUser, null);
+                                                        navigate("/");
                                                     }}
                                                     style={{
                                                         padding: "0.5rem 0.75rem",

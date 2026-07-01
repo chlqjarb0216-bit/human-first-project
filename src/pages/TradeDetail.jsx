@@ -1,7 +1,7 @@
 import '../csss/MainSecondHand.css';
 import '../csss/TradeCategory.css';
 import { Container, Row, Col, Card, CardImg, CardGroup, Button } from "react-bootstrap";
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useMemo } from 'react';
 import dataset from '../datas/dataset.json';
 import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
@@ -26,9 +26,30 @@ function TradeDetail(props) {
             item.id === Number(id)
         )
     })
-    console.log(idDatas)
-    const [isSeller, setIsSeller] = useState(props.loginUser!==null && idDatas[0].등록유저ID===props.loginUser.id && props.loginUser.id!==undefined);
-    console.log(isSeller)
+    const itemId = idDatas[0].id
+
+    const [isSeller, setIsSeller] = useState(() => {
+        // 1. 로그인 유저 정보가 아예 없거나 null이면 무조건 주인이 아님(false) -> 원천 차단
+        if (!props.loginUser || props.loginUser.id === null || props.loginUser.id === undefined) {
+            return false; 
+        }
+        
+        // 2. idDatas 내부 방 정보를 안전하게 긁어옴 (없으면 undefined)
+        const ownerId = idDatas?.[0]?.등록유저ID; 
+        
+        // 3. ⭐️ 최종 안전 가드: ownerId가 진짜 존재하고, 그 값이 유저 id와 완벽하게 일치할 때만 true 반환
+        return Boolean(ownerId) && ownerId === props.loginUser.id;
+    });
+    
+    const hasChat = useMemo(() => {
+        // 1. 셀러가 아니면 무거운 연산 근처에도 안 가고 즉시 false 탈출
+        if (!isSeller) return false; 
+        
+        // 2. 셀러일 때만 최초 1회 로컬스토리지를 안전하게 조회
+        const chatData = storage.get(itemId + "chat", {});
+        return Object.keys(chatData).length !== 0;
+        
+    }, [isSeller, itemId]);
 
     return (
         <Container style={{ width: '100%', margin: '0', padding: '0'}}>
@@ -67,7 +88,7 @@ function TradeDetail(props) {
                                                         alert('로그인 후 이용해주세요')
                                                         return
                                                     }
-                                                    setViewChat(!viewChat)}} variant="success" disabled = {!data.채팅}>{isSeller?"채팅목록":"판매자와대화"}</Button>
+                                                    setViewChat(!viewChat)}} variant="success" disabled = {!data.채팅||(isSeller&&!hasChat)}>{isSeller?"채팅목록":"판매자와대화"}</Button>
                                             </Card.Body>
 
                                         </Card>

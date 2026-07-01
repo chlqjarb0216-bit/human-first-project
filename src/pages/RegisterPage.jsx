@@ -7,11 +7,11 @@ import nowDate from "../pure_functions/nowDate";
 import storage from "../pure_functions/storage";
 import keys from "../datas/localStorageKeys.json";
 
-const false5 = [false, false, false, false, false];
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&~])[A-Za-z\d@$!%*?&~]{8,20}$/;
+const false7 = [false, false, false, false, false, false, false];
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*])[A-Za-z\d~!@#$%^&*]{8,20}$/;
 
 function RegisterPage(props) {
-    const [shows, setShows] = useState(false5);
+    const [shows, setShows] = useState(false7);
     const [confirmedNick, setConfirmedNick] = useState("");
     const [confirmedEMail, setConfirmedEMail] = useState("");
 
@@ -21,6 +21,8 @@ function RegisterPage(props) {
     const passwordRef = useRef(null);
     const passConfirmRef = useRef(null);
     const passwordInfoRef = useRef(null);
+    const postNumRef = useRef(null);
+    const addressRef = useRef(null);
 
     const navigate = useNavigate();
 
@@ -89,6 +91,24 @@ function RegisterPage(props) {
             setTimeout(() => {
                 passConfirmRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
+        } else if (postNumRef.current.value.trim() == "") {
+            const tmp = [...shows];
+            tmp[5] = true;
+            setShows(tmp);
+            postNumRef.current.focus();
+            postNumRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                postNumRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (addressRef.current.value.trim() == "") {
+            const tmp = [...shows];
+            tmp[6] = true;
+            setShows(tmp);
+            addressRef.current.focus();
+            addressRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                addressRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
         } else {
             const registerData = {
                 id: userIdNext++,
@@ -97,12 +117,15 @@ function RegisterPage(props) {
                 email: confirmedEMail,
                 password: passwordRef.current.value.trim(),
                 registedDate: nowDate()[0],
+                postNum: postNumRef.current.value.trim(),
+                address: addressRef.current.value.trim(),
             };
             registedList.push(registerData);
             storage.set(keys.registerUserIdNext, userIdNext);
             storage.set(keys.registedUserListKey, registedList);
 
             props.setLoginUser(registerData);
+            storage.set(keys.currentUser, registerData);
 
             navigate("/");
         }
@@ -137,7 +160,7 @@ function RegisterPage(props) {
         if (shows.every((show) => !show)) return;
 
         const timer = setTimeout(() => {
-            setShows(false5);
+            setShows(false7);
         }, 3000);
 
         return () => clearTimeout(timer);
@@ -159,7 +182,7 @@ function RegisterPage(props) {
                     {shows[0] && (
                         <Alert
                             variant="danger"
-                            onClose={() => setShows(false5)}
+                            onClose={() => setShows(false7)}
                             dismissible
                             className="alert-xs text-center">
                             이름을 입력해주세요
@@ -196,7 +219,7 @@ function RegisterPage(props) {
                     {shows[1] && (
                         <Alert
                             variant="danger"
-                            onClose={() => setShows(false5)}
+                            onClose={() => setShows(false7)}
                             dismissible
                             className="alert-xs text-center">
                             닉네임 중복확인을 진행해주세요
@@ -228,7 +251,7 @@ function RegisterPage(props) {
                     {shows[2] && (
                         <Alert
                             variant="danger"
-                            onClose={() => setShows(false5)}
+                            onClose={() => setShows(false7)}
                             dismissible
                             className="alert-xs text-center">
                             이메일 확인을 진행해주세요
@@ -247,16 +270,16 @@ function RegisterPage(props) {
                     {shows[3] && (
                         <Alert
                             variant="danger"
-                            onClose={() => setShows(false5)}
+                            onClose={() => setShows(false7)}
                             dismissible
                             className="alert-xs text-center">
                             비밀번호를 입력해주세요
                         </Alert>
                     )}
+                    <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
+                        ※비밀번호는 알파벳 대소문자와 숫자 및 특수문자~!@#$%^&*를 포함한 8자 이상이어야합니다(최대20자).
+                    </p>
                 </Form.Group>
-                <p ref={passwordInfoRef} style={{ fontSize: "0.7rem", color: "gray", textAlign: "start" }}>
-                    ※비밀번호는 알파벳 대소문자 및 특수문자(@$!%*?&~)를 포함한 8자 이상이어야합니다(최대20자).
-                </p>
 
                 <Form.Group className="mb-3 form-group-align-left" controlId="formPasswordConfirm">
                     <Form.Label>비밀번호 확인</Form.Label>
@@ -269,10 +292,48 @@ function RegisterPage(props) {
                     {shows[4] && (
                         <Alert
                             variant="danger"
-                            onClose={() => setShows(false5)}
+                            onClose={() => setShows(false7)}
                             dismissible
                             className="alert-xs text-center">
                             비밀번호가 일치하지 않습니다.
+                        </Alert>
+                    )}
+                </Form.Group>
+
+                <Form.Group className="mb-3 form-group-align-left" controlId="formPostNum">
+                    <Form.Label>우편번호</Form.Label>
+                    <Form.Control
+                        ref={postNumRef}
+                        type="number"
+                        placeholder="우편번호를 입력해주세요"
+                        className="placeholder-lightgray"
+                    />
+                    {shows[5] && (
+                        <Alert
+                            variant="danger"
+                            onClose={() => setShows(false7)}
+                            dismissible
+                            className="alert-xs text-center">
+                            우편번호를 입력해주세요.
+                        </Alert>
+                    )}
+                </Form.Group>
+
+                <Form.Group className="mb-3 form-group-align-left" controlId="formAddress">
+                    <Form.Label>주소</Form.Label>
+                    <Form.Control
+                        ref={addressRef}
+                        type="text"
+                        placeholder="주소를 입력해주세요"
+                        className="placeholder-lightgray"
+                    />
+                    {shows[6] && (
+                        <Alert
+                            variant="danger"
+                            onClose={() => setShows(false7)}
+                            dismissible
+                            className="alert-xs text-center">
+                            주소를 입력해주세요.
                         </Alert>
                     )}
                 </Form.Group>

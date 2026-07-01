@@ -68,7 +68,7 @@ function SearchPage() {
                         <div>
                             <h2 style={{ margin: 0, fontWeight: "bold" }}>{cate}</h2>
 
-                            <p style={{ margin: "5px 0 0 0", color: "black" }}>검색결과입니다.</p>
+                            <p style={{ margin: "5px 0 0 0", color: "black" }}>{keyword} 검색결과입니다.</p>
                         </div>
                     </div>
                     {filteredItems.length === 0 && (

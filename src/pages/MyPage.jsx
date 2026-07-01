@@ -6,15 +6,15 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
 import defualtProfile from "../assets/vite.svg";
 import storage from "../pure_functions/storage";
-import keys from '../datas/localStorageKeys.json'
+import keys from "../datas/localStorageKeys.json";
 
-const false5 = [false, false, false, false, false];
+const false7 = [false, false, false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function MyPage(props) {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("home");
-    const [shows, setShows] = useState(false5);
+    const [shows, setShows] = useState(false7);
     const [confirmedNick, setConfirmedNick] = useState(props.loginUser?.nickName);
     const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser?.email);
 
@@ -25,12 +25,14 @@ function MyPage(props) {
     const passChangeConfirmRef = useRef(null);
     const passwordInfoRef = useRef(null);
     const passwordRef = useRef(null);
+    const postNumRef = useRef(null);
+    const addressRef = useRef(null);
 
     useEffect(() => {
         if (shows.every((show) => !show)) return;
 
         const timer = setTimeout(() => {
-            setShows(false5);
+            setShows(false7);
         }, 3000);
 
         return () => clearTimeout(timer);
@@ -44,7 +46,7 @@ function MyPage(props) {
 
     const loginUser = props.loginUser;
 
-    const registedList = storage.get(keys.registedUserListKey,[])
+    const registedList = storage.get(keys.registedUserListKey, []);
 
     const handleCheckPassword = () => {
         if (!passwordRegex.test(passwordChangeRef.current.value.trim())) {
@@ -88,11 +90,29 @@ function MyPage(props) {
             setTimeout(() => {
                 emailRef.current.classList.toggle("form-alert-bc-pink");
             }, 3000);
+        } else if (postNumRef.current.value.trim() == "") {
+            const tmp = [...shows];
+            tmp[3] = true;
+            setShows(tmp);
+            postNumRef.current.focus();
+            postNumRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                postNumRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
+        } else if (addressRef.current.value.trim() == "") {
+            const tmp = [...shows];
+            tmp[4] = true;
+            setShows(tmp);
+            addressRef.current.focus();
+            addressRef.current.classList.toggle("form-alert-bc-pink");
+            setTimeout(() => {
+                addressRef.current.classList.toggle("form-alert-bc-pink");
+            }, 3000);
         } else if (passwordChangeRef.current.value.trim() != "" && !handleCheckPassword()) {
             return;
         } else if (passChangeConfirmRef.current.value != passwordChangeRef.current.value) {
             const tmp = [...shows];
-            tmp[3] = true;
+            tmp[5] = true;
             setShows(tmp);
             passChangeConfirmRef.current.focus();
             passChangeConfirmRef.current.classList.toggle("form-alert-bc-pink");
@@ -103,13 +123,15 @@ function MyPage(props) {
             nameRef.current.value.trim() === loginUser.name &&
             confirmedNick === loginUser.nickName &&
             confirmedEMail === loginUser.email &&
+            postNumRef.current.value.trim() === loginUser.postNum &&
+            addressRef.current.value.trim() === loginUser.address &&
             passChangeConfirmRef.current.value.trim() === ""
         ) {
             alert("변경된 사항이 없습니다. 마이페이지 홈으로 돌아갑니다");
             setActiveTab("home");
         } else if (passwordRef.current.value.trim() === "") {
             const tmp = [...shows];
-            tmp[4] = true;
+            tmp[6] = true;
             setShows(tmp);
             passwordRef.current.focus();
             passwordRef.current.classList.toggle("form-alert-bc-pink");
@@ -129,6 +151,8 @@ function MyPage(props) {
                 name: nameRef.current.value.trim(),
                 nickName: confirmedNick,
                 email: confirmedEMail,
+                postNum: postNumRef.current.value.trim(),
+                address: addressRef.current.value.trim(),
                 password:
                     passwordChangeRef.current.value.trim() !== ""
                         ? passwordChangeRef.current.value.trim()
@@ -138,9 +162,11 @@ function MyPage(props) {
             const userIdx = registedList.findIndex((item) => item.email === loginUser.email);
 
             registedList.splice(userIdx, 1, registerChangeData);
-            storage.set(keys.registedUserListKey, registedList)
+            storage.set(keys.registedUserListKey, registedList);
 
             props.setLoginUser(registerChangeData);
+
+            storage.set(keys.currentUser, registerChangeData);
 
             alert("회원정보가 성공적으로 변경되었습니다.");
 
@@ -204,6 +230,7 @@ function MyPage(props) {
                     to="/"
                     onClick={() => {
                         props.setLoginUser(null);
+                        storage.set(keys.currentUser, null);
                     }}
                     className="nav-link-mypage-logout">
                     로그아웃
@@ -262,7 +289,7 @@ function MyPage(props) {
                                 {shows[0] && (
                                     <Alert
                                         variant="danger"
-                                        onClose={() => setShows(false5)}
+                                        onClose={() => setShows(false7)}
                                         dismissible
                                         className="alert-xs text-center">
                                         이름을 입력해주세요
@@ -300,7 +327,7 @@ function MyPage(props) {
                                 {shows[1] && (
                                     <Alert
                                         variant="danger"
-                                        onClose={() => setShows(false5)}
+                                        onClose={() => setShows(false7)}
                                         dismissible
                                         className="alert-xs text-center">
                                         닉네임 중복확인을 진행해주세요
@@ -333,10 +360,50 @@ function MyPage(props) {
                                 {shows[2] && (
                                     <Alert
                                         variant="danger"
-                                        onClose={() => setShows(false5)}
+                                        onClose={() => setShows(false7)}
                                         dismissible
                                         className="alert-xs text-center">
                                         이메일 확인을 진행해주세요
+                                    </Alert>
+                                )}
+                            </Form.Group>
+
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formPostNum">
+                                <Form.Label>우편번호</Form.Label>
+                                <Form.Control
+                                    ref={postNumRef}
+                                    type="number"
+                                    placeholder="우편번호를 입력해주세요"
+                                    className="placeholder-lightgray"
+                                    defaultValue={props.loginUser.postNum}
+                                />
+                                {shows[3] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false7)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        우편번호를 입력해주세요
+                                    </Alert>
+                                )}
+                            </Form.Group>
+
+                            <Form.Group className="mb-3 form-group-align-left" controlId="formAddress">
+                                <Form.Label>주소</Form.Label>
+                                <Form.Control
+                                    ref={addressRef}
+                                    type="text"
+                                    placeholder="주소를 입력해주세요"
+                                    className="placeholder-lightgray"
+                                    defaultValue={props.loginUser.address}
+                                />
+                                {shows[4] && (
+                                    <Alert
+                                        variant="danger"
+                                        onClose={() => setShows(false7)}
+                                        dismissible
+                                        className="alert-xs text-center">
+                                        주소를 입력해주세요
                                     </Alert>
                                 )}
                             </Form.Group>
@@ -362,10 +429,10 @@ function MyPage(props) {
                                     placeholder="비밀번호를 다시 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
-                                {shows[3] && (
+                                {shows[5] && (
                                     <Alert
                                         variant="danger"
-                                        onClose={() => setShows(false5)}
+                                        onClose={() => setShows(false7)}
                                         dismissible
                                         className="alert-xs text-center">
                                         비밀번호가 일치하지 않습니다.
@@ -381,10 +448,10 @@ function MyPage(props) {
                                     placeholder="비밀번호를 입력해주세요"
                                     className="placeholder-lightgray"
                                 />
-                                {shows[4] && (
+                                {shows[6] && (
                                     <Alert
                                         variant="danger"
-                                        onClose={() => setShows(false5)}
+                                        onClose={() => setShows(false7)}
                                         dismissible
                                         className="alert-xs text-center">
                                         비밀번호를 입력해주세요

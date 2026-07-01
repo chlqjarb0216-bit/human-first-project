@@ -13,8 +13,10 @@ function Chatting({ loginUser, itemDetail, isSeller }) {
     const chatBoxRef = useRef(null);
 
     const chatKey = itemDetail.id + "chat";
-    const [allChat, setAllChat] = useState(storage.get(chatKey, {}));
-    const [currentChatKey, setCurrentChatKey] = useState(isSeller ? Object.keys(allChat)[0] : loginUser.nickName);
+    const [allChat, setAllChat] = useState(() => storage.get(chatKey, {}));
+    const [currentChatKey, setCurrentChatKey] = useState(() =>
+        isSeller ? Object.keys(allChat)[0] : loginUser.nickName,
+    );
 
     const userList = storage.get(keys.registedUserListKey);
     const seller = userList.find((user) => {
@@ -112,7 +114,7 @@ function Chatting({ loginUser, itemDetail, isSeller }) {
                 }}>
                 {allChat[currentChatKey] === undefined ||
                     allChat[currentChatKey].map((item, index) => {
-                        const name = item.sender === loginUser.nickName ? "나" : item.sender;
+                        const name = item.sender === loginUser?.nickName ? "나" : item.sender;
 
                         const msgLines = item.message.split("\n");
 

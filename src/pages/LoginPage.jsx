@@ -49,6 +49,7 @@ function LoginPage(props) {
             }
 
             props.setLoginUser(same);
+            storage.set(keys.currentUser, same);
 
             navigate("/");
         }
