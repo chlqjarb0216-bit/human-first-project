@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 //useRef : HTML요소(숨겨진 파일 입력창)를 직접 가리킬 때 쓰는 집게..
 import "../csss/PostRegister.css";
 import nowDate from '../pure_functions/nowDate'
+import storage from "../pure_functions/storage";
 
 const categoryList = [
     "생활/가전",
@@ -207,7 +208,10 @@ export default function PostRegister() {
 
         alert("등록 완료");
 
-        let idNext = JSON.parse(localStorage.getItem("trade-data-id-next"))
+        const idNextKey = "trade-data-id-next"
+        const tradeDatasKey = 'trade-datas'
+        let idNext = storage.get(idNextKey,100)
+        const tradeDataList = storage.get(tradeDatasKey,[])
         const itemInfo = {
             "id":idNext++,
             "img":imgNames.length==1?imgNames[0]:imgNames,
@@ -222,9 +226,10 @@ export default function PostRegister() {
             "조회수":0,
             "등록일시":nowDate()
         }
+        tradeDataList.push(itemInfo)
 
-        localStorage.setItem("trade-data-id-next",idNext)
-        localStorage.setItem('trade-datas', JSON.stringify(itemInfo))
+        storage.set(idNextKey, idNext)
+        storage.set(tradeDatasKey,tradeDataList)
 
     };
 
