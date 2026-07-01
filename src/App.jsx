@@ -123,10 +123,18 @@ function NavgationBar(props) {
                                 <option value="3">경매검색</option>
                             </Form.Select>
                             <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                            <Button
+                            
+                            {/* <Button
                                 variant="outline-success"
                                 onClick={() => navigate("/search")}
                                 style={{ wordBreak: "keep-all" }}>
+                                검색
+                            </Button> */}
+
+                            <Button
+                                className="search-btn"
+                                onClick={() => navigate("/search")}
+                            >
                                 검색
                             </Button>
                         </Form>

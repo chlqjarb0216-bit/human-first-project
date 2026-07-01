@@ -33,7 +33,7 @@ function TradeCategoty() {
             <div className='TradeCategory-layout'>
                 <div className='TradeCategory-sidebar'>
                     {/* 카테고리 영역 */}
-                    <p style={{ fontWeight: 'bold', fontSize: '30px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
+                    <p style={{ fontWeight: 'bold', fontSize: '23px' }} onClick={() => navigate('/MainSecondHand')}>중고카테고리</p>
                     <p onClick={() => navigate('/trade-category/생활가전')}>생활/가전</p>
                     <p onClick={() => navigate('/trade-category/낚시용품')}>낚시용품</p>
                     <p onClick={() => navigate('/trade-category/IT기기')}>IT기기</p>
