@@ -55,7 +55,8 @@ function Chatting({ loginUser, itemDetail, isSeller }) {
                 borderRadius: "1rem",
                 display: "flex",
                 flexDirection: "column",
-                maxHeight: "90vh",
+                height: "85vh",  
+                maxHeight: "85vh",
                 position: "relative",
             }}>
             {/* ⭐️ 2. 포스트잇 탭들을 모아두는 절대 좌표 박스 */}

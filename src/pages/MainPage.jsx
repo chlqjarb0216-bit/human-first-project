@@ -28,7 +28,7 @@ function MainPage() {
         <Container fluid className="main-container">
 
             {/* 추가 */}
-            <div className="hero-banner" style={{backgroundColor:'paleturquoise'}}>
+            <div className="hero-banner" style={{ backgroundColor: 'paleturquoise' }}>
 
                 <div className="hero-left">
 
@@ -47,17 +47,7 @@ function MainPage() {
                         더욱 안전하고 빠른 거래를 경험하세요.
                     </p>
 
-                    <div className="hero-btn-wrap">
 
-                        <button className="hero-btn-used">
-                            중고거래
-                        </button>
-
-                        <button className="hero-btn-auction">
-                            경매
-                        </button>
-
-                    </div>
 
                 </div>
 
@@ -69,14 +59,18 @@ function MainPage() {
 
             </div>
 
-            
+
             <Row className="g-4">
                 {/* 중고거래 */}
                 <Col lg={6}>
                     <div className="main-section">
 
+
                         {/* 수정 */}
-                        <div className="section-header">
+                        <div className="section-header"
+
+                            onClick={() => navigate("/MainSecondHand")}
+                            style={{ cursor: "pointer" }}>
 
                             <div className="section-title">
 
@@ -88,11 +82,6 @@ function MainPage() {
                                 <span>중고거래</span>
 
                             </div>
-
-
-                            <button className="more-btn">
-                                전체보기 →
-                            </button>
 
                         </div>
 
@@ -108,17 +97,21 @@ function MainPage() {
                                     }
                                     return (
                                         //카드로 변경
-                                        <div onClick={() => navigate('/trade-detail/' + data.id)}> 
-                                        <ProductCard
-                                            key={index}
-                                            image={data.img}
-                                            title={data.제목}
-                                            category={data.카테고리}
-                                            price={data.가격}
-                                            views={data.조회수}
-                                            showBadge={false}
-                                            showView={true}
-                                        />
+                                        <div onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate('/trade-detail/' + data.id);
+                                        }}
+                                        >
+                                            <ProductCard
+                                                key={index}
+                                                image={data.img}
+                                                title={data.제목}
+                                                category={data.카테고리}
+                                                price={data.가격}
+                                                views={data.조회수}
+                                                showBadge={false}
+                                                showView={true}
+                                            />
                                         </div>
 
                                     );
@@ -129,12 +122,16 @@ function MainPage() {
 
                 </Col>
 
-                
+
                 <Col lg={6}>
-                 {/* 경매 */}
+                    {/* 경매 */}
                     <div className="main-section">
+
                         {/* 수정 */}
-                        <div className="section-header">
+                        <div className="section-header"
+
+                            onClick={() => navigate('/auction')}
+                            style={{ cursor: 'pointer' }}>
 
                             <div className="section-title">
 
@@ -147,9 +144,7 @@ function MainPage() {
 
                             </div>
 
-                            <button className="more-btn">
-                                전체보기 →
-                            </button>
+
 
                         </div>
 
@@ -184,7 +179,7 @@ function MainPage() {
                 </Col>
             </Row>
 
-        </Container>
+        </Container >
 
 
 

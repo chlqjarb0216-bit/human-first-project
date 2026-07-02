@@ -1,0 +1,32 @@
+/* 중고메인 그리드 */
+.card-grid {   
+    width: 100%;
+    max-width: 1200px;  /* 큰 모니터용 */
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 3에서 4로 수정 */
+    gap: 24px;
+}
+
+
+/* 검색페이지 그리드 */
+.card-grid5 {
+    width: fit-content;
+    max-width: 1400px;  /* 큰 모니터용 */
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(5, 220px);
+    gap: 24px;
+}
+
+/* 검색페이지 이미지 사이즈 */
+.SearchPage-Photo-Size {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    
+}

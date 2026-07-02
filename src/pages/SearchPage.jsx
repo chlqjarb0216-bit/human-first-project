@@ -1,4 +1,4 @@
-import "../csss/TradeCategory.css";
+import "../csss/CardGrid.css";
 import "../csss/MainSecondHand.css";
 import { Container, Card } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router";
@@ -39,12 +39,14 @@ function SearchPage() {
     });
 
     return (
-        <Container style={{ width: "100%", margin: "0", padding: "0" }}>
-            <div className="TradeCategory-layout" style={cate !== "중고검색" ? { justifyContent: "center" } : {}}>
+        <Container style={{ marginTop:"40px", width: "100%", marginLeft: cate === '통합검색' ? "35px" : "0", padding: "0" }}>
+            <div className="TradeCategory-layout" style={cate !== "중고검색" ? {
+                justifyContent: "center"
+            } : { display: "flex"}}>
                 {cate === "중고검색" && (
-                    <div className="TradeCategory-sidebar">
+                    <div className="trade-sidebar" style={{ margin:'20px'}} >
                         {/* 카테고리 영역 */}
-                        <p style={{ fontWeight: "bold", fontSize: "30px" }} onClick={() => navigate("/MainSecondHand")}>
+                        <p onClick={() => navigate("/MainSecondHand")}>
                             중고카테고리
                         </p>
                         {categories.map((item) => {
@@ -53,7 +55,7 @@ function SearchPage() {
                     </div>
                 )}
 
-                <div style={{ width: "73%", height: "fit-content" }}>
+                <div style={{ width: cate === '통합검색' ? "100%" : "79%", height: "fit-content" }}>
                     <div
                         style={{
                             display: "flex",
@@ -81,7 +83,7 @@ function SearchPage() {
                     <div className="SecondHand-section">
                         {/* 카드 목록 영역 */}
 
-                        <div className="TradeCategory-card-list">
+                        <div className={cate === '통합검색' ? "card-grid5" : "card-grid"}>
                             {filteredItems.map((data) => {
                                 return (
                                     <Card
@@ -91,7 +93,7 @@ function SearchPage() {
                                         <Card.Img
                                             variant="string"
                                             src={"/images/" + data.img}
-                                            className="MainSecondHand-Photo-Size"
+                                            className="SearchPage-Photo-Size"
                                         />
                                         <Card.Body>
                                             <Card.Title>{data.제목}</Card.Title>

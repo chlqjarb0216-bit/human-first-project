@@ -57,6 +57,7 @@ body {
     max-width: 100%;
     /* margin: 0 auto; */
     min-height: 100svh;
+    text-align: center;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;

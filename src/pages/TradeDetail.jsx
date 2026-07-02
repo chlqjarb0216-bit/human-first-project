@@ -65,12 +65,12 @@ function TradeDetail(props) {
         <Container style={{ width: '100%', margin: '0', padding: '0' }}>
 
 
-            <div style={{ width: '100%', height: 'fit-content', marginLeft: '4rem' }}>
+            <div className="trade-detail-layout">
 
                 {/* 카드 목록 영역 */}
                 <div className="TradeDetail-wrap">
-                    {idDatas.map((data) => (
-                        <Card className="trade-detail-card">
+                    {idDatas.map((data, index) => (
+                        <Card className="trade-detail-card" key={index}>
                             <Card.Img
                                 variant="top"
                                 src={"/images/" + data.img}
@@ -89,22 +89,22 @@ function TradeDetail(props) {
                                 </Card.Text>
 
                                 <Card.Text>
-                                    <p className="trade-detail-item" style={{ fontSize: "1.0rem" }}>
+                                    <small className="trade-detail-item" style={{ fontSize: "1.0rem" }}>
                                         품목 : {data.품목}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
 
                                 <Card.Text>
-                                    <p className="trade-detail-tag" style={{ fontSize: "0.9rem" }}>
+                                    <small className="trade-detail-tag" style={{ fontSize: "0.9rem" }}>
                                         태그 : {data.태그}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
                                 <Card.Text>
-                                    <p className="trade-detail-price" style={{ fontSize: "1.4rem" }}>
+                                    <small className="trade-detail-price" style={{ fontSize: "1.4rem" }}>
                                         ₩ {Number(data.가격).toLocaleString()}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
                                 <Card.Text>
@@ -141,14 +141,22 @@ function TradeDetail(props) {
                                             return
                                         }
                                         setViewChat(!viewChat)
-                                    }} variant="success" disabled={!data.채팅 || (isSeller && !hasChat)}>{isSeller ? "채팅목록" : "판매자와대화"}</Button>
+                                    }} variant="success" disabled={!data.채팅 || (isSeller && !hasChat)}>{isSeller ? "채팅목록" : "거래대화"}</Button>
                                 </div>
                             </Card.Body>
                         </Card>
                     ))}
                 </div>
 
-                {viewChat && <Chatting loginUser={props.loginUser} itemDetail={idDatas[0]} isSeller={isSeller} />}
+                {viewChat && (
+                    <div className="trade-chat-area">
+                        <Chatting
+                            loginUser={props.loginUser}
+                            itemDetail={idDatas[0]}
+                            isSeller={isSeller}
+                        />
+                    </div>
+                )}
 
             </div>
 
