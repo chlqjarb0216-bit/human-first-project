@@ -9,3 +9,12 @@
 .default-boarder {
     border: 1px solid black;
 }
+
+
+.mypage-item-image {
+    width: 250px;      /* 원하는 가로 */
+    height: 250px;     /* 원하는 세로 */
+    object-fit: cover; /* 비율 유지하며 고정 */
+    border-radius: 8px;
+    display: block;
+}

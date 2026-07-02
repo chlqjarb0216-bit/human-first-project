@@ -636,7 +636,8 @@ function MyPage(props) {
                                                     overflow: "hidden",
                                                     display: "flex",
                                                 }}>
-                                                <img src={"/images/" + item.img} alt="" style={{ margin: "0 2rem" }} />
+                                                <img src={"/images/" + item.img} alt="" style={{ margin: "0 2rem" }} className="mypage-item-image"
+                                                    alt={item.제목} />
                                                 <div
                                                     style={{
                                                         position: "relative",
