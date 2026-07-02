@@ -3,8 +3,9 @@
 
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 
-    gap: 50px;
+    gap: 30px;
 
     padding: 30px;
 
@@ -28,7 +29,7 @@
 
 .trade-detail-body{
     flex: 1;
-
+    width:100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -41,6 +42,7 @@
     font-size: 34px;
     font-weight: bold;
     margin-bottom: 20px;
+    word-break: keep-all;
 }
 
 .trade-detail-price{
@@ -171,3 +173,26 @@
     gap: 24px;
 }
 
+.trade-detail-layout.chat-open {
+    width: 65%;
+}
+
+.TradeDetail-wrap{
+    flex:1;
+}
+
+.trade-chat-area{
+    /* width: 35%; */
+    min-width: 420px;
+    /* max-width: 380px; */
+    flex-shrink:0;
+}
+
+.trade-detail-layout{
+    width:100%;
+    margin-left:4rem;
+
+    display:flex;
+    align-items:flex-start;
+    gap:20px;
+}

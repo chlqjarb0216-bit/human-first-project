@@ -143,7 +143,7 @@ function NavgationBar({ loginUser, setLoginUser }) {
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
             <Container fluid>
                 <Navbar.Brand as={Link} to="/">
-                    로고
+                    엄현규
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
