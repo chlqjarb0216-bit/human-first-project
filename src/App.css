@@ -5,7 +5,7 @@
 }
 
 /* 추가 */
-.search-btn{
+.search-btn {
     background-color: royalblue !important;
     border: 1px solid royalblue !important;
     color: white !important;
@@ -13,9 +13,21 @@
     white-space: nowrap;
 }
 
-.search-btn:hover{
+.search-btn:hover {
     background-color: paleturquoise !important;
     border-color: paleturquoise !important;
     color: white !important;
     font-weight: bold;
+}
+
+@font-face {
+    font-family: 'SchoolFont';
+    /* 사용할 이름 */
+    src: url('/fonts/학교안심 산뜻돋움_Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'SchoolFont', sans-serif;
 }
