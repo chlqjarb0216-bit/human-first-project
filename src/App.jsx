@@ -22,11 +22,29 @@ import keys from "./datas/localStorageKeys.json";
 import dataset from "./datas/dataset.json";
 import getPastTime from "./pure_functions/getPastTime";
 import TradeCompletePage from "./pages/TradeCompletePage";
+import nowDate from "./pure_functions/nowDate";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
     storage.set(keys.tradeItemListKey, dataset);
     storage.set(keys.tradeItemIdNextKey, 61);
+}
+
+const registedList = storage.get(keys.registedUserListKey, []);
+if (!registedList.find((user) => user.id === -1)) {
+    const masterAccount = {
+        id: -1,
+        name: "master",
+        nickName: "master",
+        email: "master@master",
+        password: "m1",
+        registedDate: nowDate()[0],
+        postNum: 65535,
+        address: "master",
+        admin: true,
+    };
+    registedList.push(masterAccount);
+    storage.set(keys.registedUserListKey, registedList);
 }
 
 function App() {
@@ -195,8 +213,6 @@ function NavgationBar({ loginUser, setLoginUser }) {
                             <Button type="submit" variant="outline-success" style={{ wordBreak: "keep-all" }}>
                                 검색
                             </Button>
-
-                            
                         </Form>
                         <div style={{ width: "5rem" }}>
                             {!loginUser ? (
