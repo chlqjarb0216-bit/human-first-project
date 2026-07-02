@@ -33,7 +33,7 @@ const userRegistItem = (loginUser, setLoginUser,itemId)=>{
         tmp.items.push(itemId)
     }
     setLoginUser(tmp)
-    storage.set(keys.currentUser,tmp)
+    storage.set(keys.currentUser, {user:{...tmp}, time:nowDate()});
 
     const userList = storage.get(keys.registedUserListKey)
     userList.splice(userList.findIndex((user)=>user.id===tmp.id),1,tmp)

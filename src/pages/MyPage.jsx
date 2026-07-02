@@ -8,6 +8,7 @@ import defualtProfile from "../assets/vite.svg";
 import storage from "../pure_functions/storage";
 import keys from "../datas/localStorageKeys.json";
 import getPastTime from "../pure_functions/getPastTime";
+import nowDate from "../pure_functions/nowDate";
 
 const false7 = [false, false, false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -171,7 +172,7 @@ function MyPage(props) {
 
             props.setLoginUser(registerChangeData);
 
-            storage.set(keys.currentUser, registerChangeData);
+            storage.set(keys.currentUser, {user:{...registerChangeData}, time:nowDate()});
 
             alert("회원정보가 성공적으로 변경되었습니다.");
 

@@ -9,6 +9,7 @@ import '../csss/TreadDetail.css';
 import Chatting from './Chatting';
 import storage from '../pure_functions/storage';
 import keys from '../datas/localStorageKeys.json'
+import nowDate from '../pure_functions/nowDate';
 
 
 function TradeDetail(props) {
@@ -85,7 +86,7 @@ function TradeDetail(props) {
                                                         items:props.loginUser.items.filter(item=>item!==Number(id))
                                                     }
                                                     props.setLoginUser(tmp)
-                                                    storage.set(keys.currentUser,tmp)
+                                                    storage.set(keys.currentUser, {user:{...tmp}, time:nowDate()});
                                                     const userList = storage.get(keys.registedUserListKey)
                                                     userList.splice(userList.findIndex((user)=>user.id===tmp.id),1,tmp)
                                                     storage.set(keys.registedUserListKey, userList)

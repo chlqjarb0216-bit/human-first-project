@@ -125,7 +125,7 @@ function RegisterPage(props) {
             storage.set(keys.registedUserListKey, registedList);
 
             props.setLoginUser(registerData);
-            storage.set(keys.currentUser, registerData);
+            storage.set(keys.currentUser, {user:{...registerData}, time:nowDate()});
 
             navigate("/");
         }
