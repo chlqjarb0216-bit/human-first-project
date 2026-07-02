@@ -1,5 +1,5 @@
+import '../csss/TradeCategory.css';
 import ProductCard from "./ProductCard";
-import '../csss/MainSecondHand.css';
 import dataset from '../datas/dataset.json';
 import { Container } from "react-bootstrap";
 import { useState, useEffect } from 'react';

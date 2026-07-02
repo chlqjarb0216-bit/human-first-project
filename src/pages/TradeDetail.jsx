@@ -1,11 +1,9 @@
-import '../csss/TradeCategory.css';
-import '../csss/MainSecondHand.css';
-import { Container, Row, Col, Card, CardImg, CardGroup, Button } from "react-bootstrap";
+import '../csss/TradeDetail.css';
+import { Container, Card, CardImg, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import dataset from '../datas/dataset.json';
 import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
-import '../csss/TreadDetail.css';
 
 
 function TradeDetail() {
@@ -16,8 +14,8 @@ function TradeDetail() {
 
 
 
-    let idDatas = dataset.filter((item)=>{
-        return(
+    let idDatas = dataset.filter((item) => {
+        return (
             item.id === Number(id)
         )
     })
@@ -29,39 +27,68 @@ function TradeDetail() {
         <Container style={{ width: '100%', margin: '0', padding: '0' }}>
 
 
-                <div style={{ width: '100%', height: 'fit-content', marginLeft:'4rem' }}>
-                    <div style={{border:'1px solid orange'}}>
-                        {/* 카드 목록 영역 */}
-                        <CardGroup>
-                            {
-                                idDatas.map((data)=>{
-                                    return (
-                                        <Card className='TreadDetail-card-style'>
-                                            <Card.Img variant="string" src={'/images/' + data.img} className='TreadDetail-poto-size' />
-                                            <Card.Body className='TreadDetail-body-size'>
-                                                <Card.Text>
-                                                    <small className="text-dark" style={{fontSize:'3rem'}}>{data.제목}</small>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    <small className="text-Dark" style={{fontSize:'2rem'}}>카테고리:{data.카테고리}</small>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    <small className="text-danger" style={{fontSize:'1.2rem'}}>가격:{data.가격}</small>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    <small className="text-muted" style={{fontSize:'1rem'}}>{data.상세설명}</small>
-                                                </Card.Text>
+            <div style={{ width: '100%', height: 'fit-content', marginLeft: '4rem' }}>
 
-                                                <Button variant="warning" disabled = {!data.즉시거래}>즉시거래</Button><Button variant="success" disabled = {!data.채팅}>판매자와대화</Button>
-                                            </Card.Body>
+                {/* 카드 목록 영역 */}
+                <div className="TradeDetail-wrap">
+                    {idDatas.map((data) => (
+                        <Card className="trade-detail-card">
+                            <Card.Img
+                                variant="top"
+                                src={"/images/" + data.img}
+                                className="trade-detail-image"
+                            />
 
-                                        </Card>
-                                    );
-                                })
-                            }
-                        </CardGroup>
-                    </div>
+                            <Card.Body className="trade-detail-body">
+                                <h1 className="trade-detail-title">
+                                    {data.제목}
+                                </h1>
+
+                                <Card.Text>
+                                    <small className="trade-detail-category" style={{ fontSize: "1.4rem" }}>
+                                        카테고리 : {data.카테고리}
+                                    </small>
+                                </Card.Text>
+
+                                <Card.Text>
+                                    <p className="trade-detail-item" style={{ fontSize: "1.0rem" }}>
+                                        품목 : {data.품목}
+                                    </p>
+                                </Card.Text>
+
+
+                                <Card.Text>
+                                    <p className="trade-detail-tag" style={{ fontSize: "0.9rem" }}>
+                                        태그 : {data.태그}
+                                    </p>
+                                </Card.Text>
+
+                                <Card.Text>
+                                    <p className="trade-detail-price" style={{ fontSize: "1.4rem" }}>
+                                        ₩ {Number(data.가격).toLocaleString()}
+                                    </p>
+                                </Card.Text>
+
+                                <Card.Text>
+                                    <small className="trade-detail-description" style={{ fontSize: "0.9rem" }}>
+                                        {data.상세설명}
+                                    </small>
+                                </Card.Text>
+
+                                <div className="trade-detail-buttons">
+                                    <Button variant="warning" disabled={!data.즉시거래}>
+                                        즉시거래
+                                    </Button>
+
+                                    <Button variant="success" disabled={!data.채팅}>
+                                        판매자와 대화
+                                    </Button></div>
+                            </Card.Body>
+                        </Card>
+                    ))}
                 </div>
+            </div>
+
 
         </Container>
     )
