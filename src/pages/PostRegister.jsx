@@ -284,7 +284,7 @@ export default function PostRegister({loginUser,setLoginUser}) {
             "카테고리":categoryRef.current.value,
             "품목":productRef.current.value,
             "제목":titleRef.current.value,
-            "가격":priceRef.current.value,
+            "가격":Number(priceRef.current.value.replace(/,/g,"")),
             "태그":tagRef.current.value.split(" ").filter((item)=>item).join(','),
             "상세설명":textareaRef.current.value,
             "조회수":0,

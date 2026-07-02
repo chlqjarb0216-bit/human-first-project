@@ -298,10 +298,10 @@ function MyPage(props) {
 
                         <h3>최근 활동</h3>
                         <div className="default-boarder">
-                            {!recentActivity ? (
+                            {recentActivity.length === 0 ? (
                                 <>
                                     <div
-                                        className="default-boarder m-1 p-1"
+                                        className="default-boarder m-1 p-1 abc"
                                         style={{ display: "flex", justifyContent: "space-between" }}>
                                         <span>거래가 완료되었습니다.</span>
                                         <span>3시간전</span>
@@ -564,7 +564,7 @@ function MyPage(props) {
                         <h1>작성한 글목록</h1>
                         <hr />
                         <Accordion activeKey={activePostKey} onSelect={(key) => setActivePostKey(key)}>
-                            {!props.loginUser.items ? (
+                            {(props.loginUser.items ?? []).length === 0 ? (
                                 <>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header>
@@ -580,7 +580,6 @@ function MyPage(props) {
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            <img src="" alt="" />
                                             <p>
                                                 본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
                                                 laudantium ea sapiente, atque praesentium aliquid porro velit dolore
@@ -603,7 +602,6 @@ function MyPage(props) {
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            <img src="" alt="" />
                                             <p>
                                                 본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
                                                 voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia
@@ -668,7 +666,7 @@ function MyPage(props) {
                         <h1>거래내역</h1>
                         <hr />
                         <Accordion activeKey={activeTradeHistoryKey} onSelect={(key) => setActiveTradeHistoryKey(key)}>
-                            {!props.loginUser.tradeHistory ? (
+                            {(props.loginUser.tradeHistory ?? []).length === 0 ? (
                                 <>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header>
@@ -692,7 +690,6 @@ function MyPage(props) {
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            <img src="" alt="" />
                                             <p>
                                                 본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
                                                 laudantium ea sapiente, atque praesentium aliquid porro velit dolore
@@ -723,7 +720,6 @@ function MyPage(props) {
                                             </div>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            <img src="" alt="" />
                                             <p>
                                                 본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
                                                 voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia
