@@ -14,7 +14,7 @@ function MainSecondHand() {
 
     let navigate = useNavigate();
 
-    let datas = JSON.parse(localStorage.getItem(key.tradeItemListKey));
+    let datas = JSON.parse(localStorage.getItem(key.tradeItemListKey)).filter(item=>item.status!=="deleted"&&item.status!=="completed");
 
     let babo = [...datas];
 

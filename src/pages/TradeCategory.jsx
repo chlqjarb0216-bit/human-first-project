@@ -10,7 +10,7 @@ import key from '../datas/localStorageKeys.json';
 
 function TradeCategory() {
 
-    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey));
+    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey)).filter(item=>item.status!=="deleted"&&item.status!=="completed");
 
     let navigate = useNavigate();
 

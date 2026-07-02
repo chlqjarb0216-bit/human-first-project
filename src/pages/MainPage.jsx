@@ -1,5 +1,4 @@
 import { Container, Row, Col } from "react-bootstrap";
-// import dataset from '../datas/dataset.json';
 import { useState } from "react";
 import { data } from "react-router";
 import '../csss/MainPage.css';
@@ -13,7 +12,7 @@ function MainPage() {
     let navigate = useNavigate();
 
 
-    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey));
+    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey)).filter(item=>item.status!=="deleted"&&item.status!=="completed");
 
     dataset.sort((a, b) => {
         return (
