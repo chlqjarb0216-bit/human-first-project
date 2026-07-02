@@ -1,13 +1,13 @@
-// import '../csss/TradeCategory.css';
+import ProductCard from "./ProductCard";
 import '../csss/MainSecondHand.css';
 import dataset from '../datas/dataset.json';
-import { Container, Card, CardImg, CardGroup } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { data, useNavigate, useParams } from 'react-router';
 import TradeDetail from './TradeDetail';
 
 
-function TradeCategoty() {
+function TradeCategory() {
 
     let navigate = useNavigate();
 
@@ -49,7 +49,11 @@ function TradeCategoty() {
 
 
 
-                <div style={{ width: '73%', height: 'fit-content' }}>
+                <div style={{
+                    flex: 1,
+                    paddingTop: "40px"
+                }}
+                >
                     <div
                         style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'white', borderLeft: '6px solid orange',
@@ -64,37 +68,19 @@ function TradeCategoty() {
                     <div className='trade-section'>
                         {/* 카드 목록 영역 */}
 
-                        <div className="TradeCategory-card-list">
-                            {
-                                categoryDatas.map((data) => {
-                                    return (
-                                        <Card key={data.id} className="TradeCategory-card" onClick={()=>navigate('/trade-detail/' + data.id)}>
-                                            <Card.Img variant="string" src={'/images/' + data.img} className='MainSecondHand-Photo-Size' />
-                                            <Card.Body>
-                                                <Card.Title>{data.제목}</Card.Title>
-                                                <Card.Text>
-                                                    {/* 첫번째 인기품목 가격 등 들어갈곧 */}
-                                                </Card.Text>
-                                            </Card.Body>
-                                            <Card.Footer>
-                                                <Card.Text style={{ margin: '0' }}>
-                                                    <small className="text-muted">태그:{data.태그}</small>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    <small className="text-muted">카테고리:{data.카테고리}</small>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    <small className="text-muted">가격:{data.가격}원</small>
-                                                </Card.Text>
-
-
-
-                                            </Card.Footer>
-
-                                        </Card>
-                                    )
-                                })
-                            }
+                        <div className="card-grid">
+                            {categoryDatas.map((data) => (
+                                <ProductCard
+                                    key={data.id}
+                                    image={data.img}
+                                    title={data.제목}
+                                    category={data.카테고리}
+                                    price={data.가격}
+                                    views={data.조회수}
+                                    auction={false}
+                                    onClick={() => navigate("/trade-detail/" + data.id)}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -107,4 +93,4 @@ function TradeCategoty() {
 }
 
 
-export default TradeCategoty;
+export default TradeCategory;
