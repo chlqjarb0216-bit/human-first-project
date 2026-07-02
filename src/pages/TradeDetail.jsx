@@ -79,11 +79,11 @@ function TradeDetail(props) {
                                                     <small className="text-muted" style={{fontSize:'1rem'}}>{data.상세설명}</small>
                                                 </Card.Text>
 
-                                                <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={()=>{
-                                                    itemList[itemList.findIndex((item)=>item.id===Number(id))].status = 'deleted'
+                                                <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={isSeller?()=>{
+                                                    itemList[itemList.findIndex((item)=>item.id===itemId)].status = 'deleted'
                                                     storage.set(keys.tradeItemListKey,itemList)
                                                     const tmp={...props.loginUser,
-                                                        items:props.loginUser.items.filter(item=>item!==Number(id))
+                                                        items:props.loginUser.items.filter(item=>item!==itemId)
                                                     }
                                                     props.setLoginUser(tmp)
                                                     storage.set(keys.currentUser, {user:{...tmp}, time:nowDate()});
@@ -93,6 +93,12 @@ function TradeDetail(props) {
                                                     
                                                     alert('등록하신 물품이 삭제되었습니다.')
                                                     navigate('/MainSecondHand')
+                                                }:()=>{
+                                                    if (props.loginUser===null){
+                                                        alert('로그인 후 이용해주세요')
+                                                        return
+                                                    }
+                                                    navigate(`/final?itemId=${itemId}&buyer=${props.loginUser.id}`)
                                                 }}>{isSeller?"등록삭제":"즉시거래"}</Button><Button onClick={()=>{
                                                     if (props.loginUser===null){
                                                         alert('로그인 후 이용해주세요')
