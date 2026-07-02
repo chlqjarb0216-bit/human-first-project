@@ -10,7 +10,7 @@ function AdminPage() {
     let [date, time] =nowDate()
 
     inquiries.sort((a,b)=>{
-        b.inquiriedDate - a.inquiriedDate
+        return new Date(b.inquiriedDate) - new Date(a.inquiriedDate) 
     })
 
 
