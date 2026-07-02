@@ -47,6 +47,12 @@ function TradeCategory() {
                     <p onClick={() => navigate('/trade-category/서적')}>서적</p>
                     <p onClick={() => navigate('/trade-category/굿즈')}>굿즈</p>
                     <p onClick={() => navigate('/trade-category/헬스')}>헬스</p>
+
+
+                    <button className="hero-btn-used" onClick={() => navigate('/trade-insert')}>
+                        물품등록
+                    </button>
+
                 </div>
 
 
