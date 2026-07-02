@@ -49,7 +49,7 @@ function TradeCompletePage() {
             setCompleted(true);
         }, 5000);
         return () => clearTimeout(timeout);
-    }, []);
+    }, [buyerId, itemId, navigate]);
 
     return (
         <Container>
