@@ -28,6 +28,16 @@ function TradeDetail(props) {
         )
     })
     const itemId = idDatas[0].id
+    if(idDatas.status==="deleted"){
+        alert("삭제된 물품입니다.")
+        navigate('/')
+    }
+    if(idDatas.status==="completed"){
+        if(props.loginUser.id!==idDatas.등록유저ID && props.loginUser.id!==idDatas.completeInfo.buyerId){
+            alert("이미 거래 완료된 물품입니다.")
+            navigate('/')
+        }
+    }
 
     const [isSeller, setIsSeller] = useState(() => {
         // 1. 로그인 유저 정보가 아예 없거나 null이면 무조건 주인이 아님(false) -> 원천 차단
