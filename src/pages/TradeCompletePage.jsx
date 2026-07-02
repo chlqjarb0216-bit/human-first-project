@@ -67,7 +67,7 @@ function TradeCompletePage({ loginUser, setLoginUser }) {
                 clearTimeout(timerRef.current);
             }
         };
-    }, [buyerId, itemId, navigate]);
+    }, [buyerId, itemId, navigate, loginUser.id, setLoginUser]);
 
     return (
         <Container>
