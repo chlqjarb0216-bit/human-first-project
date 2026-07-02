@@ -7,6 +7,7 @@
 .product-card {
     display: flex;
     width: 100%;
+    min-width: 0;
     flex-direction: column;
     border: none !important;
     border-radius: 18px !important;
