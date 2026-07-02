@@ -23,6 +23,7 @@ import dataset from "./datas/dataset.json";
 import getPastTime from "./pure_functions/getPastTime";
 import TradeCompletePage from "./pages/TradeCompletePage";
 import nowDate from "./pure_functions/nowDate";
+import userDataset from "./datas/userDataset.json"
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -30,8 +31,8 @@ if (!dataListRaw) {
     storage.set(keys.tradeItemIdNextKey, 61);
 }
 
-const registedList = storage.get(keys.registedUserListKey, []);
-if (!registedList.find((user) => user.id === -1)) {
+const registedList = storage.get(keys.registedUserListKey);
+if(!registedList){
     const masterAccount = {
         id: -1,
         name: "master",
@@ -43,8 +44,8 @@ if (!registedList.find((user) => user.id === -1)) {
         address: "master",
         admin: true,
     };
-    registedList.push(masterAccount);
-    storage.set(keys.registedUserListKey, registedList);
+    userDataset.push(masterAccount);
+    storage.set(keys.registedUserListKey, userDataset);
 }
 
 function App() {
