@@ -109,7 +109,10 @@ function App() {
                 <Route path="/auction-detail/:id" element={<div></div>} />
 
                 {/* 거래 및 결제 및 택배등록 등등 */}
-                <Route path="/final" element={<TradeCompletePage />} />
+                <Route
+                    path="/final"
+                    element={<TradeCompletePage loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 어바웃 */}
                 <Route path="/about" element={<About />} />

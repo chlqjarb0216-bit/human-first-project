@@ -1,19 +1,21 @@
-import "../csss/TradeCompletePage.css";
 import { Container, Spinner } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import keys from "../datas/localStorageKeys.json";
 import storage from "../pure_functions/storage";
 import nowDate from "../pure_functions/nowDate";
 
-function TradeCompletePage() {
+function TradeCompletePage({ loginUser, setLoginUser }) {
     const navigate = useNavigate();
+    const isProcessed = useRef(false);
+    const timerRef = useRef(false);
     const [searchParams] = useSearchParams();
     const itemId = Number(searchParams.get("itemId"));
     const buyerId = Number(searchParams.get("buyerId"));
 
     const [completed, setCompleted] = useState(false);
     useEffect(() => {
+        if (isProcessed.current) return;
         const itemList = storage.get(keys.tradeItemListKey);
         const idxItem = itemList.findIndex((item) => item.id === itemId);
         const userList = storage.get(keys.registedUserListKey);
@@ -24,11 +26,21 @@ function TradeCompletePage() {
             navigate("/");
             return;
         }
+        if (buyerId !== loginUser.id) {
+            alert("유저 정보를 읽어오는 중 치명적인 오류가 검출되었습니다. 메인페이지로 돌아갑니다.");
+            navigate("/");
+            setLoginUser(null);
+            storage.set(keys.currentUser, null);
+            return;
+        }
         if (itemList[idxItem].status === "completed") {
             alert("이미 완료된 거래입니다.");
             navigate("/");
             return;
         }
+
+        isProcessed.current = true;
+
         const now = nowDate();
         itemList[idxItem].status = "completed";
         itemList[idxItem].completeInfo = { buyerId: buyerId, time: now };
@@ -44,11 +56,17 @@ function TradeCompletePage() {
             userList[idxBuyer].tradeHistory = [{ itemId: itemId, side: "buy", time: now }];
         }
         storage.set(keys.registedUserListKey, userList);
+        setLoginUser(userList[idxBuyer]);
+        storage.set(keys.currentUser, { user: { ...userList[idxBuyer] }, time: now });
 
-        const timeout = setTimeout(() => {
+        timerRef.current = setTimeout(() => {
             setCompleted(true);
         }, 5000);
-        return () => clearTimeout(timeout);
+        return () => {
+            if (!isProcessed.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
     }, [buyerId, itemId, navigate]);
 
     return (
