@@ -195,6 +195,8 @@ function NavgationBar({ loginUser, setLoginUser }) {
                             <Button type="submit" variant="outline-success" style={{ wordBreak: "keep-all" }}>
                                 검색
                             </Button>
+
+                            
                         </Form>
                         <div style={{ width: "5rem" }}>
                             {!loginUser ? (
