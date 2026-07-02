@@ -9,6 +9,7 @@ import TradeCategory from './TradeCategory';
 import ProductCard from "./ProductCard";
 
 import key from '../datas/localStorageKeys.json';
+import categories from '../datas/categories.json'
 
 
 function MainSecondHand() {
@@ -48,7 +49,6 @@ function MainSecondHand() {
     function changeGang() {
 
 
-        console.log('gang color: ' + gang.color)
         if (gang.color == 'blue') {
 
             setgang({ color: 'red' })
@@ -128,7 +128,7 @@ function MainSecondHand() {
                     </div>
 
 
-                    <div className="trade-section">
+                    {/* <div className="trade-section">
                         <p className="trade-fontstyle">굿즈</p>
 
                         <div className="card-grid">
@@ -170,7 +170,33 @@ function MainSecondHand() {
                                     />
                                 ))}
                         </div>
-                    </div>
+                    </div> */}
+
+                    {categories.map(cate=>{
+                        const categoryItems = datas.filter(b=>b.카테고리===cate)
+                        return(
+                        <div className="trade-section" key={cate}>
+                            <p className="trade-fontstyle">{cate}</p>
+
+                            <div className="card-grid">
+                                {categoryItems
+                                    .slice(0, 4)
+                                    .map((data) => (
+                                        <ProductCard
+                                            key={data.id}
+                                            image={data.img}
+                                            title={data.제목}
+                                            category={data.카테고리}
+                                            price={data.가격}
+                                            views={data.조회수}
+                                            auction={false}
+                                            onClick={() => navigate("/trade-detail/" + data.id)}
+                                        />
+                                    ))}
+                            </div>
+                        </div>
+                        )
+                    })}
 
 
                 </div>
