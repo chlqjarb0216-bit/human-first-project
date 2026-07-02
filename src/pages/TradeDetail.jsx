@@ -98,7 +98,7 @@ function TradeDetail(props) {
                                                         alert('로그인 후 이용해주세요')
                                                         return
                                                     }
-                                                    navigate(`/final?itemId=${itemId}&buyer=${props.loginUser.id}`)
+                                                    navigate(`/final?itemId=${itemId}&buyerId=${props.loginUser.id}`)
                                                 }}>{isSeller?"등록삭제":"즉시거래"}</Button><Button onClick={()=>{
                                                     if (props.loginUser===null){
                                                         alert('로그인 후 이용해주세요')
