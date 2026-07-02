@@ -69,8 +69,8 @@ function TradeDetail(props) {
 
                 {/* 카드 목록 영역 */}
                 <div className="TradeDetail-wrap">
-                    {idDatas.map((data) => (
-                        <Card className="trade-detail-card">
+                    {idDatas.map((data,index) => (
+                        <Card className="trade-detail-card" key={index}>
                             <Card.Img
                                 variant="top"
                                 src={"/images/" + data.img}
@@ -89,22 +89,22 @@ function TradeDetail(props) {
                                 </Card.Text>
 
                                 <Card.Text>
-                                    <p className="trade-detail-item" style={{ fontSize: "1.0rem" }}>
+                                    <small className="trade-detail-item" style={{ fontSize: "1.0rem" }}>
                                         품목 : {data.품목}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
 
                                 <Card.Text>
-                                    <p className="trade-detail-tag" style={{ fontSize: "0.9rem" }}>
+                                    <small className="trade-detail-tag" style={{ fontSize: "0.9rem" }}>
                                         태그 : {data.태그}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
                                 <Card.Text>
-                                    <p className="trade-detail-price" style={{ fontSize: "1.4rem" }}>
+                                    <small className="trade-detail-price" style={{ fontSize: "1.4rem" }}>
                                         ₩ {Number(data.가격).toLocaleString()}
-                                    </p>
+                                    </small>
                                 </Card.Text>
 
                                 <Card.Text>
