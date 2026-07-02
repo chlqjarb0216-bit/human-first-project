@@ -1,0 +1,75 @@
+.nav-link-mypage {
+    color: black !important;
+}
+
+.nav-link-mypage-logout {
+    color: red !important;
+}
+
+.default-boarder {
+    border: 1px solid black;
+}
+
+
+.mypage-item-image {
+    width: 250px;
+    /* 원하는 가로 */
+    height: 250px;
+    /* 원하는 세로 */
+    object-fit: cover;
+    /* 비율 유지하며 고정 */
+    border-radius: 8px;
+    display: block;
+}
+
+
+.mypage-item-body {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.mypage-item-image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #f8f8f8;
+    padding: 10px;
+}
+
+.mypage-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mypage-item-meta p {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.mypage-item-meta strong {
+    display: inline-block;
+    width: 90px;
+    color: #666;
+}
+
+.mypage-item-price {
+    font-size: 34px;
+    font-weight: bold;
+    color: #0d6efd;
+    margin: 20px 0;
+}
+
+.mypage-item-desc {
+    color: #666;
+    line-height: 1.8;
+}
+
+.mypage-detail-btn {
+    margin-top: auto;
+    margin-left: auto;
+    padding: 10px 28px;
+    border-radius: 10px;
+}

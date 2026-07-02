@@ -1,0 +1,170 @@
+[
+    {
+        "id": 1,
+        "name": "최재혁37",
+        "nickName": "번개장터왕83",
+        "email": "okcfcq25@naver.com",
+        "password": "aug$*tC76!AyA",
+        "registedDate": "2025-05-07",
+        "postNum": "75454",
+        "address": "서울특별시 강남대로 1길",
+        "items": [
+            7,
+            18,
+            19,
+            42,
+            58
+        ]
+    },
+    {
+        "id": 2,
+        "name": "정다은63",
+        "nickName": "방구석슈마허69",
+        "email": "saxniu13@gmail.com",
+        "password": "iZ9Wb8mIOde%lAy",
+        "registedDate": "2026-09-28",
+        "postNum": "70817",
+        "address": "서울특별시 대학로 8길",
+        "items": [
+            1,
+            6,
+            10,
+            20,
+            35,
+            41,
+            46,
+            57
+        ]
+    },
+    {
+        "id": 3,
+        "name": "윤서연18",
+        "nickName": "파이썬조아52",
+        "email": "lnsni32@naver.com",
+        "password": "1CjQi2VbhsB0!~h",
+        "registedDate": "2024-02-14",
+        "postNum": "31313",
+        "address": "서울특별시 테헤란로 35길",
+        "items": [
+            9,
+            40,
+            53,
+            54
+        ]
+    },
+    {
+        "id": 4,
+        "name": "한성민4",
+        "nickName": "파이썬조아51",
+        "email": "msgow34@gmail.com",
+        "password": "wBv1oz1zcfvQ0p%",
+        "registedDate": "2026-02-11",
+        "postNum": "15019",
+        "address": "서울특별시 테헤란로 64길",
+        "items": [
+            22,
+            26,
+            29,
+            60
+        ]
+    },
+    {
+        "id": 5,
+        "name": "이영희11",
+        "nickName": "애플맘75",
+        "email": "cmxpx91@daum.net",
+        "password": "6%I@0O!^AQs0$z",
+        "registedDate": "2025-05-29",
+        "postNum": "37257",
+        "address": "서울특별시 백범로 77길",
+        "items": [
+            8,
+            14,
+            30,
+            33,
+            55,
+            59
+        ]
+    },
+    {
+        "id": 6,
+        "name": "김철수7",
+        "nickName": "파이썬조아90",
+        "email": "frnbdhi49@gmail.com",
+        "password": "!Eo33gC4t~aSvid",
+        "registedDate": "2025-04-06",
+        "postNum": "48425",
+        "address": "서울특별시 중앙로 26길",
+        "items": [
+            4,
+            17,
+            21,
+            31,
+            39,
+            43,
+            45,
+            48,
+            56
+        ]
+    },
+    {
+        "id": 7,
+        "name": "강지민39",
+        "nickName": "번개장터왕9",
+        "email": "oidemdlo48@gmail.com",
+        "password": "tuhjfYr3cT^^x",
+        "registedDate": "2026-08-05",
+        "postNum": "11436",
+        "address": "서울특별시 화랑로 42길",
+        "items": [
+            2,
+            3,
+            12,
+            13,
+            23,
+            25,
+            28,
+            36,
+            44,
+            47,
+            49,
+            52
+        ]
+    },
+    {
+        "id": 8,
+        "name": "윤서연11",
+        "nickName": "파이썬조아19",
+        "email": "ayhbysku45@gmail.com",
+        "password": "Sc7S$88YBy1lB",
+        "registedDate": "2026-01-18",
+        "postNum": "54200",
+        "address": "서울특별시 테헤란로 127길",
+        "items": [
+            5,
+            15,
+            32,
+            37,
+            38,
+            50
+        ]
+    },
+    {
+        "id": 9,
+        "name": "강지민54",
+        "nickName": "초코파이30",
+        "email": "ndtenemt47@outlook.com",
+        "password": "aG8#gY~LD9rz6",
+        "registedDate": "2024-03-06",
+        "postNum": "93913",
+        "address": "서울특별시 백범로 5길",
+        "items": [
+            11,
+            16,
+            24,
+            27,
+            34,
+            51
+        ]
+    }
+]

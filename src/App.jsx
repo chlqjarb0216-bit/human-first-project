@@ -1,46 +1,122 @@
 import "./App.css";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Link, useNavigate } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import { useState, useRef } from "react";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import MainPage from "./pages/MainPage";
+import MyPage from "./pages/MyPage";
+import MainSecondHand from "./pages/MainSecondHand";
+import TradeCategoty from "./pages/TradeCategory";
+import TradeDetail from "./pages/TradeDetail";
+import PostRegister from "./pages/PostRegister";
+import CustomerService from "./pages/CustomerService";
+import AdmimPage from "./pages/AdminPage";
+import Footer from "./pages/Footer";
+import About from "./pages/about";
+import SearchPage from "./pages/SearchPage";
+import Error404 from "./pages/Error404";
+import defualtProfile from "./assets/vite.svg";
+import storage from "./pure_functions/storage";
+import keys from "./datas/localStorageKeys.json";
+import dataset from "./datas/dataset.json";
+import getPastTime from "./pure_functions/getPastTime";
+import TradeCompletePage from "./pages/TradeCompletePage";
+import nowDate from "./pure_functions/nowDate";
+import userDataset from "./datas/userDataset.json";
+
+const dataListRaw = storage.get(keys.tradeItemListKey);
+if (!dataListRaw) {
+    storage.set(keys.tradeItemListKey, dataset);
+    storage.set(keys.tradeItemIdNextKey, 61);
+}
+
+const registedList = storage.get(keys.registedUserListKey);
+if (!registedList) {
+    const masterAccount = {
+        id: -1,
+        name: "master",
+        nickName: "master",
+        email: "master@master",
+        password: "m1",
+        registedDate: nowDate()[0],
+        postNum: 65535,
+        address: "master",
+        admin: true,
+    };
+    userDataset.push(masterAccount);
+    storage.set(keys.registedUserListKey, userDataset);
+}
 
 function App() {
+    const [loginUser, setLoginUser] = useState(() => {
+        const currentUser = storage.get(keys.currentUser);
+        if (currentUser == null) return null;
+        if (currentUser.time === undefined) return null;
+        if (getPastTime(currentUser.time).includes("시간") || getPastTime(currentUser.time).includes("일")) return null;
+        return currentUser.user;
+    });
+
+    // 테스트할 때 로그인 귀찮으면 사용하세요
+    // const [loginUser, setLoginUser] = useState({
+    //     name: "master",
+    //     nickName: "@master",
+    //     email: "master@master",
+    //     password: "Master12233!@",
+    //     registedDate: "2026-06-28",
+    //     admin: true,
+    // });
+
     return (
         <>
             {/* 네비게이션 바를 둘 것인가 */}
-            <NavgationBar />
+            <NavgationBar loginUser={loginUser} setLoginUser={setLoginUser} />
             <Routes>
                 {/* 메인페이지를 따로 만들것인가 아니면 물품리스트로 바로 넘어갈 것인가 */}
-                <Route path="/" element={<div></div>} />
+                <Route path="/" element={<MainPage />} />
 
-                {/* 로그인 및 회원가입 페이지 */}
-                <Route path="/login" element={<div></div>} />
+                {/* 로그인 페이지 */}
+                <Route path="/login" element={<LoginPage setLoginUser={setLoginUser} />} />
+
+                {/* 회원가입 페이지 */}
+                <Route path="/register" element={<RegisterPage setLoginUser={setLoginUser} />} />
 
                 {/* 로그인 했다면 마이 페이지 */}
-                <Route path="/mypage" element={<div></div>} />
+                <Route path="/mypage" element={<MyPage loginUser={loginUser} setLoginUser={setLoginUser} />} />
 
                 {/* 고객센터 페이지 */}
-                <Route path="/customer-service" element={<div></div>} />
+                <Route path="/customer-service" element={<CustomerService loginUser={loginUser} />} />
+
+                {/* 고객센터 관리자페이지 */}
+                <Route path="/admin-page" element={<AdmimPage />} />
 
                 {/* 통합/중고/경매 검색 페이지 */}
-                <Route path="/search" element={<div></div>} />
+                <Route path="/search" element={<SearchPage />} />
 
                 {/* 중고거래 페이지 */}
-                <Route path="/trade" element={<div></div>} />
+                <Route path="/MainSecondHand" element={<MainSecondHand />} />
 
                 {/* 중고물품등록 페이지 */}
-                <Route path="/trade-insert" element={<div></div>} />
+                <Route
+                    path="/trade-insert"
+                    element={<PostRegister loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 중고거래 카테고리 페이지 */}
-                <Route path="/trade-category" element={<div></div>} />
+                <Route path="/trade-category/:category" element={<TradeCategoty />} />
 
                 {/* 중고물품상세 페이지 */}
-                <Route path="/trade-detail/:id" element={<div></div>} />
+                <Route
+                    path="/trade-detail/:id"
+                    element={<TradeDetail loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 채팅 - 페이지를 따로 만들지 팝업이나 모달로 만들지 */}
                 <Route path="/chat" element={<div></div>} />
 
                 {/* 여기부터 추가사항 */}
                 {/* 경매 메인페이지 */}
-                <Route path="/auction" element={<div></div>} />
+                <Route path="/auction" element={<div>경매 페이지 준비중</div>} />
 
                 {/* 경매물품등록 페이지 */}
                 <Route path="/auction-insert" element={<div></div>} />
@@ -52,26 +128,42 @@ function App() {
                 <Route path="/auction-detail/:id" element={<div></div>} />
 
                 {/* 거래 및 결제 및 택배등록 등등 */}
-                <Route path="/final" element={<div></div>} />
+                <Route
+                    path="/final"
+                    element={<TradeCompletePage loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
+
+                {/* 어바웃 */}
+                <Route path="/about" element={<About />} />
 
                 {/* 잘못된 url */}
-                <Route path="/*" element={<div></div>} />
+                <Route path="/*" element={<Error404 />} />
             </Routes>
 
             {/* footer 필요하다면 */}
+            <Footer />
         </>
     );
 }
 
 export default App;
 
-function NavgationBar() {
-    const expand = "md";
+function NavgationBar({ loginUser, setLoginUser }) {
+    const [isProfileHovered, setIsProfileHovered] = useState(false);
+
+    const searchCateRef = useRef(null);
+    const searchRef = useRef(null);
+
+    const navigate = useNavigate();
+
+    const expand = "sm";
 
     return (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">로고</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">
+                    엄현규
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                     id={`offcanvasNavbar-expand-${expand}`}
@@ -81,29 +173,137 @@ function NavgationBar() {
                         <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>Offcanvas</Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                        <Nav className="justify-content-start flex-grow-1 pe-3">
-                            <Nav.Link href="#action1">중고거래</Nav.Link>
-                            <Nav.Link href="#action2">경매</Nav.Link>
-                            <Nav.Link href="#action2">고객센터</Nav.Link>
+                        <Nav className="justify-content-around flex-grow-1 pe-3" style={{ width: "7.5rem" }}>
+                            <Nav.Link as={Link} to="/MainSecondHand">
+                                중고거래
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/auction">
+                                경매
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/customer-service">
+                                고객센터
+                            </Nav.Link>
                         </Nav>
-                        <Form className="d-flex" style={{ margin: "0 1rem" }}>
+                        <Form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(
+                                    `/search?cate=${searchCateRef.current.value}&keyword=${searchRef.current.value}`,
+                                );
+                                searchRef.current.value = "";
+                            }}
+                            className="d-flex"
+                            style={{ margin: "0 1rem", flexGrow: "2" }}>
                             <Form.Select
+                                ref={searchCateRef}
                                 aria-label="Default select example"
                                 className="ms-3 w-auto"
                                 style={{ margin: "0 1rem" }}>
-                                <option>통합검색</option>
-                                <option value="1">통합검색</option>
-                                <option value="2">중고검색</option>
-                                <option value="3">경매검색</option>
+                                <option value="통합검색">통합검색</option>
+                                <option value="중고검색">중고검색</option>
+                                <option value="경매검색">경매검색</option>
                             </Form.Select>
-                            <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                            <Button variant="outline-success">Search</Button>
+                            <Form.Control
+                                ref={searchRef}
+                                type="search"
+                                placeholder="검색어 입력"
+                                className="me-2"
+                                aria-label="Search"
+                                required
+                            />
+                            <Button type="submit" variant="outline-success" style={{ wordBreak: "keep-all" }}>
+                                검색
+                            </Button>
                         </Form>
-                        <Nav className="justify-content-start flex-grow-1 pe-3">
-                            <Nav.Link href="#action2" style={{ wordBreak: "keep-all" }}>
-                                로그인
-                            </Nav.Link>
-                        </Nav>
+                        <div style={{ width: "5rem" }}>
+                            {!loginUser ? (
+                                <Nav className="justify-content-end pe-3">
+                                    <Nav.Link as={Link} to="/login" style={{ wordBreak: "keep-all" }}>
+                                        로그인
+                                    </Nav.Link>
+                                </Nav>
+                            ) : (
+                                <div
+                                    onMouseEnter={() => setIsProfileHovered(true)}
+                                    onMouseLeave={() => setIsProfileHovered(false)}
+                                    style={{ position: "relative", display: "inline-block" }}>
+                                    <img
+                                        src={defualtProfile}
+                                        alt=""
+                                        onClick={() => navigate("/mypage")}
+                                        style={{
+                                            height: "2.5rem",
+                                            aspectRatio: "1/1",
+                                            borderRadius: "50%",
+                                            cursor: "pointer",
+                                        }}
+                                    />
+
+                                    {isProfileHovered && (
+                                        <ul
+                                            style={{
+                                                position: "absolute",
+                                                top: "100%",
+                                                right: 0,
+                                                listStyle: "none",
+                                                padding: "0.6rem 0",
+                                                margin: "0",
+                                                zIndex: "10",
+                                                width: "max-content",
+                                                whiteSpace: "nowrap",
+                                                textAlign: "center",
+                                            }}>
+                                            <div
+                                                style={{
+                                                    border: "1px solid #ddd",
+                                                    borderRadius: "5%",
+                                                    boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                                                    backgroundColor: "white",
+                                                    padding: "0.5rem",
+                                                }}>
+                                                <li
+                                                    style={{
+                                                        padding: "0.5rem 0.75rem",
+                                                        fontWeight: "bold",
+                                                    }}>
+                                                    <Link
+                                                        to="/mypage"
+                                                        style={{ textDecoration: "none", color: "black" }}>
+                                                        마이페이지
+                                                    </Link>
+                                                </li>
+                                                {loginUser.admin && (
+                                                    <li
+                                                        style={{
+                                                            padding: "0.5rem 0.75rem",
+                                                            fontWeight: "bold",
+                                                        }}>
+                                                        <Link
+                                                            to="/admin-page"
+                                                            style={{ textDecoration: "none", color: "blue" }}>
+                                                            관리페이지
+                                                        </Link>
+                                                    </li>
+                                                )}
+                                                <li
+                                                    onClick={() => {
+                                                        setLoginUser(null);
+                                                        storage.set(keys.currentUser, null);
+                                                        navigate("/");
+                                                    }}
+                                                    style={{
+                                                        padding: "0.5rem 0.75rem",
+                                                        color: "red",
+                                                        cursor: "pointer",
+                                                    }}>
+                                                    로그아웃
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>
