@@ -23,7 +23,7 @@ import dataset from "./datas/dataset.json";
 import getPastTime from "./pure_functions/getPastTime";
 import TradeCompletePage from "./pages/TradeCompletePage";
 import nowDate from "./pure_functions/nowDate";
-import userDataset from "./datas/userDataset.json"
+import userDataset from "./datas/userDataset.json";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -32,7 +32,7 @@ if (!dataListRaw) {
 }
 
 const registedList = storage.get(keys.registedUserListKey);
-if(!registedList){
+if (!registedList) {
     const masterAccount = {
         id: -1,
         name: "master",
