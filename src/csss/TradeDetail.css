@@ -162,16 +162,6 @@
 }
 
 
-.card-grid {
-    width: 100%;
-    max-width: 1200px;  /* 큰 모니터용 */
-    margin: 0;
-    padding: 0;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3에서 4로 수정 */
-    gap: 24px;
-}
 
 .trade-detail-layout.chat-open {
     width: 65%;

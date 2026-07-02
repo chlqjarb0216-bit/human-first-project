@@ -1,4 +1,5 @@
 import '../csss/MainSecondHand.css';
+import '../csss/CardGrid.css'; 
 import { Container } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { data, useNavigate, useParams } from 'react-router';
