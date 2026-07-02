@@ -21,6 +21,7 @@ import storage from "./pure_functions/storage";
 import keys from "./datas/localStorageKeys.json";
 import dataset from "./datas/dataset.json";
 import getPastTime from "./pure_functions/getPastTime";
+import TradeCompletePage from "./pages/TradeCompletePage";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -108,7 +109,7 @@ function App() {
                 <Route path="/auction-detail/:id" element={<div></div>} />
 
                 {/* 거래 및 결제 및 택배등록 등등 */}
-                <Route path="/final" element={<div></div>} />
+                <Route path="/final" element={<TradeCompletePage />} />
 
                 {/* 어바웃 */}
                 <Route path="/about" element={<About />} />
