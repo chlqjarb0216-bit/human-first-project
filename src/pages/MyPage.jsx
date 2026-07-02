@@ -8,6 +8,7 @@ import defualtProfile from "../assets/vite.svg";
 import storage from "../pure_functions/storage";
 import keys from "../datas/localStorageKeys.json";
 import getPastTime from "../pure_functions/getPastTime";
+import nowDate from "../pure_functions/nowDate";
 
 const false7 = [false, false, false, false, false, false, false];
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -21,7 +22,8 @@ function MyPage(props) {
     const [confirmedNick, setConfirmedNick] = useState(props.loginUser?.nickName);
     const [confirmedEMail, setConfirmedEMail] = useState(props.loginUser?.email);
     // 현재 열어둘 아코디언의 eventKey를 관리하는 상태
-    const [activeAccordionKey, setActiveAccordionKey] = useState(null);
+    const [activePostKey, setActivePostKey] = useState(null);
+    const [activeTradeHistoryKey, setActiveTradeHistoryKey] = useState(null);
 
     const nameRef = useRef(null);
     const nickRef = useRef(null);
@@ -52,6 +54,39 @@ function MyPage(props) {
     const loginUser = props.loginUser;
 
     const registedList = storage.get(keys.registedUserListKey, []);
+
+    let recentActivity = [];
+    // 1. 등록한 아이템 순회 및 방어 코드 추가
+    if (props.loginUser?.items) {
+        props.loginUser.items.forEach((id) => {
+            const foundItem = itemList.find((item) => item.id === id);
+
+            // 아이템을 정상적으로 찾았을 때만 배열에 추가합니다 (에러 원천 차단)
+            if (foundItem) {
+                recentActivity.push({
+                    id: id,
+                    time: foundItem.등록일시, // 구조에 맞게 배열 형태 ["날짜", "시간"]가 들어감
+                    type: "register", // 나중에 화면에서 '등록'인지 '거래'인지 구분용 타입 (선택)
+                });
+            }
+        });
+    }
+    // 2. 거래 히스토리 순회
+    if (props.loginUser?.tradeHistory) {
+        props.loginUser.tradeHistory.forEach((history) => {
+            recentActivity.push({
+                id: history.itemId,
+                time: history.time, // 구조에 맞게 배열 형태 ["날짜", "시간"]가 들어감
+                type: history.side, // "sell" 또는 "buy" 구분용 (선택)
+            });
+        });
+    }
+    // 💡 최근 활동 배열을 날짜/시간 기준 최신순(내림차순)으로 정렬
+    recentActivity.sort((a, b) => {
+        const timeA = new Date(`${a.time[0]}T${a.time[1]}`);
+        const timeB = new Date(`${b.time[0]}T${b.time[1]}`);
+        return timeB - timeA; // 최신순 정렬
+    });
 
     const handleCheckPassword = () => {
         if (!passwordRegex.test(passwordChangeRef.current.value.trim())) {
@@ -171,7 +206,7 @@ function MyPage(props) {
 
             props.setLoginUser(registerChangeData);
 
-            storage.set(keys.currentUser, registerChangeData);
+            storage.set(keys.currentUser, { user: { ...registerChangeData }, time: nowDate() });
 
             alert("회원정보가 성공적으로 변경되었습니다.");
 
@@ -210,7 +245,7 @@ function MyPage(props) {
                 activeKey={activeTab}
                 onSelect={(selectedkey) => {
                     setActiveTab(selectedkey);
-                    setActiveAccordionKey(null);
+                    setActivePostKey(null);
                 }}
                 className="flex-column"
                 style={{ width: "12rem", height: "fit-content", margin: "3rem 1rem", position: "sticky", top: "3rem" }}>
@@ -263,7 +298,7 @@ function MyPage(props) {
 
                         <h3>최근 활동</h3>
                         <div className="default-boarder">
-                            {!props.loginUser.items ? (
+                            {!recentActivity ? (
                                 <>
                                     <div
                                         className="default-boarder m-1 p-1"
@@ -279,20 +314,40 @@ function MyPage(props) {
                                     </div>
                                 </>
                             ) : (
-                                props.loginUser.items.map((id) => {
-                                    const item = itemList.find((it) => it.id === id);
-                                    if (!item) return;
+                                recentActivity.map((activity) => {
                                     return (
                                         <div
-                                            key={id}
+                                            key={activity.time[0] + activity.time[1]}
                                             className="default-boarder m-1 p-1"
                                             onClick={() => {
-                                                setActiveTab("post-list");
-                                                setActiveAccordionKey(id);
+                                                if (activity.type === "register") {
+                                                    setActiveTab("post-list");
+                                                    setActivePostKey(activity.id);
+                                                } else {
+                                                    setActiveTab("trade-history");
+                                                    setActiveTradeHistoryKey(activity.id);
+                                                }
                                             }}
                                             style={{ display: "flex", justifyContent: "space-between" }}>
-                                            <span>물품을 등록하였습니다.</span>
-                                            <span>{getPastTime(item.등록일시)}</span>
+                                            {activity.type === "register" ? (
+                                                <>
+                                                    <span>물품을 등록하였습니다.</span>
+                                                    <span>{getPastTime(activity.time)}</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        <Badge
+                                                            bg={activity.type === "buy" ? "primary" : "danger"}
+                                                            className="me-3"
+                                                            style={{ display: "inline-block" }}>
+                                                            {activity.type === "buy" ? "구매" : "판매"}
+                                                        </Badge>
+                                                        <span>거래가 완료되었습니다.</span>
+                                                    </div>
+                                                    <span>{getPastTime(activity.time)}</span>
+                                                </>
+                                            )}
                                         </div>
                                     );
                                 })
@@ -508,7 +563,7 @@ function MyPage(props) {
                     <div style={{ textAlign: "start" }}>
                         <h1>작성한 글목록</h1>
                         <hr />
-                        <Accordion activeKey={activeAccordionKey} onSelect={(key) => setActiveAccordionKey(key)}>
+                        <Accordion activeKey={activePostKey} onSelect={(key) => setActivePostKey(key)}>
                             {!props.loginUser.items ? (
                                 <>
                                     <Accordion.Item eventKey="0">
@@ -612,54 +667,122 @@ function MyPage(props) {
                     <div style={{ textAlign: "start" }}>
                         <h1>거래내역</h1>
                         <hr />
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                    <div
-                                        className="px-1"
-                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                                        <span>
-                                            <Badge bg="primary" className="me-3" style={{ display: "inline-block" }}>
-                                                구매
-                                            </Badge>
-                                            제목1
-                                        </span>
-                                        <span>####년##월##일</span>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    <img src="" alt="" />
-                                    <p>
-                                        본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
-                                        laudantium ea sapiente, atque praesentium aliquid porro velit dolore explicabo,
-                                        natus iusto ducimus aperiam nemo a optio blanditiis eos delectus adipisci!
-                                    </p>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                    <div
-                                        className="px-1"
-                                        style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                                        <span>
-                                            <Badge bg="danger" className="me-3" style={{ display: "inline-block" }}>
-                                                판매
-                                            </Badge>
-                                            제목2
-                                        </span>
-                                        <span>####년##월##일</span>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    <img src="" alt="" />
-                                    <p>
-                                        본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                                        voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia suscipit
-                                        perspiciatis incidunt dolorum unde, consectetur voluptate commodi beatae
-                                        temporibus et? Eius?
-                                    </p>
-                                </Accordion.Body>
-                            </Accordion.Item>
+                        <Accordion activeKey={activeTradeHistoryKey} onSelect={(key) => setActiveTradeHistoryKey(key)}>
+                            {!props.loginUser.tradeHistory ? (
+                                <>
+                                    <Accordion.Item eventKey="0">
+                                        <Accordion.Header>
+                                            <div
+                                                className="px-1"
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                }}>
+                                                <span>
+                                                    <Badge
+                                                        bg="primary"
+                                                        className="me-3"
+                                                        style={{ display: "inline-block" }}>
+                                                        구매
+                                                    </Badge>
+                                                    제목1
+                                                </span>
+                                                <span>####년##월##일</span>
+                                            </div>
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <img src="" alt="" />
+                                            <p>
+                                                본문내용1 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero
+                                                laudantium ea sapiente, atque praesentium aliquid porro velit dolore
+                                                explicabo, natus iusto ducimus aperiam nemo a optio blanditiis eos
+                                                delectus adipisci!
+                                            </p>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                    <Accordion.Item eventKey="1">
+                                        <Accordion.Header>
+                                            <div
+                                                className="px-1"
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                }}>
+                                                <span>
+                                                    <Badge
+                                                        bg="danger"
+                                                        className="me-3"
+                                                        style={{ display: "inline-block" }}>
+                                                        판매
+                                                    </Badge>
+                                                    제목2
+                                                </span>
+                                                <span>####년##월##일</span>
+                                            </div>
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <img src="" alt="" />
+                                            <p>
+                                                본문내용2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
+                                                voluptatibus reprehenderit ex quo qui eligendi ullam cupiditate officia
+                                                suscipit perspiciatis incidunt dolorum unde, consectetur voluptate
+                                                commodi beatae temporibus et? Eius?
+                                            </p>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </>
+                            ) : (
+                                props.loginUser.tradeHistory.map((th) => {
+                                    const item = itemList.find((it) => it.id === th.itemId);
+                                    if (!item) return;
+                                    return (
+                                        <Accordion.Item eventKey={th.itemId}>
+                                            <Accordion.Header>
+                                                <div
+                                                    className="px-1"
+                                                    style={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                    }}>
+                                                    <span>
+                                                        <Badge
+                                                            bg={th.side === "buy" ? "primary" : "danger"}
+                                                            className="me-3"
+                                                            style={{ display: "inline-block" }}>
+                                                            {th.side === "buy" ? "구매" : "판매"}
+                                                        </Badge>
+                                                        {item.제목}
+                                                    </span>
+                                                    <span>{th.time[0]}</span>
+                                                </div>
+                                            </Accordion.Header>
+                                            <Accordion.Body
+                                                style={{
+                                                    overflow: "hidden",
+                                                    display: "flex",
+                                                }}>
+                                                <img src={"/images/" + item.img} alt="" style={{ margin: "0 2rem" }} />
+                                                <div
+                                                    style={{
+                                                        position: "relative",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        flex: 1,
+                                                    }}>
+                                                    <h3>카테고리: {item.카테고리}</h3>
+                                                    <h4>품목: {item.품목}</h4>
+                                                    <h5>태그: {item.태그}</h5>
+                                                    <h3>가격: {item.가격}</h3>
+                                                    <h6>상세설명: {item.상세설명}</h6>
+                                                </div>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    );
+                                })
+                            )}
                         </Accordion>
                     </div>
                 )}

@@ -9,6 +9,7 @@ import '../csss/TreadDetail.css';
 import Chatting from './Chatting';
 import storage from '../pure_functions/storage';
 import keys from '../datas/localStorageKeys.json'
+import nowDate from '../pure_functions/nowDate';
 
 
 function TradeDetail(props) {
@@ -27,6 +28,16 @@ function TradeDetail(props) {
         )
     })
     const itemId = idDatas[0].id
+    if(idDatas.status==="deleted"){
+        alert("삭제된 물품입니다.")
+        navigate('/')
+    }
+    if(idDatas.status==="completed"){
+        if(props.loginUser.id!==idDatas.등록유저ID && props.loginUser.id!==idDatas.completeInfo.buyerId){
+            alert("이미 거래 완료된 물품입니다.")
+            navigate('/')
+        }
+    }
 
     const [isSeller, setIsSeller] = useState(() => {
         // 1. 로그인 유저 정보가 아예 없거나 null이면 무조건 주인이 아님(false) -> 원천 차단
@@ -78,20 +89,26 @@ function TradeDetail(props) {
                                                     <small className="text-muted" style={{fontSize:'1rem'}}>{data.상세설명}</small>
                                                 </Card.Text>
 
-                                                <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={()=>{
-                                                    itemList[itemList.findIndex((item)=>item.id===Number(id))].status = 'deleted'
+                                                <Button variant={isSeller?"danger":"warning"} disabled = {!data.즉시거래&&!isSeller} onClick={isSeller?()=>{
+                                                    itemList[itemList.findIndex((item)=>item.id===itemId)].status = 'deleted'
                                                     storage.set(keys.tradeItemListKey,itemList)
                                                     const tmp={...props.loginUser,
-                                                        items:props.loginUser.items.filter(item=>item!==Number(id))
+                                                        items:props.loginUser.items.filter(item=>item!==itemId)
                                                     }
                                                     props.setLoginUser(tmp)
-                                                    storage.set(keys.currentUser,tmp)
+                                                    storage.set(keys.currentUser, {user:{...tmp}, time:nowDate()});
                                                     const userList = storage.get(keys.registedUserListKey)
                                                     userList.splice(userList.findIndex((user)=>user.id===tmp.id),1,tmp)
                                                     storage.set(keys.registedUserListKey, userList)
                                                     
                                                     alert('등록하신 물품이 삭제되었습니다.')
                                                     navigate('/MainSecondHand')
+                                                }:()=>{
+                                                    if (props.loginUser===null){
+                                                        alert('로그인 후 이용해주세요')
+                                                        return
+                                                    }
+                                                    navigate(`/final?itemId=${itemId}&buyerId=${props.loginUser.id}`)
                                                 }}>{isSeller?"등록삭제":"즉시거래"}</Button><Button onClick={()=>{
                                                     if (props.loginUser===null){
                                                         alert('로그인 후 이용해주세요')

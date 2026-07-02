@@ -1,25 +1,27 @@
 import "./App.css";
 import { Routes, Route, Link, useNavigate } from "react-router";
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import { useState, useRef } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import MainSecondHand from "./pages/MainSecondHand";
 import TradeCategoty from "./pages/TradeCategory";
-import { useState, useRef } from "react";
-import defualtProfile from "./assets/vite.svg";
 import TradeDetail from "./pages/TradeDetail";
 import PostRegister from "./pages/PostRegister";
 import CustomerService from "./pages/CustomerService";
-import dataset from "./datas/dataset.json";
 import AdmimPage from "./pages/AdminPage";
 import Footer from "./pages/Footer";
 import About from "./pages/about";
-import storage from "./pure_functions/storage";
-import keys from "./datas/localStorageKeys.json";
 import SearchPage from "./pages/SearchPage";
 import Error404 from "./pages/Error404";
+import defualtProfile from "./assets/vite.svg";
+import storage from "./pure_functions/storage";
+import keys from "./datas/localStorageKeys.json";
+import dataset from "./datas/dataset.json";
+import getPastTime from "./pure_functions/getPastTime";
+import TradeCompletePage from "./pages/TradeCompletePage";
 
 const dataListRaw = storage.get(keys.tradeItemListKey);
 if (!dataListRaw) {
@@ -28,7 +30,13 @@ if (!dataListRaw) {
 }
 
 function App() {
-    const [loginUser, setLoginUser] = useState(() => storage.get(keys.currentUser));
+    const [loginUser, setLoginUser] = useState(() => {
+        const currentUser = storage.get(keys.currentUser);
+        if (currentUser == null) return null;
+        if (currentUser.time === undefined) return null;
+        if (getPastTime(currentUser.time).includes("시간") || getPastTime(currentUser.time).includes("일")) return null;
+        return currentUser.user;
+    });
 
     // 테스트할 때 로그인 귀찮으면 사용하세요
     // const [loginUser, setLoginUser] = useState({
@@ -101,7 +109,10 @@ function App() {
                 <Route path="/auction-detail/:id" element={<div></div>} />
 
                 {/* 거래 및 결제 및 택배등록 등등 */}
-                <Route path="/final" element={<div></div>} />
+                <Route
+                    path="/final"
+                    element={<TradeCompletePage loginUser={loginUser} setLoginUser={setLoginUser} />}
+                />
 
                 {/* 어바웃 */}
                 <Route path="/about" element={<About />} />

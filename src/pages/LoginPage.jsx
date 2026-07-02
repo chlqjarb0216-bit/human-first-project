@@ -5,6 +5,7 @@ import { Button, Form, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
 import storage from "../pure_functions/storage";
 import keys from "../datas/localStorageKeys.json";
+import nowDate from "../pure_functions/nowDate"
 
 const false2 = [false, false];
 
@@ -49,7 +50,7 @@ function LoginPage(props) {
             }
 
             props.setLoginUser(same);
-            storage.set(keys.currentUser, same);
+            storage.set(keys.currentUser, {user:{...same}, time:nowDate()});
 
             navigate("/");
         }
