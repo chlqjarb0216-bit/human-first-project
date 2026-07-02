@@ -28,7 +28,6 @@ function TradeCategory() {
             item.카테고리 === realCartegory
         )
     });
-    console.log(realCartegory)
 
 
     return (
