@@ -574,8 +574,7 @@ function MyPage(props) {
                                                     width: "100%",
                                                     display: "flex",
                                                     justifyContent: "space-between",
-                                                }}
-                                            >
+                                                }}>
                                                 <span>샘플 상품 제목</span>
                                                 <span>2026-07-02</span>
                                             </div>
@@ -583,32 +582,32 @@ function MyPage(props) {
 
                                         <Accordion.Body className="mypage-item-body">
                                             <img
-                                                src="/images/no-image.png"
+                                                src={import.meta.env.BASE_URL + "images/no-image.png"}
                                                 alt="샘플 상품"
                                                 className="mypage-item-image"
                                             />
 
                                             <div className="mypage-item-info">
                                                 <div className="mypage-item-meta">
-                                                    <p><strong>카테고리</strong> 생활/가전</p>
-                                                    <p><strong>품목</strong> 샘플상품</p>
-                                                    <p><strong>태그</strong> 샘플,테스트</p>
+                                                    <p>
+                                                        <strong>카테고리</strong> 생활/가전
+                                                    </p>
+                                                    <p>
+                                                        <strong>품목</strong> 샘플상품
+                                                    </p>
+                                                    <p>
+                                                        <strong>태그</strong> 샘플,테스트
+                                                    </p>
                                                 </div>
 
-                                                <div className="mypage-item-price">
-                                                    50,000원
-                                                </div>
+                                                <div className="mypage-item-price">50,000원</div>
 
                                                 <div className="mypage-item-desc">
                                                     아직 작성한 게시글이 없습니다.
-                                                    <br />
-                                                    이 영역은 상품 설명이 표시되는 부분입니다.
+                                                    <br />이 영역은 상품 설명이 표시되는 부분입니다.
                                                 </div>
 
-                                                <Button
-                                                    className="mypage-detail-btn"
-                                                    disabled
-                                                >
+                                                <Button className="mypage-detail-btn" disabled>
                                                     상품 보기
                                                 </Button>
                                             </div>
@@ -623,8 +622,7 @@ function MyPage(props) {
                                                     width: "100%",
                                                     display: "flex",
                                                     justifyContent: "space-between",
-                                                }}
-                                            >
+                                                }}>
                                                 <span>샘플 상품 제목 2</span>
                                                 <span>2026-07-03</span>
                                             </div>
@@ -632,21 +630,25 @@ function MyPage(props) {
 
                                         <Accordion.Body className="mypage-item-body">
                                             <img
-                                                src="/images/no-image.png"
+                                                src={import.meta.env.BASE_URL + "images/no-image.png"}
                                                 alt="샘플 상품"
                                                 className="mypage-item-image"
                                             />
 
                                             <div className="mypage-item-info">
                                                 <div className="mypage-item-meta">
-                                                    <p><strong>카테고리</strong> 의류</p>
-                                                    <p><strong>품목</strong> 후드티</p>
-                                                    <p><strong>태그</strong> 나이키,후드티</p>
+                                                    <p>
+                                                        <strong>카테고리</strong> 의류
+                                                    </p>
+                                                    <p>
+                                                        <strong>품목</strong> 후드티
+                                                    </p>
+                                                    <p>
+                                                        <strong>태그</strong> 나이키,후드티
+                                                    </p>
                                                 </div>
 
-                                                <div className="mypage-item-price">
-                                                    35,000원
-                                                </div>
+                                                <div className="mypage-item-price">35,000원</div>
 
                                                 <div className="mypage-item-desc">
                                                     아직 등록된 상품이 없습니다.
@@ -654,10 +656,7 @@ function MyPage(props) {
                                                     상품 등록 후 이 위치에 상세 설명이 표시됩니다.
                                                 </div>
 
-                                                <Button
-                                                    className="mypage-detail-btn"
-                                                    disabled
-                                                >
+                                                <Button className="mypage-detail-btn" disabled>
                                                     상품 보기
                                                 </Button>
                                             </div>
@@ -684,30 +683,33 @@ function MyPage(props) {
                                             </Accordion.Header>
                                             <Accordion.Body className="mypage-item-body">
                                                 <img
-                                                    src={"/images/" + item.img}
+                                                    src={import.meta.env.BASE_URL + "images/" + item.img}
                                                     alt={item.제목}
                                                     className="mypage-item-image"
                                                 />
 
                                                 <div className="mypage-item-info">
                                                     <div className="mypage-item-meta">
-                                                        <p><strong>카테고리</strong> {item.카테고리}</p>
-                                                        <p><strong>품목</strong> {item.품목}</p>
-                                                        <p><strong>태그</strong> {item.태그}</p>
+                                                        <p>
+                                                            <strong>카테고리</strong> {item.카테고리}
+                                                        </p>
+                                                        <p>
+                                                            <strong>품목</strong> {item.품목}
+                                                        </p>
+                                                        <p>
+                                                            <strong>태그</strong> {item.태그}
+                                                        </p>
                                                     </div>
 
                                                     <div className="mypage-item-price">
                                                         {Number(item.가격).toLocaleString()}원
                                                     </div>
 
-                                                    <div className="mypage-item-desc">
-                                                        {item.상세설명}
-                                                    </div>
+                                                    <div className="mypage-item-desc">{item.상세설명}</div>
 
                                                     <Button
                                                         className="mypage-detail-btn"
-                                                        onClick={() => navigate("/trade-detail/" + id)}
-                                                    >
+                                                        onClick={() => navigate("/trade-detail/" + id)}>
                                                         상품 보기
                                                     </Button>
                                                 </div>
@@ -747,21 +749,25 @@ function MyPage(props) {
 
                                         <Accordion.Body className="mypage-item-body">
                                             <img
-                                                src="/images/keyring.jpg"
+                                                src={import.meta.env.BASE_URL + "images/keyring.jpg"}
                                                 alt="캐릭터 키링"
                                                 className="mypage-item-image"
                                             />
 
                                             <div className="mypage-item-info">
                                                 <div className="mypage-item-meta">
-                                                    <p><strong>카테고리</strong> 굿즈</p>
-                                                    <p><strong>품목</strong> 키링</p>
-                                                    <p><strong>태그</strong> 키링, 캐릭터</p>
+                                                    <p>
+                                                        <strong>카테고리</strong> 굿즈
+                                                    </p>
+                                                    <p>
+                                                        <strong>품목</strong> 키링
+                                                    </p>
+                                                    <p>
+                                                        <strong>태그</strong> 키링, 캐릭터
+                                                    </p>
                                                 </div>
 
-                                                <div className="mypage-item-price">
-                                                    5,000원
-                                                </div>
+                                                <div className="mypage-item-price">5,000원</div>
 
                                                 <div className="mypage-item-desc">
                                                     가방에 잠시 달았다가 보관했습니다.
@@ -769,9 +775,7 @@ function MyPage(props) {
                                                     상태가 좋고 파손이나 변색이 없습니다.
                                                 </div>
 
-                                                <Button className="mypage-detail-btn">
-                                                    상품 보기
-                                                </Button>
+                                                <Button className="mypage-detail-btn">상품 보기</Button>
                                             </div>
                                         </Accordion.Body>
                                     </Accordion.Item>
@@ -797,21 +801,25 @@ function MyPage(props) {
 
                                         <Accordion.Body className="mypage-item-body">
                                             <img
-                                                src="/images/headset.jpg"
+                                                src={import.meta.env.BASE_URL + "images/headset.jpg"}
                                                 alt="블루투스 헤드셋"
                                                 className="mypage-item-image"
                                             />
 
                                             <div className="mypage-item-info">
                                                 <div className="mypage-item-meta">
-                                                    <p><strong>카테고리</strong> 전자기기</p>
-                                                    <p><strong>품목</strong> 블루투스 헤드셋</p>
-                                                    <p><strong>태그</strong> 헤드셋, 무선</p>
+                                                    <p>
+                                                        <strong>카테고리</strong> 전자기기
+                                                    </p>
+                                                    <p>
+                                                        <strong>품목</strong> 블루투스 헤드셋
+                                                    </p>
+                                                    <p>
+                                                        <strong>태그</strong> 헤드셋, 무선
+                                                    </p>
                                                 </div>
 
-                                                <div className="mypage-item-price">
-                                                    35,000원
-                                                </div>
+                                                <div className="mypage-item-price">35,000원</div>
 
                                                 <div className="mypage-item-desc">
                                                     실사용 기간은 2개월 정도이며,
@@ -819,9 +827,7 @@ function MyPage(props) {
                                                     구성품 모두 포함되어 있습니다.
                                                 </div>
 
-                                                <Button className="mypage-detail-btn">
-                                                    상품 보기
-                                                </Button>
+                                                <Button className="mypage-detail-btn">상품 보기</Button>
                                             </div>
                                         </Accordion.Body>
                                     </Accordion.Item>
@@ -854,26 +860,29 @@ function MyPage(props) {
                                             </Accordion.Header>
                                             <Accordion.Body className="mypage-item-body">
                                                 <img
-                                                    src={"/images/" + item.img}
+                                                    src={import.meta.env.BASE_URL + "images/" + item.img}
                                                     alt={item.제목}
                                                     className="mypage-item-image"
                                                 />
 
                                                 <div className="mypage-item-info">
                                                     <div className="mypage-item-meta">
-                                                        <p><strong>카테고리</strong> {item.카테고리}</p>
-                                                        <p><strong>품목</strong> {item.품목}</p>
-                                                        <p><strong>태그</strong> {item.태그}</p>
+                                                        <p>
+                                                            <strong>카테고리</strong> {item.카테고리}
+                                                        </p>
+                                                        <p>
+                                                            <strong>품목</strong> {item.품목}
+                                                        </p>
+                                                        <p>
+                                                            <strong>태그</strong> {item.태그}
+                                                        </p>
                                                     </div>
 
                                                     <div className="mypage-item-price">
                                                         {Number(item.가격).toLocaleString()}원
                                                     </div>
 
-                                                    <div className="mypage-item-desc">
-                                                        {item.상세설명}
-                                                    </div>
-
+                                                    <div className="mypage-item-desc">{item.상세설명}</div>
                                                 </div>
                                             </Accordion.Body>
                                         </Accordion.Item>

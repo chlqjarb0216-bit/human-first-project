@@ -19,7 +19,7 @@ function ProductCard({
             onClick={onClick}
         >
             <Card.Img
-                src={"/images/" + image}
+                src={import.meta.env.BASE_URL + "images/" + image}
                 className="product-image"
             />
 

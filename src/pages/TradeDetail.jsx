@@ -73,7 +73,7 @@ function TradeDetail(props) {
                         <Card className="trade-detail-card" key={index}>
                             <Card.Img
                                 variant="top"
-                                src={"/images/" + data.img}
+                                src={import.meta.env.BASE_URL + "images/" + data.img}
                                 className="trade-detail-image"
                             />
 

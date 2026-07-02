@@ -39,23 +39,28 @@ function SearchPage() {
     });
 
     return (
-        <Container style={{ marginTop:"40px", width: "100%", marginLeft: cate === '통합검색' ? "35px" : "0", padding: "0" }}>
-            <div className="TradeCategory-layout" style={cate !== "중고검색" ? {
-                justifyContent: "center"
-            } : { display: "flex"}}>
+        <Container
+            style={{ marginTop: "40px", width: "100%", marginLeft: cate === "통합검색" ? "35px" : "0", padding: "0" }}>
+            <div
+                className="TradeCategory-layout"
+                style={
+                    cate !== "중고검색"
+                        ? {
+                              justifyContent: "center",
+                          }
+                        : { display: "flex" }
+                }>
                 {cate === "중고검색" && (
-                    <div className="trade-sidebar" style={{ margin:'20px'}} >
+                    <div className="trade-sidebar" style={{ margin: "20px" }}>
                         {/* 카테고리 영역 */}
-                        <p onClick={() => navigate("/MainSecondHand")}>
-                            중고카테고리
-                        </p>
+                        <p onClick={() => navigate("/MainSecondHand")}>중고카테고리</p>
                         {categories.map((item) => {
                             return <p onClick={() => navigate(`/trade-category/${item}`)}>{item}</p>;
                         })}
                     </div>
                 )}
 
-                <div style={{ width: cate === '통합검색' ? "100%" : "79%", height: "fit-content" }}>
+                <div style={{ width: cate === "통합검색" ? "100%" : "79%", height: "fit-content" }}>
                     <div
                         style={{
                             display: "flex",
@@ -83,7 +88,7 @@ function SearchPage() {
                     <div className="SecondHand-section">
                         {/* 카드 목록 영역 */}
 
-                        <div className={cate === '통합검색' ? "card-grid5" : "card-grid"}>
+                        <div className={cate === "통합검색" ? "card-grid5" : "card-grid"}>
                             {filteredItems.map((data) => {
                                 return (
                                     <Card
@@ -92,7 +97,7 @@ function SearchPage() {
                                         onClick={() => navigate("/trade-detail/" + data.id)}>
                                         <Card.Img
                                             variant="string"
-                                            src={"/images/" + data.img}
+                                            src={import.meta.env.BASE_URL + "images/" + data.img}
                                             className="SearchPage-Photo-Size"
                                         />
                                         <Card.Body>

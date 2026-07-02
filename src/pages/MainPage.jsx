@@ -1,40 +1,29 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { data } from "react-router";
-import '../csss/MainPage.css';
+import "../csss/MainPage.css";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router";
-import key from '../datas/localStorageKeys.json';
-
+import key from "../datas/localStorageKeys.json";
 
 function MainPage() {
-
     let navigate = useNavigate();
 
-
-    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey)).filter(item=>item.status!=="deleted"&&item.status!=="completed");
+    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey)).filter(
+        (item) => item.status !== "deleted" && item.status !== "completed",
+    );
 
     dataset.sort((a, b) => {
-        return (
-            Number(b.조회수) - Number(a.조회수)
-        )
-
-    })
-
+        return Number(b.조회수) - Number(a.조회수);
+    });
 
     return (
-
         //수정
         <Container fluid className="main-container">
-
             {/* 추가 */}
-            <div className="hero-banner" style={{ backgroundColor: 'paleturquoise' }}>
-
+            <div className="hero-banner" style={{ backgroundColor: "paleturquoise" }}>
                 <div className="hero-left">
-
-                    <span className="hero-badge">
-                        🔒 안전한 즉시거래
-                    </span>
+                    <span className="hero-badge">🔒 안전한 즉시거래</span>
 
                     <h1>
                         믿고 거래하는
@@ -42,151 +31,105 @@ function MainPage() {
                         중고거래 플랫폼
                     </h1>
 
-                    <p>
-                        사기 예방 시스템과 즉시거래를 통해
-                        더욱 안전하고 빠른 거래를 경험하세요.
-                    </p>
-
-
-
+                    <p>사기 예방 시스템과 즉시거래를 통해 더욱 안전하고 빠른 거래를 경험하세요.</p>
                 </div>
 
                 <div className="hero-right">
-
-                    <img src="images/banner.png" alt="banner" />
-
+                    <img src={import.meta.env.BASE_URL + "images/banner.png"} alt="banner" />
                 </div>
-
             </div>
-
 
             <Row className="g-4">
                 {/* 중고거래 */}
                 <Col lg={6}>
                     <div className="main-section">
-
-
                         {/* 수정 */}
-                        <div className="section-header"
-
+                        <div
+                            className="section-header"
                             onClick={() => navigate("/MainSecondHand")}
                             style={{ cursor: "pointer" }}>
-
                             <div className="section-title">
-
                                 <img
-                                    src="/images/shopping_basket.png"
+                                    src={import.meta.env.BASE_URL + "images/shopping_basket.png"}
                                     className="section-icon"
                                 />
 
                                 <span>중고거래</span>
-
                             </div>
-
                         </div>
-
 
                         {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
 
                         <div className="used-grid">
-
-                            {
-                                dataset.map((data, index) => {
-                                    if (index > 5) {
-                                        return;
-                                    }
-                                    return (
-                                        //카드로 변경
-                                        <div onClick={(e) => {
+                            {dataset.map((data, index) => {
+                                if (index > 5) {
+                                    return;
+                                }
+                                return (
+                                    //카드로 변경
+                                    <div
+                                        onClick={(e) => {
                                             e.stopPropagation();
-                                            navigate('/trade-detail/' + data.id);
-                                        }}
-                                        >
-                                            <ProductCard
-                                                key={index}
-                                                image={data.img}
-                                                title={data.제목}
-                                                category={data.카테고리}
-                                                price={data.가격}
-                                                views={data.조회수}
-                                                showBadge={false}
-                                                showView={true}
-                                            />
-                                        </div>
-
-                                    );
-                                })
-                            }
-                        </div>
-                    </div>
-
-                </Col>
-
-
-                <Col lg={6}>
-                    {/* 경매 */}
-                    <div className="main-section">
-
-                        {/* 수정 */}
-                        <div className="section-header"
-
-                            onClick={() => navigate('/auction')}
-                            style={{ cursor: 'pointer' }}>
-
-                            <div className="section-title">
-
-                                <img
-                                    src="/images/auction.png"
-                                    className="section-icon"
-                                />
-
-                                <span>경매</span>
-
-                            </div>
-
-
-
-                        </div>
-
-
-                        {/* 수정 */}
-                        <div className="auction-grid">
-                            {
-                                dataset.map((data, index) => {
-                                    if (index > 5) {
-                                        return;
-                                    }
-                                    return (
-                                        //카드로 변경
+                                            navigate("/trade-detail/" + data.id);
+                                        }}>
                                         <ProductCard
                                             key={index}
                                             image={data.img}
                                             title={data.제목}
                                             category={data.카테고리}
                                             price={data.가격}
-                                            auction={true}
-                                            showView={false}
-                                            remainTime="3일 남음"
+                                            views={data.조회수}
+                                            showBadge={false}
+                                            showView={true}
                                         />
-
-                                    );
-                                })
-                            }
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
+                </Col>
 
+                <Col lg={6}>
+                    {/* 경매 */}
+                    <div className="main-section">
+                        {/* 수정 */}
+                        <div
+                            className="section-header"
+                            onClick={() => navigate("/auction")}
+                            style={{ cursor: "pointer" }}>
+                            <div className="section-title">
+                                <img src={import.meta.env.BASE_URL + "images/auction.png"} className="section-icon" />
 
+                                <span>경매</span>
+                            </div>
+                        </div>
+
+                        {/* 수정 */}
+                        <div className="auction-grid">
+                            {dataset.map((data, index) => {
+                                if (index > 5) {
+                                    return;
+                                }
+                                return (
+                                    //카드로 변경
+                                    <ProductCard
+                                        key={index}
+                                        image={data.img}
+                                        title={data.제목}
+                                        category={data.카테고리}
+                                        price={data.가격}
+                                        auction={true}
+                                        showView={false}
+                                        remainTime="3일 남음"
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
                 </Col>
             </Row>
-
-        </Container >
-
-
-
-    )
-
-
-
+        </Container>
+    );
 }
 
 export default MainPage;
