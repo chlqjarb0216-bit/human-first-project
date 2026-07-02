@@ -1,13 +1,19 @@
 import { Container, Row, Col } from "react-bootstrap";
-import dataset from '../datas/dataset.json';
+// import dataset from '../datas/dataset.json';
 import { useState } from "react";
 import { data } from "react-router";
 import '../csss/MainPage.css';
 import ProductCard from "./ProductCard";
+import { useNavigate } from "react-router";
+import key from '../datas/localStorageKeys.json';
 
 
 function MainPage() {
 
+    let navigate = useNavigate();
+
+
+    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey));
 
     dataset.sort((a, b) => {
         return (
@@ -102,8 +108,8 @@ function MainPage() {
                                         return;
                                     }
                                     return (
-
-                                        //카드로 변경 
+                                        //카드로 변경
+                                        <div onClick={() => navigate('/trade-detail/' + data.id)}> 
                                         <ProductCard
                                             key={index}
                                             image={data.img}
@@ -114,6 +120,7 @@ function MainPage() {
                                             showBadge={false}
                                             showView={true}
                                         />
+                                        </div>
 
                                     );
                                 })

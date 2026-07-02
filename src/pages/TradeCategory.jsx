@@ -1,13 +1,16 @@
 import '../csss/TradeCategory.css';
 import '../csss/MainSecondHand.css';
-import dataset from '../datas/dataset.json';
+// import dataset from '../datas/dataset.json';
 import { Container, Card, CardImg, CardGroup } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { data, useNavigate, useParams } from 'react-router';
 import TradeDetail from './TradeDetail';
+import key from '../datas/localStorageKeys.json';
 
 
 function TradeCategoty() {
+
+    let dataset = JSON.parse(localStorage.getItem(key.tradeItemListKey));
 
     let navigate = useNavigate();
 

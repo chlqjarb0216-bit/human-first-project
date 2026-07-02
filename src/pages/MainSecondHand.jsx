@@ -1,17 +1,19 @@
 import '../csss/MainSecondHand.css';
 import { Container, Row, Col, Card, CardImg, CardGroup } from "react-bootstrap";
 import { useState, useEffect } from 'react';
-import dataset from '../datas/dataset.json';
+// import dataset from '../datas/dataset.json';
 import TradeCategoty from './TradeCategory';
 import { data, useNavigate, useParams } from 'react-router';
 import TradeDetail from './TradeDetail';
+import key from '../datas/localStorageKeys.json';
 
 function MainSecondHand() {
 
     let navigate = useNavigate();
 
-    let [datas, setDatas] = useState(dataset);
-    let babo = [...dataset];
+    let datas = JSON.parse(localStorage.getItem(key.tradeItemListKey));
+
+    let babo = [...datas];
 
 
     datas.sort((a, b) => {
@@ -27,7 +29,7 @@ function MainSecondHand() {
         );
     })
 
-    let gg = dataset.filter((item) => {
+    let gg = babo.filter((item) => {
         return (
             item.카테고리 === '장난감'
         )
@@ -40,14 +42,14 @@ function MainSecondHand() {
     let [gang, setgang] = useState({ color: 'red' });
 
     function changeGang() {
-        console.log(gang);
+
 
         console.log('gang color: ' + gang.color)
         if (gang.color == 'blue') {
-            console.log('blue')
+
             setgang({ color: 'red' })
         } else {
-            console.log('red')
+
             setgang({ color: 'blue' })
         }
     }
@@ -92,7 +94,7 @@ function MainSecondHand() {
                                         return;
                                     }
                                     return (
-                                        <Card onClick={()=>navigate('/trade-detail/' + data.id)}>
+                                        <Card onClick={() => navigate('/trade-detail/' + data.id)}>
                                             <Card.Img variant="string" src={'images/' + data.img} className='MainSecondHand-Photo-Size' />
                                             <Card.Body>
                                                 <Card.Title>{data.제목}</Card.Title>
@@ -132,7 +134,7 @@ function MainSecondHand() {
                                         return;
                                     }
                                     return (
-                                        <Card>
+                                        <Card onClick={() => navigate('/trade-detail/' + data.id)}>
                                             <Card.Img variant="string" src={'images/' + data.img} className='MainSecondHand-Photo-Size' />
                                             <Card.Body>
                                                 <Card.Title>{data.제목}</Card.Title>
@@ -170,7 +172,7 @@ function MainSecondHand() {
                                         return;
                                     }
                                     return (
-                                        <Card>
+                                        <Card onClick={() => navigate('/trade-detail/' + data.id)}>
                                             <Card.Img variant="string" src={'images/' + data.img} className='MainSecondHand-Photo-Size' />
                                             <Card.Body>
                                                 <Card.Title>{data.제목}</Card.Title>
