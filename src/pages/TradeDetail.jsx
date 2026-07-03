@@ -1,6 +1,6 @@
 import '../csss/TradeDetail.css';
 import { Container, Row, Col, Card, CardImg, CardGroup, Button } from "react-bootstrap";
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { data, useNavigate, useParams } from 'react-router';
 
 import Chatting from './Chatting';
@@ -16,27 +16,51 @@ function TradeDetail(props) {
     let navigate = useNavigate();
 
     const [viewChat, setViewChat] = useState(false);
+    const isViewCounted = useRef(false)
 
     let { id } = useParams();
 
 
-    const itemList = storage.get(keys.tradeItemListKey)
-    let idDatas = itemList.filter((item) => {
-        return (
-            item.id === Number(id)
-        )
-    })
-    const itemId = idDatas[0].id
-    if (idDatas.status === "deleted") {
-        alert("삭제된 물품입니다.")
-        navigate('/')
-    }
-    if (idDatas.status === "completed") {
-        if (props.loginUser.id !== idDatas.등록유저ID && props.loginUser.id !== idDatas.completeInfo.buyerId) {
-            alert("이미 거래 완료된 물품입니다.")
+    const [itemList, setItemList] = useState(()=>storage.get(keys.tradeItemListKey));
+    const idDatas = useMemo(()=>{
+        return itemList.filter((item)=>item.id===Number(id))
+    },[itemList,id])
+    const itemIdx = useMemo(()=>{
+        return itemList.findIndex(item=>item.id===Number(id))
+    },[itemList, id])
+    const itemId = idDatas[0]?.id
+    const currentItem = idDatas[0]
+
+    useEffect(()=>{
+        if (!currentItem || itemIdx===-1) return;
+        if (currentItem.status === "deleted") {
+            alert("삭제된 물품입니다.")
             navigate('/')
         }
-    }
+        if (currentItem.status === "completed") {
+            if (props.loginUser.id !== currentItem.등록유저ID && props.loginUser.id !== currentItem.completeInfo.buyerId) {
+                alert("이미 거래 완료된 물품입니다.")
+                navigate('/')
+            }
+        }
+
+        if (isViewCounted.current) return;
+        isViewCounted.current = true;
+
+        setItemList(prevList=>{
+            const nextList = [...prevList]
+
+            if(nextList[itemIdx]){
+                nextList[itemIdx]={
+                    ...nextList[itemIdx],
+                    조회수: (nextList[itemIdx].조회수 || 0) + 1
+                }
+            }
+            
+            storage.set(keys.tradeItemListKey,nextList)
+            return nextList;
+        })
+    },[props.loginUser, navigate, itemIdx, currentItem])
 
     const [isSeller, setIsSeller] = useState(() => {
         // 1. 로그인 유저 정보가 아예 없거나 null이면 무조건 주인이 아님(false) -> 원천 차단

@@ -68,6 +68,7 @@ function MainPage() {
                                 return (
                                     //카드로 변경
                                     <div
+                                        key={index}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             navigate("/trade-detail/" + data.id);
