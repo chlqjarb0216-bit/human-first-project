@@ -141,7 +141,7 @@ function Chatting({ loginUser, itemDetail, isSeller }) {
                                         {msgLines.map((msg, idx) => {
                                             if (msg) {
                                                 return (
-                                                    <p key={idx} style={{ margin: 0 }}>
+                                                    <p key={idx} style={{ margin: "0 5px", whiteSpace:"pre-wrap", wordBreak:'break-all', textAlign:'left' }}>
                                                         {msg}
                                                     </p>
                                                 );
