@@ -40,27 +40,34 @@ function SearchPage() {
 
     return (
         <Container
-            style={{ marginTop: "40px", width: "100%", marginLeft: cate === "통합검색" ? "35px" : "0", padding: "0" }}>
+            style={{ marginTop: "0", width: "100%", marginLeft: cate === "통합검색" ? "35px" : "0", padding: "0" }}>
             <div
-                className="TradeCategory-layout"
-                style={
-                    cate !== "중고검색"
-                        ? {
-                              justifyContent: "center",
-                          }
-                        : { display: "flex" }
-                }>
+                className="trade-layout"
+                style={cate !== "중고검색" ? { justifyContent: "center" } : { display: "flex" }}>
                 {cate === "중고검색" && (
-                    <div className="trade-sidebar" style={{ margin: "20px" }}>
+                    <div className="trade-sidebar">
                         {/* 카테고리 영역 */}
-                        <p onClick={() => navigate("/MainSecondHand")}>중고카테고리</p>
-                        {categories.map((item) => {
-                            return <p onClick={() => navigate(`/trade-category/${item}`)}>{item}</p>;
-                        })}
+                        <div style={{ margin: "20px" }}>
+                            <p onClick={() => navigate("/MainSecondHand")}>중고카테고리</p>
+                            {categories.map((item, index) => {
+                                return (
+                                    <p
+                                        key={index}
+                                        onClick={() =>
+                                            navigate(`/trade-category/${item === "생활/가전" ? "생활가전" : item}`)
+                                        }>
+                                        {item}
+                                    </p>
+                                );
+                            })}
+                        </div>
                     </div>
                 )}
 
-                <div style={{ width: cate === "통합검색" ? "100%" : "79%", height: "fit-content" }}>
+                <div
+                    style={
+                        cate === "통합검색" ? { width: "79%", height: "fit-content" } : { flex: 1, paddingTop: "40px" }
+                    }>
                     <div
                         style={{
                             display: "flex",
