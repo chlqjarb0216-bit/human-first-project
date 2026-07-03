@@ -134,6 +134,8 @@ export default function PostRegister({loginUser,setLoginUser}) {
 
         setImages(images.filter((_, i) => i !== index));
 
+        setImgNames(imgNames.filter((_,i)=>i!==index))
+
     };
 
 
@@ -278,7 +280,8 @@ export default function PostRegister({loginUser,setLoginUser}) {
         const tradeDataList = storage.get(keys.tradeItemListKey,[])
         const itemInfo = {
             "id":idNext,
-            "img":imgNames.length==1?imgNames[0]:imgNames,
+            // "img":imgNames.length==1?imgNames[0]:imgNames,
+            "img":imgNames[0],
             "즉시거래":instantTrade,
             "채팅":chatTrade,
             "카테고리":categoryRef.current.value,
