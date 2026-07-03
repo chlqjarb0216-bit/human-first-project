@@ -10,6 +10,7 @@ import { BrowserRouter } from "react-router";
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+        {/* 그냥주석 deploy갱신용 */}
             <App />
         </BrowserRouter>
     </StrictMode>,
