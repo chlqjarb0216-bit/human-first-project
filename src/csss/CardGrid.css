@@ -14,14 +14,15 @@
 
 /* 검색페이지 그리드 */
 .card-grid5 {
-    width: fit-content;
-    max-width: 1400px;  /* 큰 모니터용 */
-    margin: 0 auto;
+    width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(5, 220px);
+
+    grid-template-columns: repeat(5, 1fr);
+
     gap: 24px;
 }
+
 
 /* 검색페이지 이미지 사이즈 */
 .SearchPage-Photo-Size {
